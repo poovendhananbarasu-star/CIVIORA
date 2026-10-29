@@ -1,0 +1,13 @@
+{
+  "version": "3.0.1",
+  "build": "v3.1",
+  "name": "Civiora Institutional Website",
+  "releaseDate": "2026-10-10",
+  "specification": "Civiora_Final_Website_Developer_Handoff final",
+  "identity": "Institutional Learning & Career Pathways Partner",
+  "address": "No. 134, 57, 13th Cross, Baldwins Road, Koramangala, Bengaluru, Karnataka – 560030.",
+  "contact": {
+    "email": "connect@civiora.co.in",
+    "phone": "+91 8150003610"
+  }
+}
