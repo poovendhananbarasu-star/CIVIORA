@@ -18,7 +18,9 @@ const firebaseConfig = {
 };
 
 export const isFirebaseConfigured = Boolean(
-  firebaseConfig.apiKey && firebaseConfig.projectId
+  firebaseConfig.apiKey &&
+  firebaseConfig.projectId &&
+  firebaseConfig.appId
 );
 
 let dbPromise = null;
@@ -32,9 +34,9 @@ async function getDb() {
   if (!isFirebaseConfigured) return null;
   if (!dbPromise) {
     dbPromise = (async () => {
-      const { initializeApp } = await import('firebase/app');
+      const { initializeApp, getApps, getApp } = await import('firebase/app');
       const { getFirestore } = await import('firebase/firestore');
-      const app = initializeApp(firebaseConfig);
+      const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
       return getFirestore(app);
     })();
   }
@@ -43,20 +45,56 @@ async function getDb() {
 
 /**
  * Submits an appointment / enquiry request from the contact form.
- * Writes to a Firestore collection called "appointmentRequests" when
- * Firebase is configured. When it isn't, throws so the UI can fall back
- * to showing the direct email/phone contact details.
+ * Writes strictly to the Firestore collection "appointmentRequests".
+ * Enforces field validation and returns the generated Firestore document ID.
  */
 export async function submitAppointmentRequest(data) {
-  const db = await getDb();
-  if (!db) {
+  if (!isFirebaseConfigured) {
     throw new Error(
-      'Firebase is not configured yet. Add your config to .env (see .env.example).'
+      'Firebase is not configured in this environment. Please ensure VITE_FIREBASE_* settings are present in .env.'
     );
   }
-  const { collection, addDoc, serverTimestamp } = await import('firebase/firestore');
-  await addDoc(collection(db, 'appointmentRequests'), {
-    ...data,
+
+  const db = await getDb();
+  if (!db) {
+    throw new Error('Failed to initialize Firestore database connection.');
+  }
+
+  const { collection, doc, setDoc, serverTimestamp } = await import('firebase/firestore');
+  const appointmentDocRef = doc(collection(db, 'appointmentRequests'));
+  const documentId = appointmentDocRef.id;
+
+  const payload = {
+    institutionType: String(data.institutionType || '').trim(),
+    representativeName: String(data.representativeName || '').trim(),
+    designation: String(data.designation || '').trim(),
+    institutionName: String(data.institutionName || '').trim(),
+    location: String(data.location || '').trim(),
+    officialEmail: String(data.officialEmail || '').trim().toLowerCase(),
+    telephone: String(data.telephone || '').trim(),
+    discussionFormat: String(data.discussionFormat || 'Initial partnership discussion').trim(),
+    requirement: String(data.requirement || '').trim(),
+    consent: Boolean(data.consent),
+    documentId: documentId,
     createdAt: serverTimestamp(),
-  });
+  };
+
+  if (data.primaryRequirement) {
+    payload.primaryRequirement = String(data.primaryRequirement).trim();
+  }
+
+  try {
+    await setDoc(appointmentDocRef, payload);
+  } catch (err) {
+    // If the deployed Firestore rules strictly enforce hasOnlyAllowedFields without primaryRequirement,
+    // retry cleanly without the extra top-level key (the primary requirement remains safely recorded in requirement)
+    if (payload.primaryRequirement && err?.code === 'permission-denied') {
+      delete payload.primaryRequirement;
+      await setDoc(appointmentDocRef, payload);
+    } else {
+      throw err;
+    }
+  }
+
+  return { id: documentId };
 }

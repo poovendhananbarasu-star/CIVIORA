@@ -7,24 +7,25 @@ service cloud.firestore {
     // ===============================================================
     //
     // Collection: appointmentRequests
-    // Document ID: auto-generated document ID (addDoc)
+    // Document ID: {requestId} (auto-generated document ID via doc() ref)
     // Fields:
-    //   - institutionType: string (required, in allowed set)
+    //   - institutionType: string (required, in ['School', 'College', 'University', 'Academic/Specialist Partner', 'Other Institution'])
     //   - representativeName: string (required, 1-150 chars)
     //   - designation: string (required, 1-150 chars)
     //   - institutionName: string (required, 1-200 chars)
     //   - location: string (required, 1-150 chars)
-    //   - officialEmail: string (required, valid email pattern, 1-150 chars)
+    //   - officialEmail: string (required, valid email pattern, 5-150 chars)
     //   - telephone: string (required, 5-50 chars)
-    //   - requirement: string (required, 1-3000 chars)
     //   - discussionFormat: string (required, 1-100 chars)
+    //   - requirement: string (required, 1-3000 chars)
     //   - consent: bool (required, must be true)
-    //   - createdAt: timestamp (serverTimestamp or valid timestamp)
+    //   - documentId: string (required, 1-128 chars, matches {requestId})
+    //   - createdAt: timestamp (required, server timestamp, must equal request.time)
     //
     // Security Posture:
-    //   - NO public read access under any circumstances.
-    //   - NO public update or delete access under any circumstances.
-    //   - Create only permitted with validated institutional fields.
+    //   - Default Deny: All collections and documents are denied by default.
+    //   - appointmentRequests: Public reads, updates, and deletes are strictly denied (allow read, update, delete: if false).
+    //   - Create only permitted with validated institutional fields and strict schema enforcement.
     // ===============================================================
 
     // Deny all by default across all documents
@@ -32,15 +33,35 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    function isValidEmail(email) {
-      return email is string 
-        && email.size() >= 5 
-        && email.size() <= 150 
-        && email.matches('.+@.+\\..+');
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    function isValidAppointmentRequest(data) {
-      return data.keys().hasAll([
+    function isValidEmail(email) {
+      return email is string
+        && email.size() >= 5
+        && email.size() <= 150
+        && email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // ===============================================================
+    // Domain Validator Functions
+    // ===============================================================
+
+    function isValidAppointmentRequest(data, requestId) {
+      return hasOnlyAllowedFields([
                'institutionType',
                'representativeName',
                'designation',
@@ -48,47 +69,76 @@ service cloud.firestore {
                'location',
                'officialEmail',
                'telephone',
-               'requirement',
                'discussionFormat',
-               'consent'
+               'requirement',
+               'consent',
+               'documentId',
+               'createdAt'
              ])
-             && data.consent == true
-             && data.representativeName is string
-             && data.representativeName.size() > 0
-             && data.representativeName.size() <= 150
-             && data.designation is string
-             && data.designation.size() > 0
-             && data.designation.size() <= 150
-             && data.institutionName is string
-             && data.institutionName.size() > 0
-             && data.institutionName.size() <= 200
-             && data.location is string
-             && data.location.size() > 0
-             && data.location.size() <= 150
-             && isValidEmail(data.officialEmail)
-             && data.telephone is string
-             && data.telephone.size() >= 5
-             && data.telephone.size() <= 50
-             && data.requirement is string
-             && data.requirement.size() > 0
-             && data.requirement.size() <= 3000
-             && data.discussionFormat is string
-             && data.discussionFormat.size() <= 100
+             && hasRequiredFields([
+               'institutionType',
+               'representativeName',
+               'designation',
+               'institutionName',
+               'location',
+               'officialEmail',
+               'telephone',
+               'discussionFormat',
+               'requirement',
+               'consent',
+               'documentId',
+               'createdAt'
+             ])
+             && data.institutionType is string
              && data.institutionType in [
                'School',
                'College',
                'University',
                'Academic/Specialist Partner',
                'Other Institution'
-             ];
+             ]
+             && data.representativeName is string
+             && data.representativeName.size() >= 1
+             && data.representativeName.size() <= 150
+             && data.designation is string
+             && data.designation.size() >= 1
+             && data.designation.size() <= 150
+             && data.institutionName is string
+             && data.institutionName.size() >= 1
+             && data.institutionName.size() <= 200
+             && data.location is string
+             && data.location.size() >= 1
+             && data.location.size() <= 150
+             && isValidEmail(data.officialEmail)
+             && data.telephone is string
+             && data.telephone.size() >= 5
+             && data.telephone.size() <= 50
+             && data.discussionFormat is string
+             && data.discussionFormat.size() >= 1
+             && data.discussionFormat.size() <= 100
+             && data.requirement is string
+             && data.requirement.size() >= 1
+             && data.requirement.size() <= 3000
+             && data.consent is bool
+             && data.consent == true
+             && data.documentId is string
+             && data.documentId.size() >= 1
+             && data.documentId.size() <= 128
+             && data.documentId == requestId
+             && data.createdAt is timestamp
+             && data.createdAt == request.time;
     }
+
+    // ===============================================================
+    // Collection Rules
+    // ===============================================================
 
     match /appointmentRequests/{requestId} {
       // Public reading, modification, and deletion are strictly forbidden
       allow read, update, delete: if false;
 
-      // Only allow creation of validated appointment/enquiry requests
-      allow create: if isValidAppointmentRequest(request.resource.data);
+      // Only allow creation of strictly validated appointment/enquiry requests
+      allow create: if isValidAppointmentRequest(request.resource.data, requestId);
     }
   }
 }

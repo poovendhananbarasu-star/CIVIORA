@@ -10,6 +10,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 
 const CONSIDERATIONS = [
   {
@@ -62,7 +63,7 @@ export default function Network() {
           <div className="grid sm:grid-cols-3 gap-4 sm:gap-6">
             {CONSIDERATIONS.map((c, idx) => (
               <Reveal key={c.title} delay={idx * 70} className="flex h-full">
-                <div className="bg-mist rounded-2xl p-4 sm:p-6 border border-navy-100 hover:border-gold-400 transition-all duration-200 flex flex-col justify-between w-full">
+                <SpotlightCard className="bg-mist rounded-2xl p-4 sm:p-6 border border-navy-100 hover:border-gold-400 transition-all duration-200 flex flex-col justify-between w-full">
                   <div>
                     <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-4 shadow-sm">
                       <c.icon size={18} />
@@ -74,7 +75,7 @@ export default function Network() {
                       {c.desc}
                     </p>
                   </div>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -84,7 +85,7 @@ export default function Network() {
         <div className="mt-16 md:mt-24 grid md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto items-stretch">
           {/* For institutions */}
           <Reveal className="flex h-full">
-            <div className="flex flex-col justify-between w-full bg-white rounded-2xl p-4 sm:p-9 border border-navy-100 shadow-sm hover:shadow-lg transition-all duration-300">
+            <SpotlightCard className="flex flex-col justify-between w-full bg-white rounded-2xl p-4 sm:p-9 border border-navy-100 shadow-sm hover:shadow-lg transition-all duration-300">
               <div>
                 <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-6 shadow-sm">
                   <Building2 size={20} />
@@ -105,12 +106,15 @@ export default function Network() {
                   <ArrowRight size={15} className="text-gold-400" />
                 </Link>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
 
           {/* For prospective partners */}
           <Reveal delay={120} className="flex h-full">
-            <div className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-4 sm:p-9 border border-white/10 shadow-sm hover:shadow-lg transition-all duration-300">
+            <SpotlightCard 
+              className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-4 sm:p-9 border border-white/10 shadow-sm hover:shadow-lg transition-all duration-300"
+              spotlightColor="rgba(0, 242, 254, 0.2)"
+            >
               <div>
                 <div className="w-11 h-11 rounded-xl bg-gold-500 text-navy-950 flex items-center justify-center mb-6 shadow-sm">
                   <Users2 size={20} />
@@ -131,7 +135,7 @@ export default function Network() {
                   <ArrowRight size={15} />
                 </Link>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
 

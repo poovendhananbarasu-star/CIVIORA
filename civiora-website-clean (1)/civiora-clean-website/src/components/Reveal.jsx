@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
  * Wraps children and fades/slides them into view the first time
  * they cross into the viewport. Subtle, one-shot, IntersectionObserver-based.
  */
-export default function Reveal({ children, className = '', delay = 0, as: Tag = 'div' }) {
+export default function Reveal({ children, className = '', delay = 0, as: Tag = 'div', ...rest }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -29,6 +29,7 @@ export default function Reveal({ children, className = '', delay = 0, as: Tag = 
       ref={ref}
       className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
       style={{ transitionDelay: visible ? `${delay}ms` : '0ms' }}
+      {...rest}
     >
       {children}
     </Tag>

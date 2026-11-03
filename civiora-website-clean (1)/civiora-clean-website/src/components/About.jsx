@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Compass, Target, ShieldCheck, ArrowRight, Lightbulb, Users, Award } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 import whyWeExistImg from '../assets/selected-client-images/A02-Who-we-are.png';
 import missionImg from '../assets/selected-client-images/A03-Mission.png';
 
@@ -17,13 +18,13 @@ export default function About() {
                 An Institutional Partner for Student Development and Career Direction
               </h2>
               <div className="gold-rule mt-5" />
-              <p className="mt-6 text-navy-700 text-base md:text-lg leading-relaxed">
+              <p className="mt-6 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
                 Civiora Education &amp; Institutional Services is a Bengaluru-based partnership firm working with schools, colleges, universities and specialist education partners.
               </p>
-              <p className="mt-4 text-navy-700 text-base md:text-lg leading-relaxed">
+              <p className="mt-4 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
                 We support institutions to identify student-development priorities, establish appropriate engagement frameworks and coordinate implementation. Our role brings together consultation, planning, specialist alignment, student engagement, stakeholder communication and progress review.
               </p>
-              <p className="mt-4 text-navy-700 text-base md:text-lg leading-relaxed">
+              <p className="mt-4 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
                 Each partnership reflects the institution’s objectives, student community and academic environment.
               </p>
             </div>
@@ -31,7 +32,7 @@ export default function About() {
 
           {/* Section 2: Why Civiora exists */}
           <Reveal delay={120} className="flex h-full">
-            <div className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-9 border border-navy-100 shadow-[0_2px_8px_rgba(11,42,84,0.03)]">
+            <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-9 border border-navy-100 shadow-[0_2px_8px_rgba(11,42,84,0.03)]">
               <div>
                 <div className="overflow-hidden rounded-xl mb-6 aspect-[16/10] border border-navy-100 bg-white shadow-sm">
                   <img
@@ -51,10 +52,10 @@ export default function About() {
                   </h3>
                 </div>
                 <div className="gold-rule mt-4" />
-                <p className="mt-5 text-navy-700 text-base sm:text-lg leading-relaxed">
+                <p className="mt-5 text-navy-700 text-base sm:text-lg leading-relaxed text-justify-prose">
                   Meaningful student development requires continuity between awareness, participation, guidance and follow-up.
                 </p>
-                <p className="mt-4 text-navy-900 text-base sm:text-lg leading-relaxed font-semibold">
+                <p className="mt-4 text-navy-900 text-base sm:text-lg leading-relaxed font-semibold text-justify-prose">
                   Civiora supports institutions to create that continuity through relevant expertise, clear responsibilities and organised execution.
                 </p>
               </div>
@@ -84,7 +85,7 @@ export default function About() {
                   <ArrowRight size={13} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
 
@@ -99,7 +100,10 @@ export default function About() {
 
           <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
             <Reveal delay={100} className="flex h-full">
-              <div className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-5 sm:p-9 border border-white/10 shadow-lg">
+              <SpotlightCard 
+                className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-5 sm:p-9 border border-white/10 shadow-lg"
+                spotlightColor="rgba(0, 242, 254, 0.2)"
+              >
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 mb-6">
                     <Compass size={22} />
@@ -111,11 +115,14 @@ export default function About() {
                     To support educational institutions to develop capable, confident and responsible students who can make informed choices and pursue meaningful careers.
                   </p>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
 
             <Reveal delay={180} className="flex h-full">
-              <div className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-5 sm:p-9 border border-white/10 shadow-lg">
+              <SpotlightCard 
+                className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-5 sm:p-9 border border-white/10 shadow-lg"
+                spotlightColor="rgba(0, 242, 254, 0.2)"
+              >
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 mb-6">
                     <Target size={22} />
@@ -127,7 +134,7 @@ export default function About() {
                     To strengthen student capabilities and career direction through institution-specific planning, specialist expertise, coordinated implementation and agreed progress reviews.
                   </p>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           </div>
 
@@ -146,7 +153,7 @@ export default function About() {
 
         {/* Section 4: Pathways into Leadership & Framework */}
         <Reveal delay={150} className="mt-16 md:mt-24">
-          <div className="bg-mist rounded-2xl p-5 sm:p-10 border border-navy-100 text-center max-w-3xl mx-auto shadow-[0_2px_8px_rgba(11,42,84,0.03)]">
+          <SpotlightCard className="bg-mist rounded-2xl p-5 sm:p-10 border border-navy-100 text-center max-w-3xl mx-auto shadow-[0_2px_8px_rgba(11,42,84,0.03)]">
             <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mx-auto mb-5 shadow-sm">
               <ShieldCheck size={22} />
             </div>
@@ -180,7 +187,7 @@ export default function About() {
                 <ArrowRight size={15} className="transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
         </Reveal>
 
       </div>

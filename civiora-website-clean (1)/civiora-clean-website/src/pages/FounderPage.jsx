@@ -17,7 +17,7 @@ export default function FounderPage() {
           "worksFor": {
             "@type": "Organization",
             "name": "Civiora Education & Institutional Services",
-            "url": "https://www.civiora.in",
+            "url": "https://civiora.co.in/",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "No. 134, 57, 13th Cross, Baldwins Road, Koramangala",

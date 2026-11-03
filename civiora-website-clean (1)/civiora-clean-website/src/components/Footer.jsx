@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin, Youtube, ExternalLink } from 'lucide-react';
-import logo from '../assets/civiora-logo-full-lockup-transparent.png';
+import logoWhite from '../assets/civiora-logo-white-lockup.png';
 import { openCookieBanner } from '../utils/cookieConsent';
 
 function XIcon({ size = 18, className = '', ...props }) {
@@ -52,15 +52,20 @@ const SOCIAL_LINKS = [
   },
 ];
 
-const FOOTER_NAV_LINKS = [
+const FOOTER_COLUMN_1 = [
   { label: 'Home', to: '/' },
-  { label: 'About Civiora', to: '/about' },
   { label: 'Who We Work With', to: '/pathways' },
-  { label: 'How We Work', to: '/how-it-works' },
   { label: 'Why Civiora', to: '/why-civiora' },
   { label: 'The Civiora Ecosystem', to: '/ecosystem' },
-  { label: 'Founder & Leadership', to: '/founder' },
   { label: 'Academic & Specialist Partners', to: '/network' },
+];
+
+const FOOTER_COLUMN_2 = [
+  { label: 'About Civiora', to: '/about' },
+  { label: 'How We Work', to: '/how-it-works' },
+  { label: 'Training & Development', to: '/training-development' },
+  { label: 'Blog & Regulatory Insights', to: '/blog' },
+  { label: 'Founder & Leadership', to: '/founder' },
   { label: 'Contact', to: '/contact' },
 ];
 
@@ -85,14 +90,14 @@ export default function Footer() {
           <div className="md:col-span-5 lg:col-span-5 space-y-4">
             <Link to="/" className="group inline-block focus:outline-none" aria-label="Civiora Home">
               <img 
-                src={logo} 
+                src={logoWhite} 
                 alt="CIVIORA" 
-                className="h-9 sm:h-10 md:h-11 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 group-hover:opacity-100" 
+                className="h-9 sm:h-10 md:h-11 w-auto object-contain opacity-95 transition-opacity duration-300 group-hover:opacity-100" 
               />
             </Link>
             
             {/* Approved logo description */}
-            <p className="text-xs md:text-sm text-navy-200/90 leading-relaxed max-w-md">
+            <p className="text-xs md:text-sm text-slate-200 leading-relaxed max-w-md">
               Civiora partners with educational institutions to strengthen student development and career pathways through tailored planning, specialist expertise and coordinated implementation.
             </p>
 
@@ -126,18 +131,32 @@ export default function Footer() {
             <h3 className="text-xs uppercase tracking-wider font-semibold text-gold-400">
               Explore Civiora
             </h3>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 sm:gap-y-2 text-xs md:text-sm text-navy-200">
-              {FOOTER_NAV_LINKS.map((link) => (
-                <li key={link.to}>
-                  <Link 
-                    to={link.to} 
-                    className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[36px] sm:min-h-0 focus:outline-none focus:text-gold-300"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 sm:gap-y-0 text-xs md:text-sm text-slate-200">
+              <ul className="space-y-1 sm:space-y-2">
+                {FOOTER_COLUMN_1.map((link) => (
+                  <li key={link.to}>
+                    <Link 
+                      to={link.to} 
+                      className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[32px] sm:min-h-0 focus:outline-none focus:text-gold-300"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <ul className="space-y-1 sm:space-y-2">
+                {FOOTER_COLUMN_2.map((link) => (
+                  <li key={link.to}>
+                    <Link 
+                      to={link.to} 
+                      className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[32px] sm:min-h-0 focus:outline-none focus:text-gold-300"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Column 3: Contact details */}
@@ -145,7 +164,7 @@ export default function Footer() {
             <h3 className="text-xs uppercase tracking-wider font-semibold text-gold-400">
               Contact Details
             </h3>
-            <div className="space-y-2.5 text-xs md:text-sm text-navy-200">
+            <div className="space-y-2.5 text-xs md:text-sm text-slate-200">
               <div>
                 <a 
                   href="tel:+918150003610" 
@@ -169,13 +188,13 @@ export default function Footer() {
               </div>
 
               <div className="space-y-1.5 pt-0.5">
-                <div className="inline-flex items-start gap-2 text-navy-300">
+                <div className="inline-flex items-start gap-2 text-slate-300">
                   <MapPin size={14} className="text-gold-400 shrink-0 mt-0.5" aria-hidden="true" />
                   <span className="leading-snug">No. 134, 57, 13th Cross, Baldwins Road, Koramangala, Bengaluru, Karnataka – 560030</span>
                 </div>
                 <div className="pl-5">
                   <a
-                    href="https://www.google.com/maps/search/?api=1&query=No.%20134%2C%2057%2C%2013th%20Cross%2C%20Baldwins%20Road%2C%20Koramangala%2C%20Bengaluru%2C%20Karnataka%20560030"
+                    href="https://maps.app.goo.gl/5GgFoYLVEgXDRABy7"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="View Civiora location on Google Maps"
@@ -186,15 +205,32 @@ export default function Footer() {
                   </a>
                 </div>
               </div>
+
+              {/* Embedded Map in Footer */}
+              <div className="pt-2">
+                <div className="w-full h-32 rounded-xl overflow-hidden border border-white/10 shadow-sm bg-navy-900">
+                  <iframe
+                    title="Civiora Education & Institutional Services Location Map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1374.7260370266315!2d77.60820004559733!3d12.951849956777046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae157e083f8961%3A0x91739fc8064875b8!2sCiviora%20Education%20%26%20Institutional%20Services!5e0!3m2!1sen!2sin!4v1793298001823!5m2!1sen!2sin"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    className="w-full h-full"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
         </div>
 
         {/* Bottom Policy Bar & Copyright */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-navy-300">
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-slate-300">
           
-          <nav aria-label="Policies" className="flex flex-wrap items-center justify-start gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-xs">
+          <nav aria-label="Policies" className="flex flex-wrap items-center justify-start gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-xs text-slate-300">
             {POLICY_LINKS.map((policy) => (
               <Link
                 key={policy.to}
@@ -213,7 +249,7 @@ export default function Footer() {
             </button>
           </nav>
 
-          <p className="text-left md:text-right text-navy-400 text-[11px] sm:text-xs">
+          <p className="text-left md:text-right text-slate-400 text-[11px] sm:text-xs">
             © {currentYear} Civiora Education &amp; Institutional Services. All rights reserved.
           </p>
         </div>

@@ -10,6 +10,7 @@ import {
   CheckCircle2
 } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 import studentEngagementImg from '../assets/selected-client-images/ECO-03-student-engagement.jpeg';
 
 const STAKEHOLDERS = [
@@ -75,7 +76,7 @@ export default function Ecosystem() {
               <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-semibold text-white mt-2">
                 Five-Stakeholder Governance Matrix
               </h3>
-              <p className="text-navy-300 text-xs sm:text-sm mt-2">
+              <p className="text-slate-300 text-xs sm:text-sm mt-2">
                 How priorities, delivery, and student participation intersect through central coordination.
               </p>
             </div>
@@ -84,24 +85,24 @@ export default function Ecosystem() {
             <div className="relative z-10 grid md:grid-cols-12 gap-5 sm:gap-6 items-center">
               
               {/* Institution Box (Left/Top) */}
-              <div className="md:col-span-4 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col justify-between">
+              <SpotlightCard className="md:col-span-4 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col justify-between" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
                     <Building2 size={20} />
                   </div>
                   <h4 className="text-base sm:text-lg font-display font-semibold text-white">Institution</h4>
                 </div>
-                <p className="text-navy-200 text-xs sm:text-sm mt-3 leading-relaxed">
+                <p className="text-slate-200 text-xs sm:text-sm mt-3 leading-relaxed">
                   Defines priorities, nominates contacts and supports local implementation.
                 </p>
                 <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2 text-[11px] text-gold-300">
                   <CheckCircle2 size={12} />
                   <span>Strategic direction &amp; campus resources</span>
                 </div>
-              </div>
+              </SpotlightCard>
 
               {/* Central Hub: Civiora */}
-              <div className="md:col-span-4 bg-gradient-to-b from-navy-800 to-navy-900 rounded-2xl p-4 sm:p-7 border-2 border-gold-500/80 shadow-2xl text-center relative">
+              <SpotlightCard className="md:col-span-4 bg-gradient-to-b from-navy-800 to-navy-900 rounded-2xl p-4 sm:p-7 border-2 border-gold-500/80 shadow-2xl text-center relative" spotlightColor="rgba(201, 150, 42, 0.25)">
                 <div className="w-12 h-12 rounded-xl bg-gold-500 text-navy-950 flex items-center justify-center mx-auto shadow-md font-bold">
                   <Layers size={24} />
                 </div>
@@ -109,33 +110,33 @@ export default function Ecosystem() {
                   Coordinating Partner
                 </span>
                 <h4 className="text-xl font-display font-bold text-white mt-2">Civiora</h4>
-                <p className="text-navy-100 text-xs sm:text-sm mt-3 leading-relaxed font-medium">
+                <p className="text-white text-xs sm:text-sm mt-3 leading-relaxed font-medium">
                   Coordinates planning, specialist alignment, communication and agreed reviews.
                 </p>
                 <div className="mt-5 pt-3 border-t border-white/10 text-[11px] text-gold-300 font-medium">
                   Single Point of Accountability
                 </div>
-              </div>
+              </SpotlightCard>
 
               {/* Academic & Specialist Partners Box (Right/Top) */}
-              <div className="md:col-span-4 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col justify-between">
+              <SpotlightCard className="md:col-span-4 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col justify-between" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
                     <Users size={20} />
                   </div>
                   <h4 className="text-base sm:text-lg font-display font-semibold text-white">Academic &amp; Specialist Partners</h4>
                 </div>
-                <p className="text-navy-200 text-xs sm:text-sm mt-3 leading-relaxed">
+                <p className="text-slate-200 text-xs sm:text-sm mt-3 leading-relaxed">
                   Contribute expertise and fulfil agreed delivery responsibilities.
                 </p>
                 <div className="mt-4 pt-3 border-t border-white/10 flex items-center gap-2 text-[11px] text-gold-300">
                   <CheckCircle2 size={12} />
                   <span>Domain curriculum &amp; mentorship delivery</span>
                 </div>
-              </div>
+              </SpotlightCard>
 
               {/* Bottom Row: Students & Parents */}
-              <div className="md:col-span-6 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg">
+              <SpotlightCard className="md:col-span-6 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
                     <GraduationCap size={20} />
@@ -145,12 +146,12 @@ export default function Ecosystem() {
                     <span className="text-[11px] text-gold-400 font-medium">Primary Beneficiaries</span>
                   </div>
                 </div>
-                <p className="text-navy-200 text-xs sm:text-sm mt-3 leading-relaxed">
+                <p className="text-slate-200 text-xs sm:text-sm mt-3 leading-relaxed">
                   Participate, engage with guidance and provide feedback.
                 </p>
-              </div>
+              </SpotlightCard>
 
-              <div className="md:col-span-6 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg">
+              <SpotlightCard className="md:col-span-6 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
                     <HeartHandshake size={20} />
@@ -160,10 +161,10 @@ export default function Ecosystem() {
                     <span className="text-[11px] text-gold-400 font-medium">Informed Stakeholders</span>
                   </div>
                 </div>
-                <p className="text-navy-200 text-xs sm:text-sm mt-3 leading-relaxed">
+                <p className="text-slate-200 text-xs sm:text-sm mt-3 leading-relaxed">
                   Receive appropriate communication and development information within the agreed scope.
                 </p>
-              </div>
+              </SpotlightCard>
 
             </div>
           </div>
@@ -180,35 +181,47 @@ export default function Ecosystem() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            {STAKEHOLDERS.map((s, idx) => (
-              <Reveal key={s.role} delay={idx * 60} className="flex h-full">
-                <div className={`flex flex-col justify-between w-full rounded-2xl p-5 sm:p-7 border transition-all duration-300 ${
-                  s.highlight 
-                    ? 'bg-navy-900 text-white border-gold-400/50 shadow-xl' 
-                    : 'bg-mist text-navy-900 border-navy-100 hover:border-gold-400 hover:shadow-lg'
-                }`}>
-                  <div>
-                    <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${s.accent}`}>
-                      <s.icon size={22} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 items-stretch">
+            {STAKEHOLDERS.map((s, idx) => {
+              const colClass = 
+                idx === 3 
+                  ? 'col-span-1 sm:col-span-1 lg:col-span-2 lg:col-start-2' 
+                  : idx === 4 
+                    ? 'col-span-1 sm:col-span-2 sm:max-w-md sm:mx-auto sm:w-full lg:col-span-2 lg:max-w-none' 
+                    : 'col-span-1 sm:col-span-1 lg:col-span-2';
+
+              return (
+                <Reveal key={s.role} delay={idx * 60} className={`flex h-full ${colClass}`}>
+                  <SpotlightCard 
+                    className={`flex flex-col justify-between w-full rounded-2xl p-5 sm:p-7 border transition-all duration-300 ${
+                      s.highlight 
+                        ? 'bg-navy-900 text-white border-gold-400/50 shadow-xl' 
+                        : 'bg-mist text-navy-900 border-navy-100 hover:border-gold-400 hover:shadow-lg'
+                    }`}
+                    spotlightColor={s.highlight ? 'rgba(201, 150, 42, 0.25)' : 'rgba(0, 242, 254, 0.16)'}
+                  >
+                    <div>
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${s.accent}`}>
+                        <s.icon size={22} />
+                      </div>
+                      <h4 className={`font-display text-xl font-semibold ${s.highlight ? 'text-gold-300' : 'text-navy-900'}`}>
+                        {s.role}
+                      </h4>
+                      <p className={`mt-3 text-sm leading-relaxed ${s.highlight ? 'text-navy-100' : 'text-navy-700'}`}>
+                        {s.responsibilities}
+                      </p>
                     </div>
-                    <h4 className={`font-display text-xl font-semibold ${s.highlight ? 'text-gold-300' : 'text-navy-900'}`}>
-                      {s.role}
-                    </h4>
-                    <p className={`mt-3 text-sm leading-relaxed ${s.highlight ? 'text-navy-100' : 'text-navy-700'}`}>
-                      {s.responsibilities}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                  </SpotlightCard>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
 
         {/* Supporting Student Engagement Section */}
         <div className="mt-16 md:mt-24 max-w-4xl mx-auto">
           <Reveal delay={100}>
-            <div className="bg-mist rounded-3xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-sm overflow-hidden grid md:grid-cols-12 gap-8 items-center">
+            <SpotlightCard className="bg-mist rounded-3xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-sm overflow-hidden grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5 overflow-hidden rounded-2xl shadow-md border border-navy-100/80 bg-white">
                 <img
                   src={studentEngagementImg}
@@ -236,7 +249,7 @@ export default function Ecosystem() {
                   </div>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
 

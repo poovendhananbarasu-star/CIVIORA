@@ -1,10 +1,18 @@
 import { ArrowRight, Compass, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroEngagementImg from '../assets/selected-client-images/HO1-Civiora-Website-Main-Page-Hero.png';
+import WaveCanvas from './effects/WaveCanvas';
+import AmbientShapes from './effects/AmbientShapes';
 
 export default function Hero() {
   return (
     <section id="top" className="relative bg-navy-950 text-white overflow-hidden pt-16">
+      
+      {/* Dynamic Animated Wave Background */}
+      <WaveCanvas opacity={0.4} blendMode="screen" />
+
+      {/* Glowing Ambient Shapes (Background) */}
+      <AmbientShapes />
       
       {/* 1. Full-Width Background Image Area with Rich Ambient Overlays */}
       <div className="relative w-full min-h-[400px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[580px] overflow-hidden flex items-end">

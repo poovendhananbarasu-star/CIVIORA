@@ -12,6 +12,7 @@ import {
   Clock
 } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 import studentOutcomesImg from '../assets/selected-client-images/W04-Outcomes-Indian.png';
 
 const PILLARS = [
@@ -71,7 +72,7 @@ export default function WhyCiviora() {
               delay={idx * 60}
               className="flex h-full"
             >
-              <div className="bg-mist rounded-2xl p-4 sm:p-7 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300 flex flex-col justify-between w-full">
+              <SpotlightCard className="bg-mist rounded-2xl p-4 sm:p-7 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300 flex flex-col justify-between w-full">
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm mb-6">
                     <item.icon size={20} />
@@ -83,14 +84,14 @@ export default function WhyCiviora() {
                     {item.desc}
                   </p>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
 
         {/* Student Outcomes Showcase */}
         <Reveal delay={120} className="mt-16 md:mt-24">
-          <div className="grid md:grid-cols-2 gap-8 items-center bg-mist rounded-3xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-sm">
+          <SpotlightCard className="grid md:grid-cols-2 gap-8 items-center bg-mist rounded-3xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-sm">
             <div className="overflow-hidden rounded-2xl border border-navy-100 bg-white shadow-md">
               <img
                 src={studentOutcomesImg}
@@ -104,11 +105,11 @@ export default function WhyCiviora() {
               <h3 className="font-display text-2xl sm:text-3xl text-navy-900 font-semibold leading-snug">
                 Student-Centred Development &amp; Clear Outcomes
               </h3>
-              <p className="text-navy-700 text-sm sm:text-base leading-relaxed">
+              <p className="text-navy-700 text-sm sm:text-base leading-relaxed text-justify-prose">
                 By aligning planning with institutional priorities, students receive purposeful capability enhancement and structured career exposure that complements academic learning.
               </p>
             </div>
-          </div>
+          </SpotlightCard>
         </Reveal>
 
         {/* Illustrative Evidence Section */}
@@ -129,7 +130,7 @@ export default function WhyCiviora() {
             </div>
 
             <div className="mt-8 grid sm:grid-cols-3 gap-6">
-              <div className="p-4 sm:p-5 rounded-xl bg-navy-900/90 border border-white/10">
+              <SpotlightCard className="p-4 sm:p-5 rounded-xl bg-navy-900/90 border border-white/10" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-2 text-gold-400 text-xs font-semibold uppercase tracking-wider mb-2">
                   <Clock size={14} /> Phase 1: Planning
                 </div>
@@ -140,9 +141,9 @@ export default function WhyCiviora() {
                 <div className="mt-4 flex items-center gap-1.5 text-[11px] text-gold-300">
                   <CheckCircle2 size={12} /> Milestone sign-off
                 </div>
-              </div>
+              </SpotlightCard>
 
-              <div className="p-4 sm:p-5 rounded-xl bg-navy-900/90 border border-white/10">
+              <SpotlightCard className="p-4 sm:p-5 rounded-xl bg-navy-900/90 border border-white/10" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-2 text-gold-400 text-xs font-semibold uppercase tracking-wider mb-2">
                   <Clock size={14} /> Phase 2: Active Delivery
                 </div>
@@ -153,9 +154,9 @@ export default function WhyCiviora() {
                 <div className="mt-4 flex items-center gap-1.5 text-[11px] text-gold-300">
                   <CheckCircle2 size={12} /> Bi-weekly status check
                 </div>
-              </div>
+              </SpotlightCard>
 
-              <div className="p-4 sm:p-5 rounded-xl bg-navy-900/90 border border-white/10">
+              <SpotlightCard className="p-4 sm:p-5 rounded-xl bg-navy-900/90 border border-white/10" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-2 text-gold-400 text-xs font-semibold uppercase tracking-wider mb-2">
                   <Clock size={14} /> Phase 3: Review
                 </div>
@@ -166,7 +167,7 @@ export default function WhyCiviora() {
                 <div className="mt-4 flex items-center gap-1.5 text-[11px] text-gold-300">
                   <CheckCircle2 size={12} /> Final governance review
                 </div>
-              </div>
+              </SpotlightCard>
             </div>
           </div>
         </Reveal>

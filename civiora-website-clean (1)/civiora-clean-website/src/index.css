@@ -16,19 +16,24 @@ body {
 }
 
 /* Safe word wrapping and responsive text flow */
-h1, h2, h3, h4, h5, h6, p, a, span {
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+p, a, span {
   overflow-wrap: break-word;
 }
 
 /* Consistent left-aligned body paragraph styling across the site */
 p {
   text-align: left;
-  line-height: 1.625;
+  line-height: 1.68;
+  text-wrap: pretty;
 }
 
-/* Ensure text alignment utility classes apply properly to paragraphs */
-.text-center,
-.text-center p,
+/* Ensure text alignment utility classes apply properly to direct paragraphs */
+.text-center > p,
 p.text-center {
   text-align: center;
 }
@@ -43,6 +48,27 @@ p.text-left {
 .text-right p,
 p.text-right {
   text-align: right;
+}
+
+/* Mobile-optimized paragraph alignment and line spacing utility */
+.text-justify,
+.text-justify p,
+p.text-justify,
+.text-justify-prose {
+  text-align: left;
+  line-height: 1.7;
+}
+
+@media (min-width: 640px) {
+  .text-justify,
+  .text-justify p,
+  p.text-justify,
+  .text-justify-prose {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+  }
 }
 
 ::selection {
@@ -118,4 +144,232 @@ p.text-right {
 
 .btn-ghost {
   @apply inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 min-h-[44px] rounded-full bg-white/10 hover:bg-white/15 text-white font-medium text-xs sm:text-sm border border-white/20 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/40;
+}
+
+/* 3D Perspective & Spotlight Transform Utilities */
+.spotlight-card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Floating Ambient Glow Orbs Keyframes (10-15s gentle float on X/Y) */
+@keyframes float-ambient-1 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(32px, -38px, 0) rotate(8deg);
+  }
+  66% {
+    transform: translate3d(-24px, 26px, 0) rotate(-6deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes float-ambient-2 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(-36px, 32px, 0) rotate(-10deg);
+  }
+  66% {
+    transform: translate3d(22px, -28px, 0) rotate(6deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes float-ambient-3 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(26px, 32px, 0) rotate(12deg);
+  }
+  66% {
+    transform: translate3d(-30px, -22px, 0) rotate(-8deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes float-ambient-4 {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(-24px, -34px, 0) rotate(-7deg);
+  }
+  66% {
+    transform: translate3d(34px, 24px, 0) rotate(10deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+/* Glowing Ambient Shapes (Background) */
+.ambient-shape {
+  position: absolute;
+  filter: blur(100px);
+  -webkit-filter: blur(100px);
+  will-change: transform;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.ambient-shape-1 {
+  animation: float-ambient-1 12s ease-in-out infinite;
+}
+
+.ambient-shape-2 {
+  animation: float-ambient-2 15s ease-in-out infinite;
+}
+
+.ambient-shape-3 {
+  animation: float-ambient-3 14s ease-in-out infinite;
+}
+
+.ambient-shape-4 {
+  animation: float-ambient-4 11s ease-in-out infinite;
+}
+
+/* Mobile battery & size optimization (< 768px):
+   Scale ambient shapes down by 50% and reduce animation speed to save battery */
+@media (max-width: 767px) {
+  .ambient-shape {
+    transform: scale(0.5) !important;
+  }
+  .ambient-shape-1 {
+    animation: float-ambient-1 25s ease-in-out infinite;
+  }
+  .ambient-shape-2 {
+    animation: float-ambient-2 30s ease-in-out infinite;
+  }
+  .ambient-shape-3 {
+    animation: float-ambient-3 28s ease-in-out infinite;
+  }
+  .ambient-shape-4 {
+    animation: float-ambient-4 24s ease-in-out infinite;
+  }
+}
+
+/* Respect user's reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .ambient-shape-1,
+  .ambient-shape-2,
+  .ambient-shape-3,
+  .ambient-shape-4 {
+    animation: none !important;
+  }
+}
+
+/* Glassmorphic Container & Card Styling:
+   backdrop-filter: blur(16px), background: rgba(15, 23, 42, 0.5), subtle 1px border rgba(255, 255, 255, 0.08) */
+.glass-card {
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  background: rgba(15, 23, 42, 0.68);
+  border-color: rgba(0, 242, 254, 0.28);
+  box-shadow: 0 16px 36px -10px rgba(0, 242, 254, 0.15), 0 0 20px 0 rgba(79, 172, 254, 0.1);
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Mobile & Tablet Form Inputs: 16px font-size to prevent iOS Safari auto-zoom on focus */
+@media (max-width: 1024px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Safe touch target heights on mobile screens */
+  .mobile-touch-target {
+    min-height: 44px;
+  }
+}
+
+/* Premium Glare Hover Effect */
+.glare-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow, border-color;
+}
+
+.glare-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -80%;
+  width: 60%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 15%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(201, 150, 42, 0.3) 55%,
+    rgba(255, 255, 255, 0) 85%,
+    transparent 100%
+  );
+  transform: rotate(26deg);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 10;
+  transition: none;
+}
+
+.glare-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201, 150, 42, 0.65) !important;
+  box-shadow: 0 10px 25px -5px rgba(201, 150, 42, 0.16), 0 8px 10px -6px rgba(11, 42, 84, 0.08) !important;
+}
+
+.glare-card:hover::before {
+  opacity: 1;
+  left: 140%;
+  transition: left 0.75s ease-in-out, opacity 0.35s ease;
+}
+
+/* On desktop with fine pointers, hide standard system cursor over interactive elements so glowing magnetic cursor takes focus */
+@media (min-width: 768px) and (pointer: fine) {
+  button:hover,
+  a:hover,
+  [role="button"]:hover,
+  .spotlight-card:hover {
+    cursor: none;
+  }
+
+  /* Keep clear text cursor on text fields and textareas */
+  input[type="text"]:hover,
+  input[type="email"]:hover,
+  input[type="tel"]:hover,
+  textarea:hover {
+    cursor: text !important;
+  }
 }

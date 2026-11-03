@@ -8,6 +8,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 import schoolsImg from '../assets/selected-client-images/P02-Schools-partnership.png';
 import collegeMentoringImg from '../assets/selected-client-images/P03-College-partnership.png';
 import universityCampusImg from '../assets/selected-client-images/P04-University-partnership.png';
@@ -91,7 +92,7 @@ export default function Pathways() {
                 <div className="gold-rule mt-6" />
 
                 <div className="mt-6 grid lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-7 space-y-4 text-navy-700 text-base md:text-lg leading-relaxed">
+                  <div className="lg:col-span-7 space-y-4 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
                     <p>
                       Civiora works with schools to identify opportunities that strengthen thinking, communication, participation, collaboration and informed exploration.
                     </p>
@@ -124,7 +125,7 @@ export default function Pathways() {
                         className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <div className="p-4 sm:p-6 bg-white rounded-2xl border border-navy-100/80 shadow-sm text-center">
+                    <SpotlightCard className="p-4 sm:p-6 bg-white rounded-2xl border border-navy-100/80 shadow-sm text-center">
                       <p className="text-xs text-navy-500 uppercase tracking-wider font-medium">Next Step</p>
                       <h4 className="font-display text-lg text-navy-900 font-semibold mt-1">Explore School Initiatives</h4>
                       <p className="text-xs text-navy-600 mt-2">Tailored consultation suited to your academic calendar.</p>
@@ -137,7 +138,7 @@ export default function Pathways() {
                           <ArrowRight size={14} />
                         </Link>
                       </div>
-                    </div>
+                    </SpotlightCard>
                   </div>
                 </div>
               </div>
@@ -167,7 +168,7 @@ export default function Pathways() {
                 <div className="gold-rule mt-6" />
 
                 <div className="mt-6 grid lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-7 space-y-4 text-navy-700 text-base md:text-lg leading-relaxed">
+                  <div className="lg:col-span-7 space-y-4 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
                     <p>
                       Civiora supports colleges understand student interests and coordinate relevant guidance, specialist expertise and sustained engagement.
                     </p>
@@ -200,7 +201,7 @@ export default function Pathways() {
                         className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <div className="p-4 sm:p-6 bg-white rounded-2xl border border-navy-100/80 shadow-sm text-center">
+                    <SpotlightCard className="p-4 sm:p-6 bg-white rounded-2xl border border-navy-100/80 shadow-sm text-center">
                       <p className="text-xs text-navy-500 uppercase tracking-wider font-medium">Next Step</p>
                       <h4 className="font-display text-lg text-navy-900 font-semibold mt-1">Strengthen College Direction</h4>
                       <p className="text-xs text-navy-600 mt-2">Connect student ambitions with purposeful guidance.</p>
@@ -213,7 +214,7 @@ export default function Pathways() {
                           <ArrowRight size={14} />
                         </Link>
                       </div>
-                    </div>
+                    </SpotlightCard>
                   </div>
                 </div>
               </div>
@@ -243,7 +244,7 @@ export default function Pathways() {
                 <div className="gold-rule mt-6" />
 
                 <div className="mt-6 grid lg:grid-cols-12 gap-8 items-center">
-                  <div className="lg:col-span-7 space-y-4 text-navy-700 text-base md:text-lg leading-relaxed">
+                  <div className="lg:col-span-7 space-y-4 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
                     <p>
                       Civiora works with university leadership to connect central priorities with department and campus requirements.
                     </p>
@@ -276,7 +277,7 @@ export default function Pathways() {
                         className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                       />
                     </div>
-                    <div className="p-4 sm:p-6 bg-white rounded-2xl border border-navy-100/80 shadow-sm text-center">
+                    <SpotlightCard className="p-4 sm:p-6 bg-white rounded-2xl border border-navy-100/80 shadow-sm text-center">
                       <p className="text-xs text-navy-500 uppercase tracking-wider font-medium">Next Step</p>
                       <h4 className="font-display text-lg text-navy-900 font-semibold mt-1">Multi-Campus Coordination</h4>
                       <p className="text-xs text-navy-600 mt-2">Pilot framework and unified progress reviews.</p>
@@ -289,7 +290,7 @@ export default function Pathways() {
                           <ArrowRight size={14} />
                         </Link>
                       </div>
-                    </div>
+                    </SpotlightCard>
                   </div>
                 </div>
               </div>
@@ -310,14 +311,14 @@ export default function Pathways() {
           <div className="space-y-4">
             {FAQS.map((faq, idx) => (
               <Reveal key={faq.q} delay={idx * 60}>
-                <div className="bg-mist rounded-2xl p-4 sm:p-7 border border-navy-100">
+                <SpotlightCard className="bg-mist rounded-2xl p-4 sm:p-7 border border-navy-100">
                   <h4 className="font-display text-base sm:text-lg font-semibold text-navy-900">
                     {faq.q}
                   </h4>
                   <p className="mt-2.5 text-navy-700 text-sm sm:text-base leading-relaxed">
                     {faq.a}
                   </p>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -325,7 +326,10 @@ export default function Pathways() {
 
         {/* Closing CTA */}
         <Reveal delay={150} className="mt-16 md:mt-24 text-center">
-          <div className="max-w-2xl mx-auto bg-navy-900 text-white rounded-3xl p-5 sm:p-10 border border-white/10 shadow-xl">
+          <SpotlightCard 
+            className="max-w-2xl mx-auto bg-navy-900 text-white rounded-3xl p-5 sm:p-10 border border-white/10 shadow-xl"
+            spotlightColor="rgba(0, 242, 254, 0.2)"
+          >
             <Sparkles size={24} className="text-gold-400 mx-auto mb-3" />
             <h3 className="font-display text-xl sm:text-2xl text-white font-semibold">
               Begin with Your Institution’s Priorities
@@ -342,7 +346,7 @@ export default function Pathways() {
                 <ArrowRight size={16} />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
         </Reveal>
 
       </div>

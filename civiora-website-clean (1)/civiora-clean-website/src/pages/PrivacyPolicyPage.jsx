@@ -99,11 +99,22 @@ export default function PrivacyPolicyPage() {
 
                 <div className="p-4 sm:p-5 rounded-2xl bg-mist border border-navy-100">
                   <h4 className="font-semibold text-sm sm:text-base text-navy-900">
-                    B. Analytics &amp; Performance (Google Analytics / Google Tag Manager)
+                    B. Analytics, Performance &amp; Session Insights (Google Analytics &amp; Microsoft Clarity)
                   </h4>
                   <p className="text-xs sm:text-sm text-navy-600 mt-1.5 leading-relaxed">
-                    Helps us understand aggregated metrics such as page visits, popular pathway topics, and navigation patterns to enhance site speed and usability.
+                    We utilize Google Analytics and Microsoft Clarity as analytics and session-replay/heatmap providers to understand aggregated visitor interaction, improve navigation clarity, and evaluate site responsiveness.
                   </p>
+                  <ul className="list-disc pl-5 mt-2.5 space-y-1.5 text-xs sm:text-sm text-navy-700">
+                    <li>
+                      <strong>Explicit Consent:</strong> Microsoft Clarity and analytics scripts are loaded only after you explicitly click &ldquo;Accept Cookies&rdquo;. If you choose &ldquo;Necessary Only&rdquo; or decline, these scripts are never loaded.
+                    </li>
+                    <li>
+                      <strong>Strict Data Masking &amp; Exclusion:</strong> Lead and enquiry form inputs, names, emails, phone numbers, and confirmation areas are strictly masked and excluded from session recordings (using data-clarity-mask and data-clarity-exclude). No personally identifiable information (PII) is ever tracked or transmitted to session replay tools.
+                    </li>
+                    <li>
+                      <strong>Consent Withdrawal:</strong> If you withdraw consent, Clarity tracking is stopped immediately and associated tracking cookies are removed.
+                    </li>
+                  </ul>
                 </div>
 
                 <div className="p-4 sm:p-5 rounded-2xl bg-mist border border-navy-100">

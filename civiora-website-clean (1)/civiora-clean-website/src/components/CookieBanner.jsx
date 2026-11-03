@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ShieldCheck, Cookie, X } from 'lucide-react';
 import { getCookieConsent, setCookieConsent } from '../utils/cookieConsent';
 import { initMetaPixel } from '../utils/metaPixel';
+import { initClarity, stopClarity } from '../utils/clarity';
 
 export default function CookieBanner() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,9 +14,22 @@ export default function CookieBanner() {
       // Show banner if no choice has been recorded yet
       setIsOpen(true);
     } else if (existingConsent === 'accepted') {
-      // If already consented previously, initialize Pixel
+      // If already consented previously, initialize Pixel & Clarity
       initMetaPixel();
+      initClarity();
     }
+
+    // Listen for consent changes triggered across the app
+    const handleConsentChanged = (e) => {
+      const status = e.detail?.status;
+      if (status === 'accepted') {
+        initMetaPixel();
+        initClarity();
+      } else if (status === 'declined') {
+        stopClarity();
+      }
+    };
+    window.addEventListener('civiora-consent-changed', handleConsentChanged);
 
     // Allow reopening via custom event from Footer or Privacy Policy
     const handleOpen = () => setIsOpen(true);
@@ -23,17 +37,20 @@ export default function CookieBanner() {
 
     return () => {
       window.removeEventListener('open-cookie-banner', handleOpen);
+      window.removeEventListener('civiora-consent-changed', handleConsentChanged);
     };
   }, []);
 
   const handleAccept = () => {
     setCookieConsent('accepted');
     initMetaPixel();
+    initClarity();
     setIsOpen(false);
   };
 
   const handleDecline = () => {
     setCookieConsent('declined');
+    stopClarity();
     setIsOpen(false);
   };
 
@@ -58,8 +75,8 @@ export default function CookieBanner() {
               Privacy &amp; Cookie Preferences
             </p>
             <p className="mt-1 leading-relaxed text-navy-200 text-xs sm:text-sm">
-              We use necessary cookies for site security and functionality. With your consent, we also use marketing &amp; analytics technologies (including Meta Pixel) to evaluate engagement. We{' '}
-              <strong className="text-gold-300 font-semibold">never</strong> share form submissions, names, emails, or personal details with advertising networks. Learn more in our{' '}
+              We use necessary cookies for site security and functionality. With your consent, we also use marketing &amp; analytics technologies (including Meta Pixel and Microsoft Clarity) to evaluate engagement. We{' '}
+              <strong className="text-gold-300 font-semibold">never</strong> share form submissions, names, emails, or personal details with advertising networks or session recording tools. Learn more in our{' '}
               <Link
                 to="/privacy-policy#cookies"
                 className="text-gold-400 underline hover:text-gold-300 font-medium"

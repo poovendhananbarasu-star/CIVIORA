@@ -12,9 +12,11 @@ import {
 import Hero from '../components/Hero';
 import Reveal from '../components/Reveal';
 import SEO from '../components/SEO';
+import SpotlightCard from '../components/effects/SpotlightCard';
 import schoolsCardImg from '../assets/selected-client-images/H03-Schools-card.png';
 import collegesCardImg from '../assets/selected-client-images/H04-Colleges-card-Undergraduate-students.png';
 import universitiesCardImg from '../assets/selected-client-images/H05-Universities.png';
+import logo from '../assets/civiora-logo-full-lockup-transparent.png';
 
 const AUDIENCES = [
   {
@@ -90,8 +92,8 @@ export default function HomePage() {
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Civiora Education & Institutional Services",
-          "url": "https://www.civiora.in",
-          "logo": "https://www.civiora.in/civiora-logo-full-lockup-transparent.png",
+          "url": "https://civiora.co.in/",
+          "logo": typeof window !== 'undefined' ? `${window.location.origin}${logo}` : `https://civiora.co.in${logo}`,
           "email": "connect@civiora.co.in",
           "telephone": "+918150003610",
           "address": {
@@ -132,10 +134,10 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
               {AUDIENCES.map((item, index) => (
                 <Reveal key={item.id} delay={index * 100} className="flex h-full">
-                  <div className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300">
+                  <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300">
                     <div>
                       {item.image && (
                         <div className="overflow-hidden rounded-xl mb-6 aspect-[16/10] border border-navy-100 bg-white shadow-sm">
@@ -157,7 +159,7 @@ export default function HomePage() {
                       <p className="mt-2 text-sm font-semibold text-gold-700">
                         {item.summary}
                       </p>
-                      <p className="mt-4 text-navy-700 leading-relaxed text-sm">
+                      <p className="mt-4 text-navy-700 leading-relaxed text-sm text-justify-prose">
                         {item.description}
                       </p>
                     </div>
@@ -171,7 +173,7 @@ export default function HomePage() {
                         <ArrowRight size={15} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                       </Link>
                     </div>
-                  </div>
+                  </SpotlightCard>
                 </Reveal>
               ))}
             </div>
@@ -196,7 +198,10 @@ export default function HomePage() {
           <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
             {RELATIONSHIP_PILLARS.map((pillar, idx) => (
               <Reveal key={pillar.step} delay={idx * 80} className="flex h-full">
-                <div className="w-full bg-navy-800/80 rounded-xl p-4 sm:p-6 border border-white/10 hover:border-gold-400/40 transition-colors duration-200 flex flex-col justify-between">
+                <SpotlightCard 
+                  className="w-full bg-navy-800/80 rounded-xl p-4 sm:p-6 border border-white/10 hover:border-gold-400/40 transition-colors duration-200 flex flex-col justify-between"
+                  spotlightColor="rgba(0, 242, 254, 0.18)"
+                >
                   <div>
                     <span className="font-display text-gold-400 font-semibold text-sm tracking-wider">
                       {pillar.step}
@@ -212,7 +217,7 @@ export default function HomePage() {
                     <CheckCircle2 size={12} />
                     <span>Agreed milestone</span>
                   </div>
-                </div>
+                </SpotlightCard>
               </Reveal>
             ))}
           </div>
@@ -246,7 +251,7 @@ export default function HomePage() {
           {/* 3 Navigational Pathway Cards */}
           <div className="mt-12 md:mt-16 grid md:grid-cols-3 gap-6 md:gap-8">
             <Reveal delay={100} className="flex h-full">
-              <div className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
+              <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5">
                     <Award size={20} />
@@ -267,11 +272,11 @@ export default function HomePage() {
                     <ArrowRight size={14} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                   </Link>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
 
             <Reveal delay={200} className="flex h-full">
-              <div className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
+              <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5">
                     <Workflow size={20} />
@@ -292,11 +297,11 @@ export default function HomePage() {
                     <ArrowRight size={14} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                   </Link>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
 
             <Reveal delay={300} className="flex h-full">
-              <div className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
+              <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div>
                   <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5">
                     <Layers size={20} />
@@ -317,7 +322,7 @@ export default function HomePage() {
                     <ArrowRight size={14} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                   </Link>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           </div>
         </div>

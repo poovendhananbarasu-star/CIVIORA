@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Search, PenSquare, Link2, ShieldCheck, BarChart3, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 import programmeSessionImg from '../assets/selected-client-images/HOW-03-programme-session.jpeg';
 
 const STAGES = [
@@ -56,7 +57,7 @@ export default function HowItWorks() {
         <div className="mt-12 md:mt-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 items-stretch">
           {STAGES.map((s, i) => (
             <Reveal key={s.name} delay={i * 70} className="flex h-full">
-              <div className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-6 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300">
+              <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-6 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300">
                 <div>
                   <div className="flex items-center justify-between mb-5">
                     <span className="font-display text-xs font-semibold text-navy-900 bg-white px-2.5 py-1 rounded-md border border-navy-100/70">
@@ -73,7 +74,7 @@ export default function HowItWorks() {
                     {s.desc}
                   </p>
                 </div>
-              </div>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>
@@ -81,7 +82,7 @@ export default function HowItWorks() {
         {/* Supporting Programme Session Section */}
         <div className="mt-16 md:mt-24 max-w-4xl mx-auto">
           <Reveal delay={150}>
-            <div className="bg-mist rounded-3xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-sm overflow-hidden grid md:grid-cols-12 gap-8 items-center">
+            <SpotlightCard className="bg-mist rounded-3xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-sm overflow-hidden grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-6 overflow-hidden rounded-2xl shadow-md border border-navy-100/80 bg-white">
                 <img
                   src={programmeSessionImg}
@@ -95,7 +96,7 @@ export default function HowItWorks() {
                 <h3 className="font-display text-2xl text-navy-900 font-semibold leading-snug">
                   Structured Implementation on Campus
                 </h3>
-                <p className="text-navy-700 text-sm sm:text-base leading-relaxed">
+                <p className="text-navy-700 text-sm sm:text-base leading-relaxed text-justify-prose">
                   Engagements translate agreed design into structured on-campus sessions. From student orientation to interactive mentoring, delivery is aligned to institutional schedules, designated points of contact, and continuous session reviews.
                 </p>
                 <div className="pt-2 flex items-center gap-2 text-xs sm:text-sm font-semibold text-gold-700">
@@ -103,13 +104,16 @@ export default function HowItWorks() {
                   <span>Coordinated execution &amp; institutional review</span>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           </Reveal>
         </div>
 
         {/* What your institution can expect */}
         <Reveal delay={200} className="mt-16 md:mt-24">
-          <div className="max-w-3xl mx-auto bg-navy-900 text-white rounded-3xl p-5 sm:p-10 md:p-11 border border-white/10 text-center shadow-xl">
+          <SpotlightCard 
+            className="max-w-3xl mx-auto bg-navy-900 text-white rounded-3xl p-5 sm:p-10 md:p-11 border border-white/10 text-center shadow-xl"
+            spotlightColor="rgba(0, 242, 254, 0.2)"
+          >
             <Sparkles size={24} className="text-gold-400 mx-auto mb-3" />
             <h3 className="font-display text-2xl sm:text-3xl text-white font-semibold">
               What your institution can expect
@@ -127,7 +131,7 @@ export default function HowItWorks() {
                 <ArrowRight size={16} />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
         </Reveal>
 
       </div>

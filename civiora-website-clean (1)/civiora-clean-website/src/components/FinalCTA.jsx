@@ -13,6 +13,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import Reveal from './Reveal';
+import SpotlightCard from './effects/SpotlightCard';
 import { submitAppointmentRequest, isFirebaseConfigured } from '../firebase';
 import { trackMetaLead } from '../utils/metaPixel';
 
@@ -29,6 +30,10 @@ const DISCUSSION_FORMATS = [
   'Video conference',
   'Telephone discussion',
 ];
+
+// A basic client-side deterrent only. Firebase App Check and a server-side
+// endpoint remain the required controls for production abuse protection.
+const SUBMISSION_COOLDOWN_MS = 30_000;
 
 const WHO_CAN_CONNECT = [
   'School principals and school leadership teams',
@@ -53,7 +58,10 @@ export default function FinalCTA() {
     requirement: '',
     discussionFormat: DISCUSSION_FORMATS[0],
     consent: false,
+    website: '',
   });
+
+  const [lastSubmissionAt, setLastSubmissionAt] = useState(0);
 
   useEffect(() => {
     if (requestedType && INSTITUTION_TYPES.includes(requestedType)) {
@@ -65,7 +73,7 @@ export default function FinalCTA() {
     submitting: false,
     submitted: false,
     error: null,
-    fallbackTriggered: false,
+    documentId: null,
   });
 
   const handleChange = (e) => {
@@ -79,64 +87,71 @@ export default function FinalCTA() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Honeypot: legitimate users never see this field. Do not persist bot data.
+    if (formData.website.trim()) {
+      setStatus({ submitting: false, submitted: true, error: null, documentId: null });
+      return;
+    }
+
+    if (Date.now() - lastSubmissionAt < SUBMISSION_COOLDOWN_MS) {
+      setStatus({
+        submitting: false,
+        submitted: false,
+        error: 'Please wait a moment before submitting another request.',
+        documentId: null,
+      });
+      return;
+    }
+
     if (!formData.consent) {
       setStatus({
         submitting: false,
         submitted: false,
         error: 'Please accept the consent checkbox to submit your institutional discussion request.',
-        fallbackTriggered: false,
+        documentId: null,
       });
       return;
     }
 
-    setStatus({ submitting: true, submitted: false, error: null, fallbackTriggered: false });
+    setStatus({ submitting: true, submitted: false, error: null, documentId: null });
 
     try {
-      if (isFirebaseConfigured) {
-        await submitAppointmentRequest(formData);
-        // Track Lead event strictly after successful submission, without any PII/form fields
-        trackMetaLead();
-        setStatus({ submitting: false, submitted: true, error: null, fallbackTriggered: false });
-      } else {
-        // Fallback email client launch
-        const subject = encodeURIComponent(
-          `Institutional Discussion Request: ${formData.institutionName} - ${formData.representativeName}`
+      if (!isFirebaseConfigured) {
+        throw new Error(
+          'Database service is currently unconfigured. Please ensure environment variables are configured in .env.'
         );
-        const body = encodeURIComponent(
-          `Institutional Discussion Request Details:\n\n` +
-          `Institution Type: ${formData.institutionType}\n` +
-          `Representative Name: ${formData.representativeName}\n` +
-          `Designation: ${formData.designation}\n` +
-          `Institution Name: ${formData.institutionName}\n` +
-          `Location: ${formData.location}\n` +
-          `Official Email: ${formData.officialEmail}\n` +
-          `Telephone: ${formData.telephone}\n` +
-          `Preferred Discussion Format: ${formData.discussionFormat}\n\n` +
-          `Requirement Summary:\n${formData.requirement}\n\n` +
-          `Consent Given: Yes (Privacy Policy acknowledged)\n`
-        );
-
-        window.location.href = `mailto:connect@civiora.co.in?subject=${subject}&body=${body}`;
-
-        // Track Lead event strictly after successful enquiry preparation, without any PII/form fields
-        trackMetaLead();
-
-        setStatus({
-          submitting: false,
-          submitted: true,
-          error: null,
-          fallbackTriggered: true,
-        });
       }
+
+      // Write strictly to Firestore collection "appointmentRequests"
+      const result = await submitAppointmentRequest(formData);
+
+      // Track Meta Lead event strictly AFTER successful Firestore write confirmation, with zero form data/PII
+      trackMetaLead();
+      setLastSubmissionAt(Date.now());
+
+      setStatus({
+        submitting: false,
+        submitted: true,
+        error: null,
+        documentId: result?.id || null,
+      });
     } catch (err) {
       if (import.meta.env.DEV) {
-        console.error('Submission error:', err);
+        console.error('Firestore submission error:', err);
       }
+
+      let errorMessage = 'Unable to submit your request at this time. Please try again or contact us directly at connect@civiora.co.in.';
+      if (err?.code === 'permission-denied') {
+        errorMessage = 'Submission was rejected due to permission constraints. Please verify all required fields and try again.';
+      } else if (err?.code === 'unavailable') {
+        errorMessage = 'Database service is temporarily unavailable. Please check your network connection and try again.';
+      }
+
       setStatus({
         submitting: false,
         submitted: false,
-        error: 'Unable to process enquiry automatically. Please email connect@civiora.co.in directly.',
-        fallbackTriggered: false,
+        error: errorMessage,
+        documentId: null,
       });
     }
   };
@@ -173,53 +188,58 @@ export default function FinalCTA() {
             </Reveal>
 
             {/* Official Contact Details */}
-            <Reveal delay={100} className="bg-navy-900 text-white rounded-2xl p-4 sm:p-8 border border-white/10 shadow-xl">
-              <h3 className="font-display text-lg sm:text-xl text-gold-400 font-semibold">
-                Contact Details
-              </h3>
-              <p className="text-xs uppercase tracking-wider text-navy-300 mt-1 font-medium">
-                Civiora Education &amp; Institutional Services
-              </p>
+            <Reveal delay={100}>
+              <SpotlightCard 
+                className="bg-navy-900 text-white rounded-2xl p-4 sm:p-8 border border-white/10 shadow-xl"
+                spotlightColor="rgba(0, 242, 254, 0.2)"
+              >
+                <h3 className="font-display text-lg sm:text-xl text-gold-400 font-semibold">
+                  Contact Details
+                </h3>
+                <p className="text-xs uppercase tracking-wider text-navy-300 mt-1 font-medium">
+                  Civiora Education &amp; Institutional Services
+                </p>
 
-              <div className="mt-6 space-y-4 text-xs sm:text-sm text-navy-100">
-                <div className="flex items-start gap-3">
-                  <MapPin size={17} className="text-gold-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="leading-relaxed">
-                      No. 134, 57, 13th Cross, Baldwins Road, Koramangala,<br />
-                      Bengaluru, Karnataka – 560030
-                    </p>
-                    <a
-                      href="https://www.google.com/maps/search/?api=1&query=No.%20134%2C%2057%2C%2013th%20Cross%2C%20Baldwins%20Road%2C%20Koramangala%2C%20Bengaluru%2C%20Karnataka%20560030"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="View Civiora location on Google Maps"
-                      className="inline-flex items-center gap-1.5 text-xs text-gold-400 hover:text-gold-300 underline font-medium mt-1 focus:outline-none focus:underline"
-                    >
-                      <span>View on Google Maps</span>
-                      <ExternalLink size={12} />
+                <div className="mt-6 space-y-4 text-xs sm:text-sm text-navy-100">
+                  <div className="flex items-start gap-3">
+                    <MapPin size={17} className="text-gold-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="leading-relaxed">
+                        No. 134, 57, 13th Cross, Baldwins Road, Koramangala,<br />
+                        Bengaluru, Karnataka – 560030
+                      </p>
+                      <a
+                        href="https://maps.app.goo.gl/5GgFoYLVEgXDRABy7"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="View Civiora location on Google Maps"
+                        className="inline-flex items-center gap-1.5 text-xs text-gold-400 hover:text-gold-300 underline font-medium mt-1 focus:outline-none focus:underline"
+                      >
+                        <span>View on Google Maps</span>
+                        <ExternalLink size={12} />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <Phone size={17} className="text-gold-400 shrink-0" />
+                    <a href="tel:+918150003610" className="hover:text-gold-300 transition-colors focus:outline-none focus:underline">
+                      +91 8150003610
+                    </a>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <Mail size={17} className="text-gold-400 shrink-0" />
+                    <a href="mailto:connect@civiora.co.in" className="hover:text-gold-300 transition-colors focus:outline-none focus:underline">
+                      connect@civiora.co.in
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <Phone size={17} className="text-gold-400 shrink-0" />
-                  <a href="tel:+918150003610" className="hover:text-gold-300 transition-colors focus:outline-none focus:underline">
-                    +91 8150003610
-                  </a>
+                <div className="mt-6 pt-5 border-t border-white/10 text-xs text-navy-300">
+                  <p>Office hours: Monday to Friday, 9:30 AM – 6:00 PM IST</p>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  <Mail size={17} className="text-gold-400 shrink-0" />
-                  <a href="mailto:connect@civiora.co.in" className="hover:text-gold-300 transition-colors focus:outline-none focus:underline">
-                    connect@civiora.co.in
-                  </a>
-                </div>
-              </div>
-
-              <div className="mt-6 pt-5 border-t border-white/10 text-xs text-navy-300">
-                <p>Office hours: Monday to Friday, 9:30 AM – 6:00 PM IST</p>
-              </div>
+              </SpotlightCard>
             </Reveal>
           </div>
 
@@ -237,25 +257,47 @@ export default function FinalCTA() {
                 </div>
 
                 {status.submitted ? (
-                  <div className="p-8 text-center bg-mist rounded-xl border border-navy-200">
+                  <div className="p-6 sm:p-8 text-center bg-mist rounded-xl border border-navy-200">
                     <CheckCircle2 size={44} className="text-gold-600 mx-auto mb-3" />
-                    <h4 className="font-display text-xl text-navy-900 font-semibold">
-                      {status.fallbackTriggered ? 'Enquiry prepared—please send.' : 'Enquiry received'}
+                    <h4 className="font-display text-xl sm:text-2xl text-navy-900 font-semibold">
+                      Discussion Request Received
                     </h4>
                     <p className="mt-3 text-sm text-navy-700 leading-relaxed max-w-md mx-auto">
-                      {status.fallbackTriggered
-                        ? 'Your email application has opened with your enquiry pre-filled. Please click send in your email client to complete your submission.'
-                        : 'Thank you for connecting with Civiora. Our team will review your institutional priorities and get back to you shortly.'}
+                      Thank you for connecting with Civiora. Your institutional discussion request has been recorded successfully. Our team will review your priorities and get back to you shortly.
                     </p>
-                    <button
-                      onClick={() => setStatus({ submitting: false, submitted: false, error: null, fallbackTriggered: false })}
-                      className="mt-6 px-6 py-2 rounded-xl text-xs font-semibold bg-navy-900 text-white hover:bg-navy-800 transition-colors"
-                    >
-                      Submit Another Enquiry
-                    </button>
+                    {status.documentId && (
+                      <div className="mt-4 inline-flex items-center gap-2 bg-white border border-navy-200/80 px-3.5 py-2 rounded-lg text-xs text-navy-800">
+                        <span className="text-navy-500 font-medium">Reference ID:</span>
+                        <code className="font-mono font-semibold text-navy-900 select-all">{status.documentId}</code>
+                      </div>
+                    )}
+                    <div className="mt-6">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({
+                            institutionType: INSTITUTION_TYPES[0],
+                            representativeName: '',
+                            designation: '',
+                            institutionName: '',
+                            location: '',
+                            officialEmail: '',
+                            telephone: '',
+                            requirement: '',
+                            discussionFormat: DISCUSSION_FORMATS[0],
+                            consent: false,
+                            website: '',
+                          });
+                          setStatus({ submitting: false, submitted: false, error: null, documentId: null });
+                        }}
+                        className="px-6 py-2.5 rounded-xl text-xs font-semibold bg-navy-900 text-white hover:bg-navy-800 transition-colors"
+                      >
+                        Submit Another Request
+                      </button>
+                    </div>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
+                  <form method="post" onSubmit={handleSubmit} className="space-y-5">
                     {status.error && (
                       <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3 text-red-800 text-xs sm:text-sm">
                         <AlertCircle size={17} className="shrink-0 mt-0.5 text-red-600" />
@@ -298,6 +340,7 @@ export default function FinalCTA() {
                           value={formData.representativeName}
                           onChange={handleChange}
                           placeholder="e.g. Dr. Rajesh Sharma"
+                          maxLength={150}
                           className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                           required
                         />
@@ -314,6 +357,7 @@ export default function FinalCTA() {
                           value={formData.designation}
                           onChange={handleChange}
                           placeholder="e.g. Principal / Dean / Director"
+                          maxLength={150}
                           className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                           required
                         />
@@ -334,6 +378,7 @@ export default function FinalCTA() {
                           value={formData.institutionName}
                           onChange={handleChange}
                           placeholder="e.g. National College of Excellence"
+                          maxLength={200}
                           className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                           required
                         />
@@ -350,6 +395,7 @@ export default function FinalCTA() {
                           value={formData.location}
                           onChange={handleChange}
                           placeholder="e.g. Bengaluru, Karnataka"
+                          maxLength={150}
                           className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                           required
                         />
@@ -370,6 +416,7 @@ export default function FinalCTA() {
                           value={formData.officialEmail}
                           onChange={handleChange}
                           placeholder="name@institution.edu.in"
+                          maxLength={150}
                           className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                           required
                         />
@@ -386,6 +433,7 @@ export default function FinalCTA() {
                           value={formData.telephone}
                           onChange={handleChange}
                           placeholder="+91 98765 43210"
+                          maxLength={50}
                           className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                           required
                         />
@@ -427,6 +475,20 @@ export default function FinalCTA() {
                         placeholder="Please briefly describe your student community, development priorities, and preferred timeline..."
                         className="w-full px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
                         required
+                      />
+                    </div>
+
+                    {/* Honeypot field. Kept off-screen and out of keyboard navigation. */}
+                    <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                      <label htmlFor="website">Website</label>
+                      <input
+                        id="website"
+                        name="website"
+                        type="text"
+                        tabIndex={-1}
+                        autoComplete="off"
+                        value={formData.website}
+                        onChange={handleChange}
                       />
                     </div>
 

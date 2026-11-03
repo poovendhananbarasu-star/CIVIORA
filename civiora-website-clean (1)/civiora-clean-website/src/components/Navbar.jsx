@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import logo from '../assets/civiora-logo-full-lockup-transparent.png';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
-  { to: '/about', label: 'About Civiora' },
-  { to: '/pathways', label: 'Who We Work With' },
-  { to: '/how-it-works', label: 'How We Work' },
-  { to: '/why-civiora', label: 'Why Civiora' },
-  { to: '/founder', label: 'Founder & Leadership' },
+  { 
+    to: '/about', 
+    label: 'About',
+    dropdown: [
+      { to: '/about', label: 'About Civiora' },
+      { to: '/who-we-are', label: 'Who We Work With' },
+      { to: '/how-it-works', label: 'How We Work' },
+      { to: '/why-civiora', label: 'Why Civiora' },
+    ]
+  },
+  { to: '/training-development', label: 'Training & Development' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/founder', label: 'Founder' },
   { to: '/contact', label: 'Contact' },
 ];
 
@@ -82,22 +90,61 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <ul className="hidden xl:flex items-center gap-4 2xl:gap-6 font-body text-xs 2xl:text-sm tracking-wide text-navy-800 whitespace-nowrap">
+        <ul className="hidden xl:flex items-center gap-3.5 2xl:gap-5 font-body text-xs 2xl:text-sm tracking-wide text-navy-800 whitespace-nowrap">
           {NAV_LINKS.map((l) => (
-            <li key={l.to}>
-              <NavLink
-                to={l.to}
-                end={l.to === '/'}
-                className={({ isActive }) =>
-                  `relative py-1 transition-colors duration-200 hover:text-gold-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-gold-500 after:transition-all after:duration-200 ${
-                    isActive
-                      ? 'text-gold-700 font-semibold after:w-full'
-                      : 'after:w-0 hover:after:w-full'
-                  }`
-                }
-              >
-                {l.label}
-              </NavLink>
+            <li key={l.to} className={l.dropdown ? 'relative group' : ''}>
+              {l.dropdown ? (
+                <>
+                  <NavLink
+                    to={l.to}
+                    className={({ isActive }) =>
+                      `relative py-1 transition-colors duration-200 hover:text-gold-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded flex items-center gap-1 after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-gold-500 after:transition-all after:duration-200 ${
+                        isActive || location.pathname === '/about' || location.pathname === '/who-we-are' || location.pathname === '/how-it-works' || location.pathname === '/why-civiora' || location.pathname === '/pathways'
+                          ? 'text-gold-700 font-semibold after:w-full'
+                          : 'after:w-0 hover:after:w-full'
+                      }`
+                    }
+                  >
+                    <span>{l.label}</span>
+                    <ChevronDown size={13} className="text-navy-500 group-hover:rotate-180 transition-transform duration-200" />
+                  </NavLink>
+
+                  {/* Dropdown Menu (Exact 2 boxes as drawn in user reference screenshot) */}
+                  <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-1 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
+                    <div className="w-56 bg-white rounded-2xl shadow-xl border border-navy-100 p-2 space-y-1">
+                      {l.dropdown.map((sub) => (
+                        <NavLink
+                          key={sub.to}
+                          to={sub.to}
+                          className={({ isActive }) =>
+                            `flex items-center px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all ${
+                              isActive
+                                ? 'bg-gold-50 text-gold-900 font-bold border-l-4 border-gold-500'
+                                : 'text-navy-800 hover:bg-navy-50 hover:text-navy-950'
+                            }`
+                          }
+                        >
+                          <span>{sub.label}</span>
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <NavLink
+                  to={l.to}
+                  end={l.to === '/'}
+                  className={({ isActive }) =>
+                    `relative py-1 transition-colors duration-200 hover:text-gold-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-gold-500 after:transition-all after:duration-200 ${
+                      isActive
+                        ? 'text-gold-700 font-semibold after:w-full'
+                        : 'after:w-0 hover:after:w-full'
+                    }`
+                  }
+                >
+                  {l.label}
+                </NavLink>
+              )}
             </li>
           ))}
         </ul>
@@ -142,21 +189,47 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
       >
         <ul className="flex flex-col px-4 sm:px-6 pt-4 pb-12 gap-1.5 font-body text-navy-800">
           {NAV_LINKS.map((l) => (
-            <li key={l.to}>
-              <NavLink
-                to={l.to}
-                end={l.to === '/'}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `flex items-center min-h-[48px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors ${
-                    isActive 
-                      ? 'bg-gold-50 text-gold-800 font-semibold border-l-4 border-gold-500' 
-                      : 'hover:bg-navy-50 text-navy-800 active:bg-navy-100'
-                  }`
-                }
-              >
-                {l.label}
-              </NavLink>
+            <li key={l.to} className="space-y-1">
+              {l.dropdown ? (
+                <>
+                  <div className="flex items-center justify-between px-3.5 py-2 text-xs uppercase tracking-wider font-bold text-navy-400">
+                    <span>{l.label}</span>
+                  </div>
+                  <div className="pl-2 space-y-1 border-l-2 border-navy-100 ml-3">
+                    {l.dropdown.map((sub) => (
+                      <NavLink
+                        key={sub.to}
+                        to={sub.to}
+                        onClick={() => setOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center min-h-[44px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors ${
+                            isActive 
+                              ? 'bg-gold-50 text-gold-800 font-semibold border-l-4 border-gold-500' 
+                              : 'hover:bg-navy-50 text-navy-800 active:bg-navy-100'
+                          }`
+                        }
+                      >
+                        {sub.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <NavLink
+                  to={l.to}
+                  end={l.to === '/'}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center min-h-[48px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors ${
+                      isActive 
+                        ? 'bg-gold-50 text-gold-800 font-semibold border-l-4 border-gold-500' 
+                        : 'hover:bg-navy-50 text-navy-800 active:bg-navy-100'
+                    }`
+                  }
+                >
+                  {l.label}
+                </NavLink>
+              )}
             </li>
           ))}
           <li className="pt-3">
