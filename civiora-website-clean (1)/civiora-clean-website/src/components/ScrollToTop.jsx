@@ -13,7 +13,7 @@ export default function ScrollToTop() {
     });
 
     if (typeof window.gtag === 'function') {
-      window.gtag('config', 'G-LKJW6S5J5G', {
+      window.gtag('config', 'G-64DQH5MJD5', {
         page_path: pathname + search,
         page_location: window.location.href,
         page_title: document.title

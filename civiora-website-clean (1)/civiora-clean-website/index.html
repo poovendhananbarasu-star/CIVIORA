@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <!-- Google Consent Mode v2 (Strict Privacy: Denied by default until explicit visitor consent) -->
+    <!-- Google tag (gtag.js) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -13,6 +14,7 @@
         'wait_for_update': 500
       });
       gtag('js', new Date());
+      gtag('config', 'G-64DQH5MJD5');
 
       // Defer external tracking scripts to execute after page load to prevent main-thread blocking (TBT)
       function loadAnalytics() {
@@ -29,9 +31,9 @@
         // gtag.js
         var s = document.createElement('script');
         s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LKJW6S5J5G';
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-64DQH5MJD5';
         document.head.appendChild(s);
-        gtag('config', 'G-LKJW6S5J5G');
+        gtag('config', 'G-64DQH5MJD5');
       }
 
       // Trigger analytics on first user interaction or idle callback, avoiding main-thread blocking (TBT) during audit/paint window
