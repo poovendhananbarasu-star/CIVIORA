@@ -9,9 +9,9 @@ import {
 } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './effects/SpotlightCard';
-import schoolsImg from '../assets/selected-client-images/P02-Schools-partnership.png';
-import collegeMentoringImg from '../assets/selected-client-images/P03-College-partnership.png';
-import universityCampusImg from '../assets/selected-client-images/P04-University-partnership.png';
+import schoolsImg from '../assets/selected-client-images/P02-Schools-partnership.webp';
+import collegeMentoringImg from '../assets/selected-client-images/P03-College-partnership.webp';
+import universityCampusImg from '../assets/selected-client-images/P04-University-partnership.webp';
 
 const FAQS = [
   {
@@ -122,6 +122,8 @@ export default function Pathways() {
                         alt="School students collaborating and participating in learning initiatives."
                         loading="lazy"
                         decoding="async"
+                        width="800"
+                        height="450"
                         className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                       />
                     </div>
@@ -198,6 +200,8 @@ export default function Pathways() {
                         alt="College students discussing career direction with a mentor."
                         loading="lazy"
                         decoding="async"
+                        width="800"
+                        height="450"
                         className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                       />
                     </div>
@@ -274,6 +278,8 @@ export default function Pathways() {
                         alt="University representatives coordinating student-development priorities."
                         loading="lazy"
                         decoding="async"
+                        width="800"
+                        height="450"
                         className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                       />
                     </div>

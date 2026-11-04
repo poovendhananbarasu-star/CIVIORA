@@ -13,9 +13,9 @@ import Hero from '../components/Hero';
 import Reveal from '../components/Reveal';
 import SEO from '../components/SEO';
 import SpotlightCard from '../components/effects/SpotlightCard';
-import schoolsCardImg from '../assets/selected-client-images/H03-Schools-card.png';
-import collegesCardImg from '../assets/selected-client-images/H04-Colleges-card-Undergraduate-students.png';
-import universitiesCardImg from '../assets/selected-client-images/H05-Universities.png';
+import schoolsCardImg from '../assets/selected-client-images/H03-Schools-card.webp';
+import collegesCardImg from '../assets/selected-client-images/H04-Colleges-card-Undergraduate-students.webp';
+import universitiesCardImg from '../assets/selected-client-images/H05-Universities.webp';
 import logo from '../assets/civiora-logo-full-lockup-transparent.png';
 
 const AUDIENCES = [
@@ -88,12 +88,17 @@ export default function HomePage() {
       <SEO
         title="Civiora | Institutional Learning & Career Partnerships"
         description="Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress."
+        preloadImage="/images/hero-desktop.webp"
+        preloadMobileImage="/images/hero-mobile.webp"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "Civiora Education & Institutional Services",
+          "@type": ["Organization", "EducationalOrganization", "LocalBusiness"],
+          "name": "Civiora",
+          "legalName": "Civiora Education & Institutional Services",
           "url": "https://civiora.co.in/",
-          "logo": typeof window !== 'undefined' ? `${window.location.origin}${logo}` : `https://civiora.co.in${logo}`,
+          "logo": "https://civiora.co.in/favicon.png",
+          "image": "https://civiora.co.in/favicon.png",
+          "description": "Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress.",
           "email": "connect@civiora.co.in",
           "telephone": "+918150003610",
           "address": {
@@ -103,7 +108,22 @@ export default function HomePage() {
             "addressRegion": "Karnataka",
             "postalCode": "560030",
             "addressCountry": "IN"
-          }
+          },
+          "sameAs": [
+            "https://www.linkedin.com/company/civioraeducation/",
+            "https://www.instagram.com/civiora_official/",
+            "https://www.facebook.com/civiora/",
+            "https://www.youtube.com/@civioraedu"
+          ],
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+918150003610",
+              "contactType": "Institutional Partnerships & Support",
+              "email": "connect@civiora.co.in",
+              "areaServed": "IN"
+            }
+          ]
         }}
       />
 
@@ -146,6 +166,8 @@ export default function HomePage() {
                             alt={item.imageAlt}
                             loading="lazy"
                             decoding="async"
+                            width="800"
+                            height="500"
                             className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500"
                           />
                         </div>

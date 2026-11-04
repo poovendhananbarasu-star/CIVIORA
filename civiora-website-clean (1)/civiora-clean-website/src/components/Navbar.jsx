@@ -85,6 +85,10 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
           <img 
             src={logo} 
             alt="CIVIORA" 
+            decoding="async"
+            fetchpriority="high"
+            width="160"
+            height="48"
             className="h-9 sm:h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           />
         </Link>
@@ -106,7 +110,7 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                     }
                   >
                     <span>{l.label}</span>
-                    <ChevronDown size={13} className="text-navy-500 group-hover:rotate-180 transition-transform duration-200" />
+                    <ChevronDown size={13} aria-hidden="true" className="text-navy-500 group-hover:rotate-180 transition-transform duration-200" />
                   </NavLink>
 
                   {/* Dropdown Menu (Exact 2 boxes as drawn in user reference screenshot) */}
@@ -192,7 +196,7 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
             <li key={l.to} className="space-y-1">
               {l.dropdown ? (
                 <>
-                  <div className="flex items-center justify-between px-3.5 py-2 text-xs uppercase tracking-wider font-bold text-navy-400">
+                  <div className="flex items-center justify-between px-3.5 py-2 text-xs uppercase tracking-wider font-bold text-navy-600">
                     <span>{l.label}</span>
                   </div>
                   <div className="pl-2 space-y-1 border-l-2 border-navy-100 ml-3">
@@ -202,7 +206,7 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                         to={sub.to}
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                          `flex items-center min-h-[44px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors ${
+                          `flex items-center min-h-[44px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 ${
                             isActive 
                               ? 'bg-gold-50 text-gold-800 font-semibold border-l-4 border-gold-500' 
                               : 'hover:bg-navy-50 text-navy-800 active:bg-navy-100'
@@ -220,7 +224,7 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                   end={l.to === '/'}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `flex items-center min-h-[48px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors ${
+                    `flex items-center min-h-[48px] px-3.5 rounded-xl text-sm font-medium tracking-wide transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 ${
                       isActive 
                         ? 'bg-gold-50 text-gold-800 font-semibold border-l-4 border-gold-500' 
                         : 'hover:bg-navy-50 text-navy-800 active:bg-navy-100'

@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Cookie, X } from 'lucide-react';
-import { getCookieConsent, setCookieConsent } from '../utils/cookieConsent';
+import { getCookieConsent, setCookieConsent, updateGoogleConsent } from '../utils/cookieConsent';
 import { initMetaPixel } from '../utils/metaPixel';
 import { initClarity, stopClarity } from '../utils/clarity';
 
-export default function CookieBanner() {
+export default function CookieBanner({ onVisibilityChange }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (onVisibilityChange) {
+      onVisibilityChange(isOpen);
+    }
+  }, [isOpen, onVisibilityChange]);
 
   useEffect(() => {
     const existingConsent = getCookieConsent();
@@ -14,7 +20,8 @@ export default function CookieBanner() {
       // Show banner if no choice has been recorded yet
       setIsOpen(true);
     } else if (existingConsent === 'accepted') {
-      // If already consented previously, initialize Pixel & Clarity
+      // If already consented previously, grant Google consent & initialize Pixel & Clarity
+      updateGoogleConsent(true);
       initMetaPixel();
       initClarity();
     }
@@ -23,9 +30,11 @@ export default function CookieBanner() {
     const handleConsentChanged = (e) => {
       const status = e.detail?.status;
       if (status === 'accepted') {
+        updateGoogleConsent(true);
         initMetaPixel();
         initClarity();
       } else if (status === 'declined') {
+        updateGoogleConsent(false);
         stopClarity();
       }
     };

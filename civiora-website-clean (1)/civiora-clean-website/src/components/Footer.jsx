@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Instagram, Facebook, Linkedin, Youtube, ExternalLink } from 'lucide-react';
 import logoWhite from '../assets/civiora-logo-white-lockup.png';
 import { openCookieBanner } from '../utils/cookieConsent';
+import LazyMapIframe from './common/LazyMapIframe';
 
 function XIcon({ size = 18, className = '', ...props }) {
   return (
@@ -92,6 +93,10 @@ export default function Footer() {
               <img 
                 src={logoWhite} 
                 alt="CIVIORA" 
+                loading="lazy"
+                decoding="async"
+                width="160"
+                height="44"
                 className="h-9 sm:h-10 md:h-11 w-auto object-contain opacity-95 transition-opacity duration-300 group-hover:opacity-100" 
               />
             </Link>
@@ -137,7 +142,7 @@ export default function Footer() {
                   <li key={link.to}>
                     <Link 
                       to={link.to} 
-                      className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[32px] sm:min-h-0 focus:outline-none focus:text-gold-300"
+                      className="hover:text-gold-300 transition-colors py-2 sm:py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:rounded px-1 -mx-1"
                     >
                       {link.label}
                     </Link>
@@ -149,7 +154,7 @@ export default function Footer() {
                   <li key={link.to}>
                     <Link 
                       to={link.to} 
-                      className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[32px] sm:min-h-0 focus:outline-none focus:text-gold-300"
+                      className="hover:text-gold-300 transition-colors py-2 sm:py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:rounded px-1 -mx-1"
                     >
                       {link.label}
                     </Link>
@@ -206,18 +211,12 @@ export default function Footer() {
                 </div>
               </div>
 
-              {/* Embedded Map in Footer */}
+              {/* Embedded Map in Footer with strictly deferred lazy loading */}
               <div className="pt-2">
                 <div className="w-full h-32 rounded-xl overflow-hidden border border-white/10 shadow-sm bg-navy-900">
-                  <iframe
+                  <LazyMapIframe
                     title="Civiora Education & Institutional Services Location Map"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1374.7260370266315!2d77.60820004559733!3d12.951849956777046!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae157e083f8961%3A0x91739fc8064875b8!2sCiviora%20Education%20%26%20Institutional%20Services!5e0!3m2!1sen!2sin!4v1793298001823!5m2!1sen!2sin"
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen=""
-                    loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
                     className="w-full h-full"
                   />
                 </div>
@@ -235,7 +234,7 @@ export default function Footer() {
               <Link
                 key={policy.to}
                 to={policy.to}
-                className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[36px] sm:min-h-0 focus:outline-none focus:text-gold-300"
+                className="hover:text-gold-300 transition-colors py-2 sm:py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:rounded px-1.5 -mx-1.5"
               >
                 {policy.label}
               </Link>
@@ -243,7 +242,7 @@ export default function Footer() {
             <button
               type="button"
               onClick={openCookieBanner}
-              className="hover:text-gold-300 transition-colors py-1.5 sm:py-0.5 inline-flex items-center min-h-[36px] sm:min-h-0 focus:outline-none focus:text-gold-300 text-left cursor-pointer"
+              className="hover:text-gold-300 transition-colors py-2 sm:py-0.5 inline-flex items-center min-h-[44px] sm:min-h-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:rounded px-1.5 -mx-1.5 text-left cursor-pointer"
             >
               Cookie Preferences
             </button>

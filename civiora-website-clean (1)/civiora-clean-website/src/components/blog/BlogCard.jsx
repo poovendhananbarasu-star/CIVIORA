@@ -23,6 +23,8 @@ export default function BlogCard({ post, featured = false, dark = true }) {
               alt={post.coverAlt || post.title}
               loading="lazy"
               decoding="async"
+              width="640"
+              height="360"
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent" />

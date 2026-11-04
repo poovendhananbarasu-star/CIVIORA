@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './effects/SpotlightCard';
-import studentOutcomesImg from '../assets/selected-client-images/W04-Outcomes-Indian.png';
+import studentOutcomesImg from '../assets/selected-client-images/W04-Outcomes-Indian.webp';
 
 const PILLARS = [
   {
@@ -56,11 +56,11 @@ export default function WhyCiviora() {
         {/* Intro */}
         <Reveal className="text-center max-w-3xl mx-auto">
           <h2 className="section-heading mt-4">
-            Your Institution’s Priorities Shape the Partnership
+            Six Core Pillars of Institutional Collaboration
           </h2>
           <div className="gold-rule mx-auto mt-5" />
           <p className="mt-5 text-navy-700 text-base md:text-lg leading-relaxed">
-            Civiora brings planning, specialist coordination and student engagement into one institutional relationship.
+            Structured frameworks designed to support long-term academic excellence, transparent governance, and measurable student progress.
           </p>
         </Reveal>
 
@@ -98,6 +98,8 @@ export default function WhyCiviora() {
                 alt="Students actively engaging in capability development and career outcomes."
                 loading="lazy"
                 decoding="async"
+                width="800"
+                height="450"
                 className="w-full h-64 sm:h-72 object-cover object-center hover:scale-105 transition-transform duration-500"
               />
             </div>

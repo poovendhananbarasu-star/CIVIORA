@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
+const SITE_CANONICAL_DOMAIN = 'https://civiora.co.in';
+
 /**
  * Lightweight dynamic SEO component for managing title, meta description,
  * canonical link, OpenGraph tags, and JSON-LD structured data per route.
@@ -10,6 +12,9 @@ export default function SEO({
   description,
   canonicalUrl,
   structuredData,
+  noindex = false,
+  preloadImage,
+  preloadMobileImage,
 }) {
   const location = useLocation();
 
@@ -30,21 +35,35 @@ export default function SEO({
       meta.setAttribute('content', content || '');
     };
 
-    // 2. Update Description
+    // 2. Robots Index / Noindex Directive
+    if (noindex) {
+      updateMeta('meta[name="robots"]', 'name', 'robots', 'noindex, nofollow');
+    } else {
+      updateMeta('meta[name="robots"]', 'name', 'robots', 'index, follow');
+    }
+
+    // 3. Update Description
     if (description) {
       updateMeta('meta[name="description"]', 'name', 'description', description);
       updateMeta('meta[property="og:description"]', 'property', 'og:description', description);
       updateMeta('meta[name="twitter:description"]', 'name', 'twitter:description', description);
     }
 
-    // 3. Update OG Title
+    // 4. Update OG & Twitter Title
     if (title) {
       updateMeta('meta[property="og:title"]', 'property', 'og:title', title);
       updateMeta('meta[name="twitter:title"]', 'name', 'twitter:title', title);
     }
 
-    // 4. Update Canonical URL & OG URL
-    const canonical = canonicalUrl || `${window.location.origin}${location.pathname}`;
+    // 5. Update Canonical URL & OG URL (Always resolve to production canonical domain)
+    let canonical = canonicalUrl;
+    if (!canonical) {
+      const cleanPath = location.pathname === '/' ? '/' : location.pathname.replace(/\/+$/, '');
+      canonical = `${SITE_CANONICAL_DOMAIN}${cleanPath}`;
+    } else if (canonical.startsWith('/')) {
+      canonical = `${SITE_CANONICAL_DOMAIN}${canonical}`;
+    }
+
     updateMeta('meta[property="og:url"]', 'property', 'og:url', canonical);
 
     let linkCanonical = document.querySelector('link[rel="canonical"]');
@@ -55,7 +74,45 @@ export default function SEO({
     }
     linkCanonical.setAttribute('href', canonical);
 
-    // 5. Inject Structured Data (JSON-LD) if provided
+    // 6. Preload LCP Image if specified for this route
+    let preloadDesktop = document.querySelector('link#route-lcp-preload-desktop');
+    let preloadMobile = document.querySelector('link#route-lcp-preload-mobile');
+
+    if (preloadMobileImage) {
+      if (!preloadMobile) {
+        preloadMobile = document.createElement('link');
+        preloadMobile.id = 'route-lcp-preload-mobile';
+        preloadMobile.rel = 'preload';
+        preloadMobile.as = 'image';
+        preloadMobile.setAttribute('type', 'image/webp');
+        preloadMobile.setAttribute('fetchpriority', 'high');
+        preloadMobile.setAttribute('media', '(max-width: 768px)');
+        document.head.appendChild(preloadMobile);
+      }
+      preloadMobile.setAttribute('href', preloadMobileImage);
+    } else if (preloadMobile) {
+      preloadMobile.remove();
+    }
+
+    if (preloadImage) {
+      if (!preloadDesktop) {
+        preloadDesktop = document.createElement('link');
+        preloadDesktop.id = 'route-lcp-preload-desktop';
+        preloadDesktop.rel = 'preload';
+        preloadDesktop.as = 'image';
+        preloadDesktop.setAttribute('type', 'image/webp');
+        preloadDesktop.setAttribute('fetchpriority', 'high');
+        if (preloadMobileImage) {
+          preloadDesktop.setAttribute('media', '(min-width: 769px)');
+        }
+        document.head.appendChild(preloadDesktop);
+      }
+      preloadDesktop.setAttribute('href', preloadImage);
+    } else if (preloadDesktop) {
+      preloadDesktop.remove();
+    }
+
+    // 7. Inject Structured Data (JSON-LD) if provided
     let scriptTag = document.querySelector('#seo-structured-data');
     if (structuredData) {
       if (!scriptTag) {
@@ -68,7 +125,14 @@ export default function SEO({
     } else if (scriptTag) {
       scriptTag.remove();
     }
-  }, [title, description, canonicalUrl, structuredData, location.pathname]);
+
+    return () => {
+      const mob = document.querySelector('link#route-lcp-preload-mobile');
+      if (mob) mob.remove();
+      const dsk = document.querySelector('link#route-lcp-preload-desktop');
+      if (dsk) dsk.remove();
+    };
+  }, [title, description, canonicalUrl, structuredData, noindex, preloadImage, preloadMobileImage, location.pathname]);
 
   return null;
 }

@@ -1,7 +1,8 @@
 import PageHeader from '../components/PageHeader';
 import Founder from '../components/Founder';
 import SEO from '../components/SEO';
-import founderHeaderImg from '../assets/selected-client-images/F01-Founder-introduction.jpg';
+const founderDesktop = '/images/founder-desktop.webp';
+const founderMobile = '/images/founder-mobile.webp';
 
 export default function FounderPage() {
   return (
@@ -9,6 +10,8 @@ export default function FounderPage() {
       <SEO
         title="Poovendhan Anbarasu | Founder & CEO, Civiora"
         description="Meet Poovendhan Anbarasu, Founder and CEO of Civiora, with experience in teaching, mentoring and institutional engagement."
+        preloadImage={founderDesktop}
+        preloadMobileImage={founderMobile}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Person",
@@ -25,7 +28,13 @@ export default function FounderPage() {
               "addressRegion": "Karnataka",
               "postalCode": "560030",
               "addressCountry": "IN"
-            }
+            },
+            "sameAs": [
+              "https://www.linkedin.com/company/civioraeducation/",
+              "https://www.instagram.com/civiora_official/",
+              "https://www.facebook.com/civiora/",
+              "https://www.youtube.com/@civioraedu"
+            ]
           },
           "email": "connect@civiora.co.in",
           "telephone": "+918150003610",
@@ -43,7 +52,8 @@ export default function FounderPage() {
         }
         openingHeadline="Bringing teaching experience, mentoring insight and institutional perspective to student development."
         breadcrumbText="Founder"
-        image={founderHeaderImg}
+        image={founderDesktop}
+        mobileImage={founderMobile}
         imagePosition="object-[49%_15%] sm:object-[52%_15%] md:object-[56%_18%] lg:object-[60%_18%]"
         imageClassName="brightness-95 contrast-[1.05]"
         imageAlt="Poovendhan Anbarasu, Founder and CEO of Civiora, speaking on institutional learning and career direction."

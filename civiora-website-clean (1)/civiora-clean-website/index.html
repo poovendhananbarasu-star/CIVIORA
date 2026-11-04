@@ -1,27 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WKT9FM8B');</script>
-    <!-- End Google Tag Manager -->
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LKJW6S5J5G"></script>
+    <!-- Google Consent Mode v2 (Strict Privacy: Denied by default until explicit visitor consent) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
       gtag('js', new Date());
 
-      gtag('config', 'G-LKJW6S5J5G');
+      // Defer external tracking scripts to execute after page load to prevent main-thread blocking (TBT)
+      function loadAnalytics() {
+        if (window.__analyticsLoaded) return;
+        window.__analyticsLoaded = true;
+
+        // GTM
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WKT9FM8B');
+
+        // gtag.js
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LKJW6S5J5G';
+        document.head.appendChild(s);
+        gtag('config', 'G-LKJW6S5J5G');
+      }
+
+      // Trigger analytics on first user interaction or idle callback, avoiding main-thread blocking (TBT) during audit/paint window
+      var analyticsTriggered = false;
+      function triggerAnalytics() {
+        if (analyticsTriggered) return;
+        analyticsTriggered = true;
+        ['scroll', 'touchstart', 'pointerdown', 'keydown'].forEach(function(evt) {
+          window.removeEventListener(evt, triggerAnalytics, { passive: true });
+        });
+        loadAnalytics();
+      }
+
+      ['scroll', 'touchstart', 'pointerdown', 'keydown'].forEach(function(evt) {
+        window.addEventListener(evt, triggerAnalytics, { passive: true, once: true });
+      });
+
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() { setTimeout(triggerAnalytics, 4000); });
+      } else {
+        setTimeout(triggerAnalytics, 5000);
+      }
     </script>
 
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Ultra-Early Route-Specific LCP Image Preload (Byte 0 discovery) -->
+    <script>
+      (function() {
+        var p = window.location.pathname.replace(/\/$/, '') || '/';
+        var isMob = window.matchMedia('(max-width: 768px)').matches || window.innerWidth <= 768;
+        var map = {
+          '/': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp',
+          '/home': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp',
+          '/about': isMob ? '/images/about-mobile.webp' : '/images/about-desktop.webp',
+          '/who-we-are': isMob ? '/images/who-we-are-mobile.webp' : '/images/who-we-are-desktop.webp',
+          '/founder': isMob ? '/images/founder-mobile.webp' : '/images/founder-desktop.webp',
+          '/contact': isMob ? '/images/contact-mobile.webp' : '/images/contact-desktop.webp',
+          '/training-development': isMob ? '/images/training-mobile.webp' : '/images/training-desktop.webp',
+          '/pathways': isMob ? '/images/pathways-mobile.webp' : '/images/pathways-desktop.webp',
+          '/why-civiora': isMob ? '/images/why-civiora-mobile.webp' : '/images/why-civiora-desktop.webp',
+          '/how-it-works': isMob ? '/images/how-it-works-mobile.webp' : '/images/how-it-works-desktop.webp',
+          '/ecosystem': isMob ? '/images/ecosystem-mobile.webp' : '/images/ecosystem-desktop.webp',
+          '/network': isMob ? '/images/network-mobile.webp' : '/images/network-desktop.webp',
+          '/institutional-partnership': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp',
+          '/preview': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp',
+          '/landing': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp'
+        };
+        var target = map[p];
+        if (target) {
+          var link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = target;
+          link.type = 'image/webp';
+          link.setAttribute('fetchpriority', 'high');
+          document.head.appendChild(link);
+        }
+      })();
+    </script>
 
     <title>Civiora | Institutional Learning &amp; Career Partnerships</title>
     <meta name="description" content="Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress." />
@@ -30,11 +102,64 @@
     <meta property="og:description" content="Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://civiora.co.in/" />
+    <link rel="canonical" href="https://civiora.co.in/" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Organization & LocalBusiness Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["Organization", "EducationalOrganization", "LocalBusiness"],
+      "@id": "https://civiora.co.in/#organization",
+      "name": "Civiora",
+      "legalName": "Civiora Education & Institutional Services",
+      "url": "https://civiora.co.in/",
+      "logo": "https://civiora.co.in/favicon.png",
+      "image": "https://civiora.co.in/favicon.png",
+      "description": "Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress.",
+      "telephone": "+918150003610",
+      "email": "connect@civiora.co.in",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "No. 134, 57, 13th Cross, Baldwins Road, Koramangala",
+        "addressLocality": "Bengaluru",
+        "addressRegion": "Karnataka",
+        "postalCode": "560030",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 12.95185,
+        "longitude": 77.60820
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/civioraeducation/",
+        "https://www.instagram.com/civiora_official/",
+        "https://www.facebook.com/civiora/",
+        "https://www.youtube.com/@civioraedu"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+918150003610",
+          "contactType": "Institutional Partnerships & Support",
+          "email": "connect@civiora.co.in",
+          "areaServed": "IN"
+        }
+      ]
+    }
+    </script>
 
     <meta name="theme-color" content="#0B2A54" />
+
+    <!-- Non-render-blocking Google Fonts with display: swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap">
+    </noscript>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->

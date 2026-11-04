@@ -137,6 +137,9 @@ export default function InstitutionalLeadForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prevent concurrent duplicate submissions
+    if (status.submitting) return;
+
     // 1. Honeypot check: Bots filling the hidden website field receive instant mock success
     if (formData.website.trim()) {
       setStatus({ submitting: false, submitted: true, error: null, documentId: null });
@@ -287,7 +290,7 @@ export default function InstitutionalLeadForm({
               Thank you for your interest. Your enquiry has been received. Our team will contact you to understand your institution’s requirements.
             </p>
             {status.documentId && (
-              <p className="text-[11px] text-navy-400 font-mono pt-1">
+              <p className="text-[11px] text-navy-600 font-mono pt-1">
                 Reference ID: {status.documentId}
               </p>
             )}
@@ -555,9 +558,10 @@ export default function InstitutionalLeadForm({
 
           {/* Consent Checkbox */}
           <div className="pt-1">
-            <label className="flex items-start gap-2.5 cursor-pointer text-xs text-navy-700 select-none">
+            <label htmlFor="lead-consent" className="flex items-start gap-2.5 cursor-pointer text-xs text-navy-700 select-none">
               <input
                 type="checkbox"
+                id="lead-consent"
                 name="consent"
                 checked={formData.consent}
                 onChange={handleChange}
@@ -602,7 +606,7 @@ export default function InstitutionalLeadForm({
                 </>
               )}
             </button>
-            <p className="text-[11px] text-center text-navy-400 mt-2">
+            <p className="text-[11px] text-center text-navy-600 mt-2">
               * Required field · Civiora provides consulting &amp; coordination; specialist partners deliver agreed programmes.
             </p>
           </div>

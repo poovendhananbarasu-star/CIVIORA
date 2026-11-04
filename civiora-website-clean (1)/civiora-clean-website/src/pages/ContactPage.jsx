@@ -3,8 +3,10 @@ import FinalCTA from '../components/FinalCTA';
 import SEO from '../components/SEO';
 import Reveal from '../components/Reveal';
 import SpotlightCard from '../components/effects/SpotlightCard';
+import LazyMapIframe from '../components/common/LazyMapIframe';
 import { MapPin, Navigation } from 'lucide-react';
-import contactHeaderImg from '../assets/selected-client-images/C01-Contact-page-banner.png';
+const contactDesktop = '/images/contact-desktop.webp';
+const contactMobile = '/images/contact-mobile.webp';
 
 export default function ContactPage() {
   const directionsUrl = 'https://www.google.com/maps/dir/?api=1&destination=Civiora+Education+%26+Institutional+Services%2C+No.+134%2C+Baldwins+Road%2C+57%2C+13th+Cross+Rd%2C+Koramangala%2C+Bengaluru%2C+Karnataka+560030';
@@ -20,10 +22,13 @@ export default function ContactPage() {
           "@context": "https://schema.org",
           "@type": "ContactPage",
           "name": "Contact Civiora",
-          "description": "Contact Civiora for Institutional Learning & Career Partnerships",
+          "url": "https://civiora.co.in/contact",
+          "description": "Contact Civiora in Koramangala, Bengaluru to discuss student-development and career partnerships for your institution.",
           "mainEntity": {
-            "@type": "Organization",
-            "name": "Civiora Education & Institutional Services",
+            "@type": ["Organization", "EducationalOrganization", "LocalBusiness"],
+            "name": "Civiora",
+            "legalName": "Civiora Education & Institutional Services",
+            "url": "https://civiora.co.in/",
             "email": "connect@civiora.co.in",
             "telephone": "+918150003610",
             "address": {
@@ -33,15 +38,24 @@ export default function ContactPage() {
               "addressRegion": "Karnataka",
               "postalCode": "560030",
               "addressCountry": "IN"
-            }
+            },
+            "sameAs": [
+              "https://www.linkedin.com/company/civioraeducation/",
+              "https://www.instagram.com/civiora_official/",
+              "https://www.facebook.com/civiora/",
+              "https://www.youtube.com/@civioraedu"
+            ]
           }
         }}
+        preloadImage={contactDesktop}
+        preloadMobileImage={contactMobile}
       />
       <PageHeader
         h1="Begin with Your Institution’s Priorities"
         openingHeadline="Tell us what your institution wants to strengthen. Share your student context, priorities and preferred timeline, and Civiora will discuss an appropriate approach with your team."
         breadcrumbText="Contact"
-        image={contactHeaderImg}
+        image={contactDesktop}
+        mobileImage={contactMobile}
         imageAlt="Institutional consultation and partnership discussion with Civiora."
       />
       <FinalCTA />
@@ -62,17 +76,11 @@ export default function ContactPage() {
 
           <Reveal delay={100}>
             <SpotlightCard className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-navy-100 shadow-xl shadow-navy-950/5">
-              {/* Responsive Embedded Google Map */}
-              <div className="relative w-full h-[320px] sm:h-[400px] md:h-[460px] rounded-xl overflow-hidden border border-navy-100 bg-navy-50 shadow-inner">
-                <iframe
+              {/* Responsive Embedded Google Map with strictly deferred lazy loading (0 CLS, 0 early bandwidth contention) */}
+              <div className="relative w-full h-[320px] sm:h-[400px] md:h-[460px] min-h-[320px] aspect-[4/3] sm:aspect-[16/9] rounded-xl overflow-hidden border border-navy-100 bg-navy-50 shadow-inner">
+                <LazyMapIframe
                   title="Civiora Education & Institutional Services Location Map"
                   src={embedMapUrl}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
                   className="w-full h-full"
                 />
               </div>

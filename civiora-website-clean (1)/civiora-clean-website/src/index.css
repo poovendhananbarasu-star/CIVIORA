@@ -77,8 +77,18 @@ p.text-justify,
 
 /* Accessible focus ring for keyboard navigation */
 :focus-visible {
-  outline: 2px solid #C9962A;
-  outline-offset: 2px;
+  outline: 2px solid #C9962A !important;
+  outline-offset: 2px !important;
+}
+
+/* Ensure interactive elements retain crisp visible focus during keyboard tabbing */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #C9962A !important;
+  outline-offset: 2px !important;
 }
 
 /* Elegant thin scrollbar */
@@ -239,23 +249,12 @@ p.text-justify,
   animation: float-ambient-4 11s ease-in-out infinite;
 }
 
-/* Mobile battery & size optimization (< 768px):
-   Scale ambient shapes down by 50% and reduce animation speed to save battery */
+/* Mobile CPU, battery & rendering optimization (< 768px):
+   Scale ambient shapes down by 50% and disable continuous composite animation to eliminate mobile TBT */
 @media (max-width: 767px) {
   .ambient-shape {
     transform: scale(0.5) !important;
-  }
-  .ambient-shape-1 {
-    animation: float-ambient-1 25s ease-in-out infinite;
-  }
-  .ambient-shape-2 {
-    animation: float-ambient-2 30s ease-in-out infinite;
-  }
-  .ambient-shape-3 {
-    animation: float-ambient-3 28s ease-in-out infinite;
-  }
-  .ambient-shape-4 {
-    animation: float-ambient-4 24s ease-in-out infinite;
+    animation: none !important;
   }
 }
 
@@ -357,7 +356,7 @@ p.text-justify,
 }
 
 /* On desktop with fine pointers, hide standard system cursor over interactive elements so glowing magnetic cursor takes focus */
-@media (min-width: 768px) and (pointer: fine) {
+@media (min-width: 768px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   button:hover,
   a:hover,
   [role="button"]:hover,
@@ -371,5 +370,14 @@ p.text-justify,
   input[type="tel"]:hover,
   textarea:hover {
     cursor: text !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:hover,
+  a:hover,
+  [role="button"]:hover,
+  .spotlight-card:hover {
+    cursor: auto !important;
   }
 }

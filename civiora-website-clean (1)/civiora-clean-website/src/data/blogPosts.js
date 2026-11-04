@@ -1,6 +1,6 @@
-import principalImg from '../assets/selected-client-images/P01-Hero-Indian-principal.png';
-import schoolPartnershipImg from '../assets/selected-client-images/P02-Schools-partnership.png';
-import guidanceSessionImg from '../assets/selected-client-images/HOW-03-programme-session.jpeg';
+import principalImg from '../assets/selected-client-images/P01-Hero-Indian-principal.webp';
+import schoolPartnershipImg from '../assets/selected-client-images/P02-Schools-partnership.webp';
+import guidanceSessionImg from '../assets/selected-client-images/HOW-03-programme-session.webp';
 
 export const BLOG_POSTS = [
   {

@@ -103,7 +103,7 @@ export default function Network() {
                   className="btn-secondary w-full sm:w-auto text-center justify-center"
                 >
                   <span>Discuss Institutional Needs</span>
-                  <ArrowRight size={15} className="text-gold-400" />
+                  <ArrowRight size={15} aria-hidden="true" className="text-gold-400" />
                 </Link>
               </div>
             </SpotlightCard>
@@ -132,7 +132,7 @@ export default function Network() {
                   className="btn-primary w-full sm:w-auto text-center justify-center"
                 >
                   <span>Discuss an Academic Partnership</span>
-                  <ArrowRight size={15} />
+                  <ArrowRight size={15} aria-hidden="true" />
                 </Link>
               </div>
             </SpotlightCard>

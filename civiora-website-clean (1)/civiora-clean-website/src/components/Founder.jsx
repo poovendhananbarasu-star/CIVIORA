@@ -3,8 +3,8 @@ import { ArrowRight, BookOpen, Compass, Quote, CheckCircle2 } from 'lucide-react
 import Reveal from './Reveal';
 import SpotlightCard from './effects/SpotlightCard';
 import mark from '../assets/civiora-mark-icon.png';
-import founderPortraitImg from '../assets/selected-client-images/F02-Portrait.jpeg';
-import founderMentoringImg from '../assets/selected-client-images/FOUNDER-03-mentoring-event.jpeg';
+import founderPortraitImg from '../assets/selected-client-images/F02-Portrait.webp';
+import founderMentoringImg from '../assets/selected-client-images/FOUNDER-03-mentoring-event.webp';
 
 const STATS = [
   { value: '10+', label: 'Years of academic experience' },
@@ -69,6 +69,8 @@ export default function Founder() {
                       alt="Poovendhan Anbarasu, Founder and CEO of Civiora."
                       loading="lazy"
                       decoding="async"
+                      width="800"
+                      height="600"
                       className="w-full h-64 sm:h-72 md:h-80 object-cover object-top hover:scale-105 transition-transform duration-500"
                     />
                     <div className="p-2.5 bg-navy-950/90 border-t border-white/10 text-center">
@@ -107,6 +109,8 @@ export default function Founder() {
                 alt="Poovendhan Anbarasu conducting an on-campus student mentoring and guidance session in an auditorium."
                 loading="lazy"
                 decoding="async"
+                width="800"
+                height="500"
                 className="w-full h-56 sm:h-64 object-cover object-center hover:scale-105 transition-transform duration-500"
               />
               <div className="p-2.5 bg-navy-950/90 text-center border-t border-white/10">

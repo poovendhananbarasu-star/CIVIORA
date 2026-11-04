@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './effects/SpotlightCard';
-import studentEngagementImg from '../assets/selected-client-images/ECO-03-student-engagement.jpeg';
+import studentEngagementImg from '../assets/selected-client-images/ECO-03-student-engagement.webp';
 
 const STAKEHOLDERS = [
   {
@@ -228,6 +228,8 @@ export default function Ecosystem() {
                   alt="Poovendhan Anbarasu presenting active student development and career insights during an institutional session."
                   loading="lazy"
                   decoding="async"
+                  width="800"
+                  height="600"
                   className="w-full h-72 sm:h-80 object-cover object-center hover:scale-105 transition-transform duration-500"
                 />
               </div>

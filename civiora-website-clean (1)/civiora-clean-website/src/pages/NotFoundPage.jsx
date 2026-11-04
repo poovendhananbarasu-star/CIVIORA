@@ -9,6 +9,7 @@ export default function NotFoundPage() {
       <SEO
         title="Page Not Found | Civiora"
         description="The page may have moved. Explore Civiora’s institutional partnership approach or contact us for assistance."
+        noindex={true}
       />
       <Reveal className="max-w-md w-full bg-white rounded-3xl p-5 sm:p-10 border border-navy-100 shadow-xl text-center">
         <div className="w-12 h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center mx-auto mb-4 shadow-sm">

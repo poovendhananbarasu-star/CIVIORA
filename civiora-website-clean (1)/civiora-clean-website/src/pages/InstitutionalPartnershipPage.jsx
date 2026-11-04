@@ -26,9 +26,9 @@ import WaveCanvas from '../components/effects/WaveCanvas';
 import AmbientShapes from '../components/effects/AmbientShapes';
 import SpotlightCard from '../components/effects/SpotlightCard';
 
-import schoolImg from '../assets/selected-client-images/P02-Schools-partnership.png';
-import collegeImg from '../assets/selected-client-images/P03-College-partnership.png';
-import videoThumbImg from '../assets/selected-client-images/HO1-Civiora-Website-Main-Page-Hero.png';
+import schoolImg from '../assets/selected-client-images/P02-Schools-partnership.webp';
+import collegeImg from '../assets/selected-client-images/P03-College-partnership.webp';
+const videoThumbImg = '/images/hero-desktop.webp';
 
 export default function InstitutionalPartnershipPage() {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
@@ -184,13 +184,19 @@ export default function InstitutionalPartnershipPage() {
                       
                       {/* Thumbnail with bright campus image */}
                       <div className="relative w-full sm:w-44 h-32 sm:h-auto shrink-0 overflow-hidden bg-navy-950">
-                        <img 
-                          src={videoThumbImg} 
-                          alt="Campus life and student aspirations thumbnail" 
-                          loading="lazy"
-                          decoding="async"
-                          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-80"
-                        />
+                        <picture className="w-full h-full">
+                          <source media="(max-width: 768px)" srcSet="/images/hero-mobile.webp" type="image/webp" />
+                          <source srcSet="/images/hero-desktop.webp" type="image/webp" />
+                          <img 
+                            src="/images/hero-desktop.webp" 
+                            alt="Campus life and student aspirations thumbnail" 
+                            loading="lazy"
+                            decoding="async"
+                            width="320"
+                            height="180"
+                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-80"
+                          />
+                        </picture>
                         <div className="absolute inset-0 bg-navy-950/40 flex items-center justify-center">
                           <div className="w-11 h-11 rounded-full bg-gold-500 text-navy-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
                             <Play size={18} className="ml-0.5 fill-current" />
@@ -262,6 +268,8 @@ export default function InstitutionalPartnershipPage() {
                         alt="Indian school students engaged in practical learning" 
                         loading="lazy"
                         decoding="async"
+                        width="800"
+                        height="450"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
@@ -319,6 +327,8 @@ export default function InstitutionalPartnershipPage() {
                         alt="College and university students in career discussion" 
                         loading="lazy"
                         decoding="async"
+                        width="800"
+                        height="450"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />

@@ -17,6 +17,21 @@ export function getCookieConsent() {
 }
 
 /**
+ * Updates Google Consent Mode v2 state across gtag and GTM.
+ * @param {boolean} granted
+ */
+export function updateGoogleConsent(granted) {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+    window.gtag('consent', 'update', {
+      'ad_storage': granted ? 'granted' : 'denied',
+      'ad_user_data': granted ? 'granted' : 'denied',
+      'ad_personalization': granted ? 'granted' : 'denied',
+      'analytics_storage': granted ? 'granted' : 'denied',
+    });
+  }
+}
+
+/**
  * Saves cookie consent choice ('accepted' | 'declined').
  * @param {'accepted' | 'declined'} status 
  */
@@ -26,6 +41,9 @@ export function setCookieConsent(status) {
   } catch (err) {
     // Graceful fallback if localStorage is unavailable
   }
+
+  // Update Google Consent Mode v2
+  updateGoogleConsent(status === 'accepted');
 
   // Notify active listeners
   if (typeof window !== 'undefined') {

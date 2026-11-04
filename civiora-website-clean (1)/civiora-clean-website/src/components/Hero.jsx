@@ -1,6 +1,5 @@
 import { ArrowRight, Compass, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import heroEngagementImg from '../assets/selected-client-images/HO1-Civiora-Website-Main-Page-Hero.png';
 import WaveCanvas from './effects/WaveCanvas';
 import AmbientShapes from './effects/AmbientShapes';
 
@@ -16,14 +15,28 @@ export default function Hero() {
       
       {/* 1. Full-Width Background Image Area with Rich Ambient Overlays */}
       <div className="relative w-full min-h-[400px] sm:min-h-[460px] md:min-h-[500px] lg:min-h-[580px] overflow-hidden flex items-end">
-        {/* Background Image - Framed to keep educators/leaders visible on mobile */}
-        <img
-          src={heroEngagementImg}
-          alt="Civiora institutional leaders and educators discussing student development priorities."
-          loading="eager"
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-cover object-[center_20%] sm:object-center scale-100 sm:scale-105 transition-transform duration-1000 ease-out"
-        />
+        {/* Responsive Background Picture - High-priority LCP image with mobile & desktop WebP */}
+        <picture className="absolute inset-0 w-full h-full">
+          <source
+            media="(max-width: 768px)"
+            srcSet="/images/hero-mobile.webp"
+            type="image/webp"
+          />
+          <source
+            srcSet="/images/hero-desktop.webp"
+            type="image/webp"
+          />
+          <img
+            src="/images/hero-desktop.webp"
+            alt="Civiora institutional leaders and educators discussing student development priorities."
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            width="1600"
+            height="900"
+            className="w-full h-full object-cover object-[center_20%] sm:object-center"
+          />
+        </picture>
 
         {/* Ambient Dark Gradient Overlays for High Legibility & Depth */}
         {/* Vertical gradient: Deep navy at bottom to guarantee AAA text contrast, smooth fade to top so faces remain visible and vibrant */}

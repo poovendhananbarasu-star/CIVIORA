@@ -23,11 +23,12 @@ export default function MagneticCursor() {
   const magneticTarget = useRef(null);
 
   useEffect(() => {
-    // Only enable on desktop screens with fine pointer support
+    // Only enable on desktop screens with fine pointer support and standard motion preference
     const checkIsDesktop = () => {
       const isTouch = window.matchMedia('(pointer: coarse)').matches;
       const isWideEnough = window.innerWidth >= 768;
-      setEnabled(!isTouch && isWideEnough);
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      setEnabled(!isTouch && isWideEnough && !prefersReduced);
     };
 
     checkIsDesktop();

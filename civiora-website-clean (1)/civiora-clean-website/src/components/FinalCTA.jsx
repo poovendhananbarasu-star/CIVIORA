@@ -87,6 +87,9 @@ export default function FinalCTA() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Prevent concurrent duplicate submissions
+    if (status.submitting) return;
+
     // Honeypot: legitimate users never see this field. Do not persist bot data.
     if (formData.website.trim()) {
       setStatus({ submitting: false, submitted: true, error: null, documentId: null });
@@ -494,9 +497,10 @@ export default function FinalCTA() {
 
                     {/* Contact Consent Checkbox */}
                     <div className="pt-2">
-                      <label className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-navy-700 select-none py-1">
+                      <label htmlFor="final-cta-consent" className="flex items-start gap-3 cursor-pointer text-xs sm:text-sm text-navy-700 select-none py-1">
                         <input
                           type="checkbox"
+                          id="final-cta-consent"
                           name="consent"
                           checked={formData.consent}
                           onChange={handleChange}

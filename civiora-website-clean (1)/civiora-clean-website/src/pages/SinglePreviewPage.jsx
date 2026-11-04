@@ -16,13 +16,13 @@ import WhyCiviora from '../components/WhyCiviora';
 import Founder from '../components/Founder';
 import FinalCTA from '../components/FinalCTA';
 
-import schoolImg from '../assets/selected-client-images/P02-Schools-partnership.png';
-import collegeImg from '../assets/selected-client-images/P03-College-partnership.png';
-import universityCampusImg from '../assets/selected-client-images/P04-University-partnership.png';
-import videoThumbImg from '../assets/selected-client-images/HO1-Civiora-Website-Main-Page-Hero.png';
-import schoolsCardImg from '../assets/selected-client-images/H03-Schools-card.png';
-import collegesCardImg from '../assets/selected-client-images/H04-Colleges-card-Undergraduate-students.png';
-import universitiesCardImg from '../assets/selected-client-images/H05-Universities.png';
+import schoolImg from '../assets/selected-client-images/P02-Schools-partnership.webp';
+import collegeImg from '../assets/selected-client-images/P03-College-partnership.webp';
+import universityCampusImg from '../assets/selected-client-images/P04-University-partnership.webp';
+const videoThumbImg = '/images/hero-desktop.webp';
+import schoolsCardImg from '../assets/selected-client-images/H03-Schools-card.webp';
+import collegesCardImg from '../assets/selected-client-images/H04-Colleges-card-Undergraduate-students.webp';
+import universitiesCardImg from '../assets/selected-client-images/H05-Universities.webp';
 import logoWhite from '../assets/civiora-logo-white-lockup.png';
 
 import {
@@ -107,7 +107,7 @@ export default function SinglePreviewPage() {
       <div className="sticky top-0 z-40 bg-navy-950/95 backdrop-blur-md border-b border-white/10 py-2.5 px-4 shadow-lg">
         <div className="max-w-content mx-auto flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           <Link to="/" className="flex items-center shrink-0" aria-label="Civiora Home">
-            <img src={logoWhite} alt="Civiora" className="h-7 sm:h-8 w-auto object-contain" />
+            <img src={logoWhite} alt="Civiora" decoding="async" width="120" height="32" className="h-7 sm:h-8 w-auto object-contain" />
           </Link>
 
           <div className="flex items-center gap-1.5 shrink-0 overflow-x-auto">
@@ -130,7 +130,7 @@ export default function SinglePreviewPage() {
               onClick={() => scrollTo('sec-contact')}
               className="hidden md:inline-flex btn-primary text-xs py-1.5 px-4 rounded-full whitespace-nowrap shrink-0 ml-1.5 shadow-sm"
             >
-              Connect With Us
+              Connect with Us
             </button>
           </div>
         </div>
@@ -210,13 +210,19 @@ export default function SinglePreviewPage() {
                     >
                       <div className="flex flex-col sm:flex-row items-center sm:items-stretch">
                         <div className="relative w-full sm:w-44 h-32 sm:h-auto shrink-0 overflow-hidden bg-navy-950">
-                          <img
-                            src={videoThumbImg}
-                            alt="Campus life thumbnail"
-                            loading="lazy"
-                            decoding="async"
-                            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-80"
-                          />
+                          <picture className="w-full h-full">
+                            <source media="(max-width: 768px)" srcSet="/images/hero-mobile.webp" type="image/webp" />
+                            <source srcSet="/images/hero-desktop.webp" type="image/webp" />
+                            <img
+                              src="/images/hero-desktop.webp"
+                              alt="Campus life thumbnail"
+                              loading="lazy"
+                              decoding="async"
+                              width="320"
+                              height="180"
+                              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-80"
+                            />
+                          </picture>
                           <div className="absolute inset-0 bg-navy-950/40 flex items-center justify-center">
                             <div className="w-11 h-11 rounded-full bg-gold-500 text-navy-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
                               <Play size={18} className="ml-0.5 fill-current" />
@@ -265,7 +271,7 @@ export default function SinglePreviewPage() {
               <div className="grid md:grid-cols-2 gap-8 lg:gap-10 items-stretch">
                 <SpotlightCard className="h-full rounded-3xl bg-mist border border-navy-100 overflow-hidden flex flex-col shadow-sm hover:shadow-lg transition-all duration-300 group">
                   <div className="relative h-48 sm:h-56 overflow-hidden bg-navy-900">
-                    <img src={schoolImg} alt="School students" loading="lazy" decoding="async" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                    <img src={schoolImg} alt="School students" loading="lazy" decoding="async" width="800" height="450" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
                     <div className="absolute bottom-4 left-5 right-5">
                       <span className="px-3 py-1 rounded-full bg-gold-500 text-navy-950 text-xs font-bold uppercase tracking-wider">
@@ -296,7 +302,7 @@ export default function SinglePreviewPage() {
 
                 <SpotlightCard className="h-full rounded-3xl bg-mist border border-navy-100 overflow-hidden flex flex-col shadow-sm hover:shadow-lg transition-all duration-300 group">
                   <div className="relative h-48 sm:h-56 overflow-hidden bg-navy-900">
-                    <img src={collegeImg} alt="College students" loading="lazy" decoding="async" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                    <img src={collegeImg} alt="College students" loading="lazy" decoding="async" width="800" height="450" className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-navy-950/20 to-transparent" />
                     <div className="absolute bottom-4 left-5 right-5">
                       <span className="px-3 py-1 rounded-full bg-gold-500 text-navy-950 text-xs font-bold uppercase tracking-wider">

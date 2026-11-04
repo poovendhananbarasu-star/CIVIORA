@@ -134,6 +134,11 @@ export default function WaveCanvas({ className = '', opacity = 0.45, blendMode =
         ctx.restore();
       });
 
+      // On mobile screens (< 768px) or when reduced motion is preferred, render one crisp frame and avoid continuous RAF to conserve CPU & reduce TBT
+      if (width < 768 || prefersReducedMotion) {
+        return;
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 

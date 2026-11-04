@@ -44,7 +44,7 @@ export default function BlogListingPage() {
       <SEO
         title="Institutional Blog & Regulatory Insights | Civiora"
         description="Explore analysis, CBSE regulatory guidelines, student development research, and practical advice for school principals and higher education leadership."
-        canonicalUrl={`${window.location.origin}/blog`}
+        canonicalUrl="https://civiora.co.in/blog"
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'Blog',
@@ -54,7 +54,7 @@ export default function BlogListingPage() {
           publisher: {
             '@type': 'Organization',
             name: 'Civiora Education & Institutional Services',
-            url: 'https://civiora.co.in'
+            url: 'https://civiora.co.in/'
           }
         }}
       />
@@ -86,19 +86,21 @@ export default function BlogListingPage() {
             {/* Search Bar */}
             <div className="mt-8 max-w-md mx-auto relative z-10">
               <div className="relative">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-navy-400" />
+                <Search size={18} aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 text-navy-400" />
                 <input
                   type="text"
+                  id="blog-search-input"
+                  aria-label="Search articles, circulars, or keywords"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search articles, circulars, or keywords..."
-                  className="w-full pl-11 pr-4 py-3 rounded-full bg-navy-900/80 border border-white/10 text-white placeholder-navy-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-gold-400/60 focus:border-transparent backdrop-blur-md transition-all shadow-inner"
+                  className="w-full pl-11 pr-4 py-3 min-h-[44px] rounded-full bg-navy-900/80 border border-white/10 text-white placeholder-navy-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-gold-400/60 focus:border-transparent backdrop-blur-md transition-all shadow-inner"
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 min-h-[40px] min-w-[40px] flex items-center justify-center text-xs text-navy-400 hover:text-white"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 min-h-[44px] min-w-[44px] flex items-center justify-center text-xs text-navy-400 hover:text-white rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400"
                     aria-label="Clear search input"
                   >
                     Clear
@@ -114,7 +116,7 @@ export default function BlogListingPage() {
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`min-h-[40px] px-4 py-2 rounded-full text-xs font-medium transition-all duration-200 inline-flex items-center justify-center ${
+                  className={`min-h-[44px] px-4 py-2 rounded-full text-xs font-medium transition-all duration-200 inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 ${
                     selectedCategory === cat
                       ? 'bg-gold-500 text-navy-950 font-bold shadow-md'
                       : 'bg-white/5 text-navy-200 hover:text-white hover:bg-white/10 border border-white/5'

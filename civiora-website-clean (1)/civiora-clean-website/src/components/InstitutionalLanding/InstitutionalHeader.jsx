@@ -75,6 +75,9 @@ export default function InstitutionalHeader({ onScrollToForm }) {
           <img
             src={logo}
             alt="CIVIORA"
+            decoding="async"
+            width="160"
+            height="40"
             className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
           />
         </Link>

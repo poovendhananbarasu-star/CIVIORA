@@ -3,7 +3,8 @@ import { Shield, Lock, Eye, FileText, Mail, MapPin, Phone } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import SEO from '../components/SEO';
 import Reveal from '../components/Reveal';
-import contactHeaderImg from '../assets/headers/contact.jpg';
+import contactDesktop from '../assets/headers/contact-desktop.webp';
+import contactMobile from '../assets/headers/contact-mobile.webp';
 import { openCookieBanner } from '../utils/cookieConsent';
 
 export default function PrivacyPolicyPage() {
@@ -12,13 +13,16 @@ export default function PrivacyPolicyPage() {
       <SEO
         title="Privacy Policy | Civiora"
         description="Read how Civiora handles website enquiry information and explains its privacy contact and information practices."
+        preloadImage={contactDesktop}
+        preloadMobileImage={contactMobile}
       />
 
       <PageHeader
         h1="Privacy Policy"
         openingHeadline="How Civiora handles website enquiries and explains its privacy contact and information practices."
         breadcrumbText="Privacy Policy"
-        image={contactHeaderImg}
+        image={contactDesktop}
+        mobileImage={contactMobile}
         imageAlt="Civiora Information Governance and Privacy"
       />
 

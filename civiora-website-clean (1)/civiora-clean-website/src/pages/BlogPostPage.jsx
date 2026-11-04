@@ -60,6 +60,11 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <div className="min-h-screen bg-mist text-ink flex items-center justify-center py-20 px-4">
+        <SEO
+          title="Article Not Found | Civiora"
+          description="The article you are searching for might have been moved, updated, or does not exist."
+          noindex={true}
+        />
         <div className="max-w-md w-full bg-white p-8 rounded-2xl border border-navy-100 text-center shadow-lg space-y-4">
           <AlertCircle size={48} className="mx-auto text-gold-600" />
           <h1 className="font-display text-2xl font-bold text-navy-900">
@@ -79,7 +84,8 @@ export default function BlogPostPage() {
     );
   }
 
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://civiora.co.in/blog/' + post.slug;
+  const postCanonical = `https://civiora.co.in/blog/${post.slug}`;
 
   const handleCopyLink = () => {
     if (navigator.clipboard) {
@@ -114,7 +120,7 @@ export default function BlogPostPage() {
       <SEO
         title={post.metaTitle || post.title}
         description={post.metaDescription || post.excerpt}
-        canonicalUrl={`${window.location.origin}/blog/${post.slug}`}
+        canonicalUrl={postCanonical}
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'BlogPosting',
@@ -125,7 +131,7 @@ export default function BlogPostPage() {
           keywords: [post.primaryKeyword, ...(post.secondaryKeywords || [])].join(', '),
           mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': `${window.location.origin}/blog/${post.slug}`
+            '@id': postCanonical
           },
           author: {
             '@type': 'Organization',
@@ -238,6 +244,8 @@ export default function BlogPostPage() {
                   alt={post.coverAlt || post.heading}
                   loading="lazy"
                   decoding="async"
+                  width="1200"
+                  height="630"
                   className="w-full h-auto max-h-[440px] object-cover object-center"
                 />
                 <div className="py-2.5 px-4 bg-navy-950/80 text-[11px] text-navy-200 border-t border-navy-800 text-left">

@@ -2,20 +2,20 @@ import { Link } from 'react-router-dom';
 import { Compass, Target, ShieldCheck, ArrowRight, Lightbulb, Users, Award } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './effects/SpotlightCard';
-import whyWeExistImg from '../assets/selected-client-images/A02-Who-we-are.png';
-import missionImg from '../assets/selected-client-images/A03-Mission.png';
+import whyWeExistImg from '../assets/selected-client-images/A02-Who-we-are.webp';
+import missionImg from '../assets/selected-client-images/A03-Mission.webp';
 
 export default function About() {
   return (
     <section id="about" className="relative bg-white py-16 md:py-24">
       <div className="max-w-content mx-auto px-4 sm:px-6 md:px-10">
-        
+
         {/* Section 1: Introduction & Why Civiora exists */}
         <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-stretch">
           <Reveal className="flex flex-col justify-between">
             <div>
               <h2 className="section-heading">
-                An Institutional Partner for Student Development and Career Direction
+                About Civiora: Purpose &amp; Engagement
               </h2>
               <div className="gold-rule mt-5" />
               <p className="mt-6 text-navy-700 text-base md:text-lg leading-relaxed text-justify-prose">
@@ -40,6 +40,8 @@ export default function About() {
                     alt="Civiora team and students in purposeful discussion on career pathways."
                     loading="lazy"
                     decoding="async"
+                    width="800"
+                    height="500"
                     className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500"
                   />
                 </div>
@@ -68,15 +70,15 @@ export default function About() {
                   <span>Partnership Framework</span>
                   <ArrowRight size={13} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
-                <span className="text-navy-300 hidden sm:inline">•</span>
+                <span className="text-navy-300 hidden sm:inline" aria-hidden="true">•</span>
                 <Link
                   to="/founder"
                   className="inline-flex items-center gap-1.5 font-semibold text-navy-900 hover:text-gold-700 transition-colors group"
                 >
                   <span>Founder &amp; Leadership</span>
-                  <ArrowRight size={13} className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ArrowRight size={13} aria-hidden="true" className="text-gold-600 transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
-                <span className="text-navy-300 hidden sm:inline">•</span>
+                <span className="text-navy-300 hidden sm:inline" aria-hidden="true">•</span>
                 <Link
                   to="/network"
                   className="inline-flex items-center gap-1.5 font-semibold text-navy-900 hover:text-gold-700 transition-colors group"
@@ -100,7 +102,7 @@ export default function About() {
 
           <div className="mt-10 md:mt-14 grid md:grid-cols-2 gap-6 md:gap-8 items-stretch">
             <Reveal delay={100} className="flex h-full">
-              <SpotlightCard 
+              <SpotlightCard
                 className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-5 sm:p-9 border border-white/10 shadow-lg"
                 spotlightColor="rgba(0, 242, 254, 0.2)"
               >
@@ -119,7 +121,7 @@ export default function About() {
             </Reveal>
 
             <Reveal delay={180} className="flex h-full">
-              <SpotlightCard 
+              <SpotlightCard
                 className="flex flex-col justify-between w-full bg-navy-900 text-white rounded-2xl p-5 sm:p-9 border border-white/10 shadow-lg"
                 spotlightColor="rgba(0, 242, 254, 0.2)"
               >
@@ -139,13 +141,15 @@ export default function About() {
           </div>
 
           <Reveal delay={200} className="mt-8 max-w-4xl mx-auto">
-            <div className="overflow-hidden rounded-2xl border border-navy-100 shadow-sm bg-white">
+            <div className="overflow-hidden rounded-2xl border border-navy-100 shadow-sm bg-white aspect-[2/1]">
               <img
                 src={missionImg}
                 alt="Civiora mission and student capability development engagement."
                 loading="lazy"
                 decoding="async"
-                className="w-full h-auto object-cover hover:scale-[1.02] transition-transform duration-500"
+                width="1200"
+                height="600"
+                className="w-full h-full object-cover hover:scale-[1.02] transition-transform duration-500"
               />
             </div>
           </Reveal>

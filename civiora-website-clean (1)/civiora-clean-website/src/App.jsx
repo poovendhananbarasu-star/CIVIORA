@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -7,6 +7,7 @@ import CookieBanner from './components/CookieBanner';
 import MagneticCursor from './components/effects/MagneticCursor';
 import whatsappIcon from './assets/whatsapp.png';
 
+// Eagerly loaded primary routes: eliminates lazy-chunk roundtrips & layout shifts (CLS) on direct visits
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import EcosystemPage from './pages/EcosystemPage';
@@ -16,19 +17,33 @@ import WhyCivioraPage from './pages/WhyCivioraPage';
 import NetworkPage from './pages/NetworkPage';
 import FounderPage from './pages/FounderPage';
 import ContactPage from './pages/ContactPage';
-import InstitutionalPartnershipPage from './pages/InstitutionalPartnershipPage';
 import WhoWeArePage from './pages/WhoWeArePage';
-import SinglePreviewPage from './pages/SinglePreviewPage';
-import TrainingDevelopmentPage from './pages/TrainingDevelopmentPage';
-import BlogListingPage from './pages/BlogListingPage';
-import BlogPostPage from './pages/BlogPostPage';
-import NotFoundPage from './pages/NotFoundPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsConditionsPage from './pages/TermsConditionsPage';
-import CancellationRefundPolicyPage from './pages/CancellationRefundPolicyPage';
-import GrievanceSupportPage from './pages/GrievanceSupportPage';
+
+// Code-split heavy & secondary routes to eliminate main-thread blocking (TBT) on core pages
+const SinglePreviewPage = lazy(() => import('./pages/SinglePreviewPage'));
+const TrainingDevelopmentPage = lazy(() => import('./pages/TrainingDevelopmentPage'));
+const BlogListingPage = lazy(() => import('./pages/BlogListingPage'));
+const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsConditionsPage = lazy(() => import('./pages/TermsConditionsPage'));
+const CancellationRefundPolicyPage = lazy(() => import('./pages/CancellationRefundPolicyPage'));
+const GrievanceSupportPage = lazy(() => import('./pages/GrievanceSupportPage'));
+
+function RouteLoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-mist" aria-busy="true">
+      <div 
+        className="w-9 h-9 rounded-full border-2 border-gold-400 border-t-transparent animate-spin" 
+        role="status" 
+        aria-label="Loading page content..." 
+      />
+    </div>
+  );
+}
 
 function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
+  const [cookieBannerOpen, setCookieBannerOpen] = useState(false);
   const location = useLocation();
   const isInstitutionalLanding = 
     location.pathname === '/institutional-partnership' || 
@@ -41,41 +56,43 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
         <Navbar mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
       )}
       <main id="main-content" className="flex-grow">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/who-we-are" element={<WhoWeArePage />} />
-          <Route path="/ecosystem" element={<EcosystemPage />} />
-          <Route path="/pathways" element={<PathwaysPage />} />
-          <Route path="/how-it-works" element={<HowItWorksPage />} />
-          <Route path="/why-civiora" element={<WhyCivioraPage />} />
-          <Route path="/network" element={<NetworkPage />} />
-          <Route path="/founder" element={<FounderPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/landing" element={<SinglePreviewPage />} />
-          <Route path="/preview" element={<SinglePreviewPage />} />
-          <Route path="/institutional-partnership" element={<SinglePreviewPage />} />
-          <Route path="/training-development" element={<TrainingDevelopmentPage />} />
-          <Route path="/blog" element={<BlogListingPage />} />
-          <Route path="/blog/:slug" element={<BlogPostPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms-and-conditions" element={<TermsConditionsPage />} />
-          <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicyPage />} />
-          <Route path="/grievance-support" element={<GrievanceSupportPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<RouteLoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/who-we-are" element={<WhoWeArePage />} />
+            <Route path="/ecosystem" element={<EcosystemPage />} />
+            <Route path="/pathways" element={<PathwaysPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/why-civiora" element={<WhyCivioraPage />} />
+            <Route path="/network" element={<NetworkPage />} />
+            <Route path="/founder" element={<FounderPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/landing" element={<SinglePreviewPage />} />
+            <Route path="/preview" element={<SinglePreviewPage />} />
+            <Route path="/institutional-partnership" element={<SinglePreviewPage />} />
+            <Route path="/training-development" element={<TrainingDevelopmentPage />} />
+            <Route path="/blog" element={<BlogListingPage />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route path="/terms-and-conditions" element={<TermsConditionsPage />} />
+            <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicyPage />} />
+            <Route path="/grievance-support" element={<GrievanceSupportPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+          {!isInstitutionalLanding && <Footer />}
+        </Suspense>
       </main>
-      {!isInstitutionalLanding && <Footer />}
 
-      {/* Accessible Floating WhatsApp Button */}
+      {/* Accessible Floating WhatsApp Button - Geometrically stable (0 CLS) */}
       <a
         href="https://wa.me/918150003610"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Civiora on WhatsApp"
         title="Chat with Civiora on WhatsApp"
-        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 group ${
+        className={`fixed right-4 sm:right-6 bottom-6 z-40 items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 group ${
           mobileMenuOpen ? 'hidden' : 'flex'
         }`}
       >
@@ -91,7 +108,7 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
       </a>
 
       {/* Explicit Cookie Consent Banner */}
-      <CookieBanner />
+      <CookieBanner onVisibilityChange={setCookieBannerOpen} />
 
       {/* Responsive Glowing Magnetic Cursor */}
       <MagneticCursor />

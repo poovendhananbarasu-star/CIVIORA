@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Search, PenSquare, Link2, ShieldCheck, BarChart3, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import Reveal from './Reveal';
 import SpotlightCard from './effects/SpotlightCard';
-import programmeSessionImg from '../assets/selected-client-images/HOW-03-programme-session.jpeg';
+import programmeSessionImg from '../assets/selected-client-images/HOW-03-programme-session.webp';
 
 const STAGES = [
   {
@@ -89,6 +89,8 @@ export default function HowItWorks() {
                   alt="Poovendhan Anbarasu conducting structured on-campus programme delivery in an auditorium."
                   loading="lazy"
                   decoding="async"
+                  width="800"
+                  height="500"
                   className="w-full h-56 sm:h-64 object-cover object-center hover:scale-105 transition-transform duration-500"
                 />
               </div>

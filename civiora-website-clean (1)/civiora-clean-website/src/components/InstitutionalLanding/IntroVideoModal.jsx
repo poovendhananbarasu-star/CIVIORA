@@ -85,6 +85,17 @@ export default function IntroVideoModal({ isOpen, onClose, onScrollToForm }) {
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     if (!isOpen || !isPlaying) {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
@@ -197,7 +208,7 @@ export default function IntroVideoModal({ isOpen, onClose, onScrollToForm }) {
           {/* Overlay CTA when finished */}
           {currentTime >= 30 && (
             <div className="absolute inset-0 z-20 bg-navy-950/95 flex flex-col items-center justify-center p-6 text-center space-y-4">
-              <img src={logoWhite} alt="Civiora" className="h-10 w-auto opacity-95" />
+              <img src={logoWhite} alt="Civiora" loading="lazy" decoding="async" width="140" height="40" className="h-10 w-auto opacity-95" />
               <h4 className="font-display text-xl sm:text-2xl text-white font-bold">
                 Let’s Discuss Your Institution’s Priorities
               </h4>

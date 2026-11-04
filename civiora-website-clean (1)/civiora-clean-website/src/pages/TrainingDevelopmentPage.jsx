@@ -33,39 +33,41 @@ import SpotlightCard from '../components/effects/SpotlightCard';
 import WaveCanvas from '../components/effects/WaveCanvas';
 import AmbientShapes from '../components/effects/AmbientShapes';
 import { submitAppointmentRequest, isFirebaseConfigured } from '../firebase';
+import { trackMetaLead } from '../utils/metaPixel';
 
 // Section Featured Images (Supplied Client Assets)
-import h1BannerImg from '../assets/training-development/HI Banner Image.jpeg';
-import sec2Img from '../assets/training-development/IMG 02.jpeg';
-import sec4Img03 from '../assets/training-development/IMA 03.jpeg';
-import sec4Img04 from '../assets/training-development/IMG 04.jpeg';
-import sec5Img from '../assets/training-development/H3.jpeg';
+const h1BannerDesktop = '/images/training-desktop.webp';
+const h1BannerMobile = '/images/training-mobile.webp';
+import sec2Img from '../assets/training-development/IMG 02.webp';
+import sec4Img03 from '../assets/training-development/IMA 03.webp';
+import sec4Img04 from '../assets/training-development/IMG 04.webp';
+import sec5Img from '../assets/training-development/H3.webp';
 
 // Engagement Gallery Authentic Images (Supplied IMG 01 to IMG 24)
-import gallImg01 from '../assets/training-development/IMG 01.jpeg';
-import gallImg02 from '../assets/training-development/IMG 02.jpeg';
-import gallImg03 from '../assets/training-development/IMA 03.jpeg';
-import gallImg04 from '../assets/training-development/IMG 04.jpeg';
-import gallImg05 from '../assets/training-development/IMG 05.jpeg';
-import gallImg06 from '../assets/training-development/IMG 06.jpeg';
-import gallImg07 from '../assets/training-development/IMG 07.jpeg';
-import gallImg08 from '../assets/training-development/IMG 08.jpeg';
-import gallImg09 from '../assets/training-development/IMG 09.jpeg';
-import gallImg10 from '../assets/training-development/IMG 10.jpeg';
-import gallImg11 from '../assets/training-development/IMG 11.jpeg';
-import gallImg12 from '../assets/training-development/IMG 12.jpeg';
-import gallImg13 from '../assets/training-development/IMG 13.jpeg';
-import gallImg14 from '../assets/training-development/IMG 14.jpeg';
-import gallImg15 from '../assets/training-development/IMG 15.jpeg';
-import gallImg16 from '../assets/training-development/IMG 16.jpeg';
-import gallImg17 from '../assets/training-development/IMG 17.jpeg';
-import gallImg18 from '../assets/training-development/IMG 18.jpeg';
-import gallImg19 from '../assets/training-development/IMG 19.jpeg';
-import gallImg20 from '../assets/training-development/IMG 20.jpeg';
-import gallImg21 from '../assets/training-development/IMG 21.jpeg';
-import gallImg22 from '../assets/training-development/IMG 22.jpeg';
-import gallImg23 from '../assets/training-development/IMG 23.jpeg';
-import gallImg24 from '../assets/training-development/IMG 24.jpeg';
+import gallImg01 from '../assets/training-development/IMG 01.webp';
+import gallImg02 from '../assets/training-development/IMG 02.webp';
+import gallImg03 from '../assets/training-development/IMA 03.webp';
+import gallImg04 from '../assets/training-development/IMG 04.webp';
+import gallImg05 from '../assets/training-development/IMG 05.webp';
+import gallImg06 from '../assets/training-development/IMG 06.webp';
+import gallImg07 from '../assets/training-development/IMG 07.webp';
+import gallImg08 from '../assets/training-development/IMG 08.webp';
+import gallImg09 from '../assets/training-development/IMG 09.webp';
+import gallImg10 from '../assets/training-development/IMG 10.webp';
+import gallImg11 from '../assets/training-development/IMG 11.webp';
+import gallImg12 from '../assets/training-development/IMG 12.webp';
+import gallImg13 from '../assets/training-development/IMG 13.webp';
+import gallImg14 from '../assets/training-development/IMG 14.webp';
+import gallImg15 from '../assets/training-development/IMG 15.webp';
+import gallImg16 from '../assets/training-development/IMG 16.webp';
+import gallImg17 from '../assets/training-development/IMG 17.webp';
+import gallImg18 from '../assets/training-development/IMG 18.webp';
+import gallImg19 from '../assets/training-development/IMG 19.webp';
+import gallImg20 from '../assets/training-development/IMG 20.webp';
+import gallImg21 from '../assets/training-development/IMG 21.webp';
+import gallImg22 from '../assets/training-development/IMG 22.webp';
+import gallImg23 from '../assets/training-development/IMG 23.webp';
+import gallImg24 from '../assets/training-development/IMG 24.webp';
 
 // Full 20+ Photograph Schedule from the implementation brief
 const GALLERY_PHOTOS = [
@@ -428,7 +430,11 @@ export default function TrainingDevelopmentPage() {
     submitting: false,
     submitted: false,
     error: null,
+    documentId: null,
   });
+
+  const [lastSubmissionAt, setLastSubmissionAt] = useState(0);
+  const SUBMISSION_COOLDOWN_MS = 10000;
 
   const handleEnquireCategory = (categoryTitle) => {
     setEnquiryData((prev) => ({
@@ -452,8 +458,20 @@ export default function TrainingDevelopmentPage() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    if (formStatus.submitting) return;
+
     if (enquiryData.website.trim()) {
-      setFormStatus({ submitting: false, submitted: true, error: null });
+      setFormStatus({ submitting: false, submitted: true, error: null, documentId: null });
+      return;
+    }
+
+    if (Date.now() - lastSubmissionAt < SUBMISSION_COOLDOWN_MS) {
+      setFormStatus({
+        submitting: false,
+        submitted: false,
+        error: 'Please wait a moment before submitting another enquiry.',
+        documentId: null,
+      });
       return;
     }
 
@@ -462,39 +480,64 @@ export default function TrainingDevelopmentPage() {
         submitting: false,
         submitted: false,
         error: 'Please accept the consent checkbox to submit your requirements.',
+        documentId: null,
       });
       return;
     }
 
-    setFormStatus({ submitting: true, submitted: false, error: null });
+    setFormStatus({ submitting: true, submitted: false, error: null, documentId: null });
 
     try {
-      if (isFirebaseConfigured) {
-        await submitAppointmentRequest({
-          institutionName: enquiryData.institutionName,
-          representativeName: enquiryData.contactPerson,
-          designation: enquiryData.designation,
-          officialEmail: enquiryData.email,
-          telephone: enquiryData.mobile,
-          primaryRequirement: enquiryData.categoryCourse || 'Training & Development Enquiry',
-          requirement: enquiryData.requirements,
-          consent: enquiryData.consent,
-          institutionType: 'Higher Education / College / University',
-          discussionFormat: 'Training & Development Programme Consultation',
-        });
+      if (!isFirebaseConfigured) {
+        throw new Error(
+          'Database service is currently unconfigured. Please ensure environment variables are present in .env.'
+        );
+      }
+
+      const requirementDetails = enquiryData.requirements.trim()
+        ? `[Domain: ${enquiryData.categoryCourse || 'General'}] ${enquiryData.requirements.trim()}`
+        : `[Domain: ${enquiryData.categoryCourse || 'General'}] Training & Development Consultation Request`;
+
+      const result = await submitAppointmentRequest({
+        institutionName: enquiryData.institutionName.trim(),
+        representativeName: enquiryData.contactPerson.trim(),
+        designation: enquiryData.designation.trim(),
+        officialEmail: enquiryData.email.trim().toLowerCase(),
+        telephone: enquiryData.mobile.trim(),
+        location: 'Campus / Academic Centre',
+        primaryRequirement: enquiryData.categoryCourse || 'Training & Development Enquiry',
+        requirement: requirementDetails,
+        consent: Boolean(enquiryData.consent),
+        institutionType: 'College',
+        discussionFormat: 'Training & Development Programme Consultation',
+      });
+
+      trackMetaLead();
+      setLastSubmissionAt(Date.now());
+
+      setFormStatus({
+        submitting: false,
+        submitted: true,
+        error: null,
+        documentId: result?.id || null,
+      });
+    } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error('Training requirements submission error:', err);
+      }
+
+      let errorMessage = 'Unable to submit your requirements at this time. Please try again or contact us directly at connect@civiora.co.in.';
+      if (err?.code === 'permission-denied') {
+        errorMessage = 'Submission was rejected due to permission constraints. Please verify all required fields and try again.';
+      } else if (err?.code === 'unavailable') {
+        errorMessage = 'Database service is temporarily unavailable. Please check your network connection and try again.';
       }
 
       setFormStatus({
         submitting: false,
-        submitted: true,
-        error: null,
-      });
-    } catch (err) {
-      console.warn('Submission fallback in preview:', err);
-      setFormStatus({
-        submitting: false,
-        submitted: true,
-        error: null,
+        submitted: false,
+        error: errorMessage,
+        documentId: null,
       });
     }
   };
@@ -532,6 +575,8 @@ export default function TrainingDevelopmentPage() {
       <SEO
         title="Training & Development | Civiora"
         description="Civiora connects institutions with specialist training partners for skill development, career awareness and coordinated student learning pathways."
+        preloadImage={h1BannerDesktop}
+        preloadMobileImage={h1BannerMobile}
         structuredData={trainingStructuredData}
       />
 
@@ -543,7 +588,8 @@ export default function TrainingDevelopmentPage() {
         openingHeadline="Connecting Academic Learning with Workplace Skills"
         subtitle="Civiora's Training & Development vertical connects colleges, universities and organisations with specialist training partners to support skill development and career readiness."
         breadcrumbText="Training & Development"
-        image={h1BannerImg}
+        image={h1BannerDesktop}
+        mobileImage={h1BannerMobile}
         imageAlt="Poovendhan Anbarasu, Founder & CEO of Civiora, addressing students and faculty during an institutional career and skill awareness session."
         imagePosition="object-[85%_50%] sm:object-[85%_52%] md:object-[85%_55%] lg:object-[85%_55%]"
       />
@@ -946,7 +992,7 @@ export default function TrainingDevelopmentPage() {
                   }`}
                   aria-label={`View photo ${photo.id}: ${photo.caption}`}
                 >
-                  {/* Photo Thumbnail or Dummy Placeholder */}
+                  {/* Photo Thumbnail or Fallback */}
                   {photo.isDummy ? (
                     <div className="relative aspect-[4/3] w-full overflow-hidden bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 flex flex-col items-center justify-center p-6 text-center border-b border-navy-800 group-hover:from-navy-900 group-hover:to-navy-950 transition-colors">
                       <div className="w-12 h-12 rounded-2xl bg-white/5 border border-gold-400/30 text-gold-400 flex items-center justify-center mb-3 group-hover:scale-110 group-hover:border-gold-400 transition-all duration-300">
@@ -959,7 +1005,7 @@ export default function TrainingDevelopmentPage() {
                         {photo.requiredPhoto}
                       </p>
                       <span className="text-[10px] text-white/60 mt-2.5 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/10 font-medium">
-                        Preview Dummy Placeholder
+                        Session Archive Preview
                       </span>
 
                       <div className="absolute top-3 right-3">
@@ -997,7 +1043,7 @@ export default function TrainingDevelopmentPage() {
                     <div>
                       {photo.isDummy && (
                         <p className="text-[11px] text-gold-700 font-semibold uppercase tracking-wider mb-1">
-                          Brief Slot: {photo.requiredPhoto}
+                          Engagement Focus: {photo.requiredPhoto}
                         </p>
                       )}
                       <p className="text-xs sm:text-sm font-medium text-navy-800 leading-snug group-hover:text-navy-950 transition-colors">
@@ -1067,10 +1113,28 @@ export default function TrainingDevelopmentPage() {
                 <p className="text-navy-700 max-w-md mx-auto text-sm sm:text-base leading-relaxed">
                   Thank you for connecting with Civiora. Our institutional coordination team will review your training requirements and follow up with you promptly.
                 </p>
+                {formStatus.documentId && (
+                  <p className="text-xs text-navy-600 font-mono pt-1">
+                    Reference ID: {formStatus.documentId}
+                  </p>
+                )}
                 <div className="pt-2">
                   <button
                     type="button"
-                    onClick={() => setFormStatus({ submitting: false, submitted: false, error: null })}
+                    onClick={() => {
+                      setEnquiryData({
+                        institutionName: '',
+                        contactPerson: '',
+                        designation: '',
+                        email: '',
+                        mobile: '',
+                        categoryCourse: '',
+                        requirements: '',
+                        consent: true,
+                        website: '',
+                      });
+                      setFormStatus({ submitting: false, submitted: false, error: null, documentId: null });
+                    }}
                     className="btn-secondary text-xs sm:text-sm px-6 py-2.5 rounded-full"
                   >
                     Submit Another Requirement
@@ -1082,7 +1146,9 @@ export default function TrainingDevelopmentPage() {
                 {/* Honeypot field (hidden from legitimate users) */}
                 <input
                   type="text"
+                  id="training-honeypot"
                   name="website"
+                  aria-label="Do not fill this field"
                   value={enquiryData.website}
                   onChange={handleFormChange}
                   tabIndex={-1}
@@ -1311,7 +1377,7 @@ export default function TrainingDevelopmentPage() {
             aria-label="Close photo viewer"
             className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2.5 rounded-full backdrop-blur-md border border-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-gold-400"
           >
-            <X size={24} />
+            <X size={24} aria-hidden="true" />
           </button>
 
           {/* Previous Button */}
@@ -1321,7 +1387,7 @@ export default function TrainingDevelopmentPage() {
             aria-label="Previous photograph"
             className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 sm:p-3 rounded-full backdrop-blur-md border border-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-gold-400"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={24} aria-hidden="true" />
           </button>
 
           {/* Next Button */}
@@ -1331,7 +1397,7 @@ export default function TrainingDevelopmentPage() {
             aria-label="Next photograph"
             className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-2 sm:p-3 rounded-full backdrop-blur-md border border-white/20 transition-all focus:outline-none focus:ring-2 focus:ring-gold-400"
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={24} aria-hidden="true" />
           </button>
 
           {/* Central Modal Content */}
@@ -1345,7 +1411,7 @@ export default function TrainingDevelopmentPage() {
                   <Camera size={32} />
                 </div>
                 <span className="text-xs font-mono font-bold text-gold-400 uppercase tracking-widest bg-gold-500/15 px-3 py-1 rounded-full border border-gold-400/30 mb-3">
-                  {GALLERY_PHOTOS[selectedPhotoIdx].id} • Dummy Placeholder
+                  {GALLERY_PHOTOS[selectedPhotoIdx].id} • Session Archive
                 </span>
                 <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-2">
                   {GALLERY_PHOTOS[selectedPhotoIdx].requiredPhoto}
@@ -1362,6 +1428,8 @@ export default function TrainingDevelopmentPage() {
                 <img
                   src={GALLERY_PHOTOS[selectedPhotoIdx].src}
                   alt={GALLERY_PHOTOS[selectedPhotoIdx].alt}
+                  loading="lazy"
+                  decoding="async"
                   className="max-w-full max-h-[70vh] object-contain"
                 />
               </div>
