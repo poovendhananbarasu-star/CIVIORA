@@ -5,6 +5,53 @@
     <!-- Google tag (gtag.js) -->
     <script>
       window.dataLayer = window.dataLayer || [];
+
+      // Deduplicate rapid duplicate dataLayer form events fired by concurrent GA4 / GTM listeners
+      (function() {
+        var lastDlEvents = { form_start: 0, form_submit: 0 };
+        var DEDUPE_WINDOW_MS = 2000;
+        var _push = window.dataLayer.push.bind(window.dataLayer);
+
+        function wrapPush(pushFn) {
+          return function() {
+            var filtered = [];
+            for (var i = 0; i < arguments.length; i++) {
+              var item = arguments[i];
+              var evtName = null;
+              if (item && typeof item === 'object') {
+                if (typeof item.event === 'string') {
+                  evtName = item.event;
+                } else if (item[0] === 'event' && typeof item[1] === 'string') {
+                  evtName = item[1];
+                }
+              }
+              if (evtName === 'form_start' || evtName === 'form_submit') {
+                var now = Date.now();
+                if (now - (lastDlEvents[evtName] || 0) < DEDUPE_WINDOW_MS) {
+                  continue; // Suppress duplicate form event pushed at same timestamp
+                }
+                lastDlEvents[evtName] = now;
+              }
+              filtered.push(item);
+            }
+            if (filtered.length > 0) {
+              return pushFn.apply(this, filtered);
+            }
+            return window.dataLayer.length;
+          };
+        }
+
+        try {
+          Object.defineProperty(window.dataLayer, 'push', {
+            configurable: true,
+            enumerable: true,
+            get: function() { return _push; },
+            set: function(newPush) { _push = wrapPush(newPush); }
+          });
+        } catch (e) {}
+        _push = wrapPush(window.dataLayer.push.bind(window.dataLayer));
+      })();
+
       function gtag(){dataLayer.push(arguments);}
       gtag('consent', 'default', {
         'ad_storage': 'denied',
@@ -80,6 +127,7 @@
           '/how-it-works': isMob ? '/images/how-it-works-mobile.webp' : '/images/how-it-works-desktop.webp',
           '/ecosystem': isMob ? '/images/ecosystem-mobile.webp' : '/images/ecosystem-desktop.webp',
           '/network': isMob ? '/images/network-mobile.webp' : '/images/network-desktop.webp',
+          '/blog': isMob ? '/images/blog-mobile.webp' : '/images/blog-desktop.webp',
           '/institutional-partnership': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp',
           '/preview': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp',
           '/landing': isMob ? '/images/hero-mobile.webp' : '/images/hero-desktop.webp'

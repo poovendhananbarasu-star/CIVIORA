@@ -295,15 +295,17 @@ const FOCUS_AREAS = [
     title: 'Technology and Digital Skills',
     icon: Laptop,
     accent: 'bg-navy-900 text-gold-400',
-    desc: 'Explore emerging technologies and software development through programmes that build understanding of digital tools, applications and workplace processes.',
+    desc: 'Build capabilities in emerging technologies, software development and digital applications through focused programmes that connect technical concepts with workplace use.',
+    buttonText: 'Enquire About These Programmes',
     courses: [
-      'Certificate Course on Artificial Intelligence',
-      'Certificate Course on Cloud',
-      'Certificate Course on Data Analytics',
-      'Certificate Course on Robotic Process Automation',
+      'Generative Artificial Intelligence (Gen AI)',
+      'Artificial Intelligence',
+      'Cloud Computing',
+      'Data Analytics',
+      'Robotic Process Automation (RPA)',
       'Java Software Developer',
       'Python Web Developer',
-      'Test Engineer',
+      'Software Test Engineer',
       'UI Developer',
     ],
   },
@@ -312,7 +314,8 @@ const FOCUS_AREAS = [
     title: 'Banking and Business Accounting',
     icon: Building2,
     accent: 'bg-navy-900 text-gold-400',
-    desc: 'Develop skills relevant to banking services and business accounting processes, helping learners explore opportunities in financial and business support functions.',
+    desc: 'Develop an understanding of banking services and business accounting processes, with learning pathways relevant to financial services and business support roles.',
+    buttonText: 'Enquire About These Programmes',
     courses: [
       'Premier Banker',
       'Business Accounting Process Executive',
@@ -320,26 +323,27 @@ const FOCUS_AREAS = [
   },
   {
     id: 'marketing',
-    title: 'Digital Marketing, E-Commerce and Retail',
+    title: 'Entrepreneurship, Digital Marketing and Commerce',
     icon: Megaphone,
     accent: 'bg-navy-900 text-gold-400',
-    desc: 'Build capabilities in digital marketing, e-commerce, retail operations and customer service, with pathways covering team leadership and customer engagement.',
+    desc: 'Explore business creation, digital outreach and commerce operations through programmes focused on entrepreneurial thinking, customer engagement and team leadership.',
+    buttonText: 'Enquire About These Programmes',
     courses: [
+      'Entrepreneurship Development Training',
       'Digital Marketing',
-      'E-Commerce Team Lead',
+      'E-Commerce Team Leader',
       'Retail Team Leader',
-      'Customer Service & Retail Operations',
     ],
   },
   {
     id: 'logistics',
-    title: 'Logistics, Supply Chain and Procurement',
+    title: 'Logistics and Warehouse Operations',
     icon: Truck,
     accent: 'bg-navy-900 text-gold-400',
-    desc: 'Explore warehouse supervision, supply chain processes and procurement fundamentals through programmes relevant to logistics and operational roles.',
+    desc: 'Build an understanding of logistics coordination, warehouse workflows and supervisory responsibilities relevant to day-to-day operational efficiency.',
+    buttonText: 'Enquire About This Programme',
     courses: [
       'Logistics Warehouse Supervisor',
-      'Supply Chain & Procurement Basics',
     ],
   },
 ];
@@ -673,10 +677,10 @@ export default function TrainingDevelopmentPage() {
         <div className="max-w-content mx-auto px-4 sm:px-6 md:px-10">
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             <span className="eyebrow">Learning Domains</span>
-            <h2 className="section-heading mt-2">Explore Our Training Programmes</h2>
+            <h2 className="section-heading mt-2">Programmes That Connect Learning with Opportunity</h2>
             <div className="gold-rule mx-auto mt-4" />
             <p className="mt-4 text-navy-700 text-base sm:text-lg leading-relaxed text-center">
-              Build relevant skills through learning pathways in technology, business, marketing and logistics. Civiora connects institutions with specialist training partners to identify suitable programmes based on student needs and institutional priorities.
+              Help students explore emerging technologies, develop business capabilities and prepare for workplace responsibilities. Civiora connects institutions with specialist training partners to coordinate programmes aligned with learner needs and institutional priorities.
             </p>
           </div>
 
@@ -704,7 +708,7 @@ export default function TrainingDevelopmentPage() {
                       {/* Complete Course List as readable bullet points */}
                       <div className="mt-5 pt-4 border-t border-navy-100/80">
                         <span className="text-[11px] font-semibold uppercase tracking-wider text-navy-500 block mb-3">
-                          Programmes ({area.courses.length} Courses)
+                          {area.courses.length === 1 ? 'Programme — 1 Course' : `Programmes — ${area.courses.length} Courses`}
                         </span>
                         <ul className="space-y-2.5">
                           {area.courses.map((course) => (
@@ -717,14 +721,14 @@ export default function TrainingDevelopmentPage() {
                       </div>
                     </div>
 
-                    {/* Bottom Action: Enquire About These Programmes button (NO arrow mark) */}
+                    {/* Bottom Action: Enquire button (NO arrow mark) */}
                     <div className="mt-6 pt-5 border-t border-navy-100/80">
                       <button
                         type="button"
                         onClick={() => handleEnquireCategory(area.title)}
                         className="w-full py-2.5 px-4 rounded-xl text-center text-xs sm:text-sm font-semibold text-navy-900 bg-gold-50/80 hover:bg-gold-500 hover:text-navy-950 border border-gold-300/70 transition-all duration-200 shadow-sm active:scale-98"
                       >
-                        Enquire About These Programmes
+                        {area.buttonText || (area.courses.length === 1 ? 'Enquire About This Programme' : 'Enquire About These Programmes')}
                       </button>
                     </div>
                   </SpotlightCard>
@@ -733,14 +737,14 @@ export default function TrainingDevelopmentPage() {
             })}
           </div>
 
-          {/* Duration Note & Supporting Details below category cards */}
+          {/* Details Note & Supporting Details below category cards */}
           <div className="mt-10 sm:mt-12 max-w-2xl mx-auto text-center space-y-2.5">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-navy-900 text-gold-300 text-xs sm:text-sm font-semibold tracking-wide border border-navy-800 shadow-sm">
               <Clock size={15} className="text-gold-400" />
-              <span>Duration: 100 hours per course</span>
+              <span>Programme Details Available on Enquiry</span>
             </div>
             <p className="text-xs text-navy-600 leading-relaxed italic">
-              Programme availability, eligibility, delivery mode, schedule and certification details will be confirmed for the selected programme with the respective training partner.
+              Programme availability, eligibility, duration, delivery mode and schedules will be confirmed in consultation with the institution and the respective training partner.
             </p>
           </div>
         </div>
@@ -1268,13 +1272,14 @@ export default function TrainingDevelopmentPage() {
                       
                       <optgroup label="Technology and Digital Skills">
                         <option value="Technology and Digital Skills (All / General)">Technology and Digital Skills (General Domain)</option>
-                        <option value="Certificate Course on Artificial Intelligence">Certificate Course on Artificial Intelligence</option>
-                        <option value="Certificate Course on Cloud">Certificate Course on Cloud</option>
-                        <option value="Certificate Course on Data Analytics">Certificate Course on Data Analytics</option>
-                        <option value="Certificate Course on Robotic Process Automation">Certificate Course on Robotic Process Automation</option>
+                        <option value="Generative Artificial Intelligence (Gen AI)">Generative Artificial Intelligence (Gen AI)</option>
+                        <option value="Artificial Intelligence">Artificial Intelligence</option>
+                        <option value="Cloud Computing">Cloud Computing</option>
+                        <option value="Data Analytics">Data Analytics</option>
+                        <option value="Robotic Process Automation (RPA)">Robotic Process Automation (RPA)</option>
                         <option value="Java Software Developer">Java Software Developer</option>
                         <option value="Python Web Developer">Python Web Developer</option>
-                        <option value="Test Engineer">Test Engineer</option>
+                        <option value="Software Test Engineer">Software Test Engineer</option>
                         <option value="UI Developer">UI Developer</option>
                       </optgroup>
 
@@ -1284,18 +1289,17 @@ export default function TrainingDevelopmentPage() {
                         <option value="Business Accounting Process Executive">Business Accounting Process Executive</option>
                       </optgroup>
 
-                      <optgroup label="Digital Marketing, E-Commerce and Retail">
-                        <option value="Digital Marketing, E-Commerce and Retail (All / General)">Digital Marketing, E-Commerce and Retail (General Domain)</option>
+                      <optgroup label="Entrepreneurship, Digital Marketing and Commerce">
+                        <option value="Entrepreneurship, Digital Marketing and Commerce (All / General)">Entrepreneurship, Digital Marketing and Commerce (General Domain)</option>
+                        <option value="Entrepreneurship Development Training">Entrepreneurship Development Training</option>
                         <option value="Digital Marketing">Digital Marketing</option>
-                        <option value="E-Commerce Team Lead">E-Commerce Team Lead</option>
+                        <option value="E-Commerce Team Leader">E-Commerce Team Leader</option>
                         <option value="Retail Team Leader">Retail Team Leader</option>
-                        <option value="Customer Service & Retail Operations">Customer Service & Retail Operations</option>
                       </optgroup>
 
-                      <optgroup label="Logistics, Supply Chain and Procurement">
-                        <option value="Logistics, Supply Chain and Procurement (All / General)">Logistics, Supply Chain and Procurement (General Domain)</option>
+                      <optgroup label="Logistics and Warehouse Operations">
+                        <option value="Logistics and Warehouse Operations (All / General)">Logistics and Warehouse Operations (General Domain)</option>
                         <option value="Logistics Warehouse Supervisor">Logistics Warehouse Supervisor</option>
-                        <option value="Supply Chain & Procurement Basics">Supply Chain & Procurement Basics</option>
                       </optgroup>
                     </select>
                   </div>
@@ -1312,7 +1316,7 @@ export default function TrainingDevelopmentPage() {
                     rows={4}
                     value={enquiryData.requirements}
                     onChange={handleFormChange}
-                    placeholder="Describe your student cohort, preferred semester/timings, learning priorities or specific certification goals..."
+                    placeholder="Describe your student cohort, preferred semester/timings, or learning priorities..."
                     className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950 resize-y"
                   />
                 </div>
@@ -1351,7 +1355,7 @@ export default function TrainingDevelopmentPage() {
 
                 {/* Mandatory Supporting Note from Brief */}
                 <p className="text-xs text-navy-600 pt-3 border-t border-navy-100 italic leading-relaxed">
-                  Programme availability, eligibility, delivery mode, schedule and certification details will be confirmed for the selected programme with the respective training partner.
+                  Programme availability, eligibility, duration, delivery mode and schedules will be confirmed in consultation with the institution and the respective training partner.
                 </p>
               </form>
             )}

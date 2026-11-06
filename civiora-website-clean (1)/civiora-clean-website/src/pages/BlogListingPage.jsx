@@ -8,6 +8,8 @@ import AmbientShapes from '../components/effects/AmbientShapes';
 import BlogCard from '../components/blog/BlogCard';
 import SpotlightCard from '../components/effects/SpotlightCard';
 import { getAllBlogPosts } from '../data/blogPosts';
+import blogDesktopImg from '../assets/headers/blog-desktop.webp';
+import blogMobileImg from '../assets/headers/blog-mobile.webp';
 
 const CATEGORIES = [
   'All Perspectives',
@@ -45,6 +47,8 @@ export default function BlogListingPage() {
         title="Institutional Blog & Regulatory Insights | Civiora"
         description="Explore analysis, CBSE regulatory guidelines, student development research, and practical advice for school principals and higher education leadership."
         canonicalUrl="https://civiora.co.in/blog"
+        preloadImage={blogDesktopImg}
+        preloadMobileImage={blogMobileImg}
         structuredData={{
           '@context': 'https://schema.org',
           '@type': 'Blog',
@@ -60,9 +64,30 @@ export default function BlogListingPage() {
       />
 
       <main id="main-content" className="pt-16 sm:pt-20">
-        {/* 1. Hero Header Section - Dark Theme with Waves and Floating Orbs */}
+        {/* 1. Hero Header Section - Dark Theme with Relevant Header Background & Ambience */}
         <section className="relative overflow-hidden bg-navy-950 text-white py-14 sm:py-20 md:py-24 border-b border-navy-900">
-          <WaveCanvas opacity={0.4} />
+          {/* Header Background Image with Responsive WebP & Ambient Dark Vignette */}
+          <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+            <picture className="w-full h-full">
+              <source media="(max-width: 768px)" srcSet={blogMobileImg} type="image/webp" />
+              <source srcSet={blogDesktopImg} type="image/webp" />
+              <img
+                src={blogDesktopImg}
+                alt="Institutional Guidance, Regulatory Analysis & Student Pathways"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+                width="1376"
+                height="768"
+                className="w-full h-full object-cover object-center scale-105 opacity-40 sm:opacity-45"
+              />
+            </picture>
+            {/* Ambient Dark Gradient Overlays for High Legibility & Depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/85 to-navy-950/60" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,150,42,0.18),_transparent_70%)]" />
+          </div>
+
+          <WaveCanvas opacity={0.3} />
           <AmbientShapes />
 
           <div className="max-w-content mx-auto px-4 sm:px-6 md:px-10 relative z-10 text-center">
