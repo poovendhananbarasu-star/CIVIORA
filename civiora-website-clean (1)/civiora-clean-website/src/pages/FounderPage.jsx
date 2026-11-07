@@ -37,7 +37,7 @@ export default function FounderPage() {
             ]
           },
           "email": "connect@civiora.co.in",
-          "telephone": "+918150003610",
+          "telephone": "+918150003810",
           "description": "Founder and CEO of Civiora, with experience in teaching, mentoring and institutional engagement."
         }}
       />

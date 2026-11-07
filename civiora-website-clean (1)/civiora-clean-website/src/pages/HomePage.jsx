@@ -100,7 +100,7 @@ export default function HomePage() {
           "image": "https://civiora.co.in/favicon.png",
           "description": "Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress.",
           "email": "connect@civiora.co.in",
-          "telephone": "+918150003610",
+          "telephone": "+918150003810",
           "address": {
             "@type": "PostalAddress",
             "streetAddress": "No. 134, 57, 13th Cross, Baldwins Road, Koramangala",
@@ -118,7 +118,7 @@ export default function HomePage() {
           "contactPoint": [
             {
               "@type": "ContactPoint",
-              "telephone": "+918150003610",
+              "telephone": "+918150003810",
               "contactType": "Institutional Partnerships & Support",
               "email": "connect@civiora.co.in",
               "areaServed": "IN"

@@ -82,7 +82,7 @@ export default function TermsConditionsPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Phone size={15} className="text-gold-400 shrink-0" />
-                    <a href="tel:+918150003610" className="hover:text-gold-300 transition-colors">+91 8150003610</a>
+                    <a href="tel:+918150003810" className="hover:text-gold-300 transition-colors">+91 81500 03810</a>
                   </div>
                 </div>
               </div>

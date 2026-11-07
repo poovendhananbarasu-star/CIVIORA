@@ -87,7 +87,7 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
 
       {/* Accessible Floating WhatsApp Button - Geometrically stable (0 CLS) */}
       <a
-        href="https://wa.me/918150003610"
+        href="https://wa.me/918150003810"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Civiora on WhatsApp"

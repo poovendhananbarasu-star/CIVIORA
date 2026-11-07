@@ -172,12 +172,12 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs md:text-sm text-slate-200">
               <div>
                 <a 
-                  href="tel:+918150003610" 
-                  aria-label="Call Civiora at +91 8150003610"
+                  href="tel:+918150003810" 
+                  aria-label="Call Civiora at +91 81500 03810"
                   className="inline-flex items-center gap-2 py-1.5 sm:py-0.5 min-h-[44px] sm:min-h-0 hover:text-gold-300 transition-colors focus:outline-none focus:text-gold-300"
                 >
                   <Phone size={14} className="text-gold-400 shrink-0" aria-hidden="true" />
-                  <span>+91 8150003610</span>
+                  <span>+91 81500 03810</span>
                 </a>
               </div>
 

@@ -30,7 +30,7 @@ export default function ContactPage() {
             "legalName": "Civiora Education & Institutional Services",
             "url": "https://civiora.co.in/",
             "email": "connect@civiora.co.in",
-            "telephone": "+918150003610",
+            "telephone": "+918150003810",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "No. 134, 57, 13th Cross, Baldwins Road, Koramangala",

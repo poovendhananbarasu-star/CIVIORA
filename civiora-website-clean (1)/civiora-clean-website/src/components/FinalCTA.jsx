@@ -226,8 +226,8 @@ export default function FinalCTA() {
 
                   <div className="flex items-center gap-3">
                     <Phone size={17} className="text-gold-400 shrink-0" />
-                    <a href="tel:+918150003610" className="hover:text-gold-300 transition-colors focus:outline-none focus:underline">
-                      +91 8150003610
+                    <a href="tel:+918150003810" className="hover:text-gold-300 transition-colors focus:outline-none focus:underline">
+                      +91 81500 03810
                     </a>
                   </div>
 
