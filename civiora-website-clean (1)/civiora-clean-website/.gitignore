@@ -7,3 +7,10 @@ dist
 .firebase
 firebase-debug.log
 .DS_Store
+
+# Playwright Test Outputs
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
