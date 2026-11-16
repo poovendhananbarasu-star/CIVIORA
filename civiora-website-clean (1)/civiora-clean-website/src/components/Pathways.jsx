@@ -75,7 +75,7 @@ export default function Pathways() {
               <div className="bg-mist rounded-3xl p-4 sm:p-8 md:p-12 border border-navy-100 shadow-sm hover:border-gold-400 transition-all duration-300">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
                   <div className="flex items-center gap-3.5 sm:gap-4">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-md">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-md icon-box icon-entrance">
                       <GraduationCap size={22} className="sm:w-6 sm:h-6" />
                     </div>
                     <div>
@@ -153,7 +153,7 @@ export default function Pathways() {
               <div className="bg-mist rounded-3xl p-4 sm:p-8 md:p-12 border border-navy-100 shadow-sm hover:border-gold-400 transition-all duration-300">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
                   <div className="flex items-center gap-3.5 sm:gap-4">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-md">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-md icon-box icon-entrance">
                       <Landmark size={22} className="sm:w-6 sm:h-6" />
                     </div>
                     <div>
@@ -231,7 +231,7 @@ export default function Pathways() {
               <div className="bg-mist rounded-3xl p-4 sm:p-8 md:p-12 border border-navy-100 shadow-sm hover:border-gold-400 transition-all duration-300">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
                   <div className="flex items-center gap-3.5 sm:gap-4">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-md">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-md icon-box icon-entrance">
                       <Building size={22} className="sm:w-6 sm:h-6" />
                     </div>
                     <div>

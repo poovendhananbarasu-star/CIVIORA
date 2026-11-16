@@ -381,3 +381,326 @@ textarea:focus-visible {
     cursor: auto !important;
   }
 }
+
+/* =========================================================================
+   PREMIUM INSTITUTIONAL ICON ANIMATION SYSTEM (LOCAL PREVIEW ONLY)
+   Civiora Navy & Gold Design Language
+   ========================================================================= */
+
+/* 1. Base transition property on SVGs & icon wrappers */
+.btn-primary svg,
+.btn-secondary svg,
+.btn-ghost svg,
+a svg,
+button svg,
+.group svg,
+.spotlight-card svg,
+.glare-card svg,
+.icon-box,
+.icon-badge,
+.social-icon-btn {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              filter 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              color 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+/* 2. Directional Button Icon Interactions (2-4px directional movement, text stable) */
+/* Right-pointing (ArrowRight, ChevronRight) */
+.btn-primary:hover .lucide-arrow-right,
+.btn-primary:focus-visible .lucide-arrow-right,
+.btn-secondary:hover .lucide-arrow-right,
+.btn-secondary:focus-visible .lucide-arrow-right,
+.btn-ghost:hover .lucide-arrow-right,
+.btn-ghost:focus-visible .lucide-arrow-right,
+a:hover .lucide-arrow-right,
+a:focus-visible .lucide-arrow-right,
+button:hover .lucide-arrow-right,
+button:focus-visible .lucide-arrow-right,
+.group:hover .lucide-arrow-right,
+.group:focus-visible .lucide-arrow-right,
+.group\/link:hover .lucide-arrow-right,
+.group\/link:focus-visible .lucide-arrow-right,
+.btn-primary:hover .lucide-chevron-right,
+.btn-primary:focus-visible .lucide-chevron-right,
+.btn-secondary:hover .lucide-chevron-right,
+.btn-secondary:focus-visible .lucide-chevron-right,
+.btn-ghost:hover .lucide-chevron-right,
+.btn-ghost:focus-visible .lucide-chevron-right,
+a:hover .lucide-chevron-right,
+a:focus-visible .lucide-chevron-right,
+button:hover .lucide-chevron-right,
+button:focus-visible .lucide-chevron-right,
+.group:hover .lucide-chevron-right,
+.group:focus-visible .lucide-chevron-right,
+.icon-dir-right {
+  transform: translateX(3.5px);
+}
+
+/* Left-pointing (ArrowLeft, ChevronLeft) */
+.btn-primary:hover .lucide-arrow-left,
+.btn-primary:focus-visible .lucide-arrow-left,
+.btn-secondary:hover .lucide-arrow-left,
+.btn-secondary:focus-visible .lucide-arrow-left,
+.btn-ghost:hover .lucide-arrow-left,
+.btn-ghost:focus-visible .lucide-arrow-left,
+a:hover .lucide-arrow-left,
+a:focus-visible .lucide-arrow-left,
+button:hover .lucide-arrow-left,
+button:focus-visible .lucide-arrow-left,
+.group:hover .lucide-arrow-left,
+.group:focus-visible .lucide-arrow-left,
+.btn-primary:hover .lucide-chevron-left,
+.btn-primary:focus-visible .lucide-chevron-left,
+.btn-secondary:hover .lucide-chevron-left,
+.btn-secondary:focus-visible .lucide-chevron-left,
+.btn-ghost:hover .lucide-chevron-left,
+.btn-ghost:focus-visible .lucide-chevron-left,
+a:hover .lucide-chevron-left,
+a:focus-visible .lucide-chevron-left,
+button:hover .lucide-chevron-left,
+button:focus-visible .lucide-chevron-left,
+.group:hover .lucide-chevron-left,
+.group:focus-visible .lucide-chevron-left,
+.icon-dir-left {
+  transform: translateX(-3.5px);
+}
+
+/* Diagonal up-right (ExternalLink, Send, Navigation) */
+.btn-primary:hover .lucide-external-link,
+.btn-primary:focus-visible .lucide-external-link,
+.btn-secondary:hover .lucide-external-link,
+.btn-secondary:focus-visible .lucide-external-link,
+.btn-ghost:hover .lucide-external-link,
+.btn-ghost:focus-visible .lucide-external-link,
+a:hover .lucide-external-link,
+a:focus-visible .lucide-external-link,
+.group:hover .lucide-external-link,
+.group:focus-visible .lucide-external-link,
+.btn-primary:hover .lucide-send,
+.btn-primary:focus-visible .lucide-send,
+button:hover .lucide-send,
+button:focus-visible .lucide-send,
+.group:hover .lucide-send,
+.group:focus-visible .lucide-send,
+.btn-primary:hover .lucide-navigation,
+.btn-primary:focus-visible .lucide-navigation,
+a:hover .lucide-navigation,
+a:focus-visible .lucide-navigation,
+.icon-dir-up-right {
+  transform: translate(2.5px, -2.5px);
+}
+
+/* Downward (ChevronDown) */
+.btn-primary:hover .lucide-chevron-down,
+.btn-primary:focus-visible .lucide-chevron-down,
+.btn-secondary:hover .lucide-chevron-down,
+.btn-secondary:focus-visible .lucide-chevron-down,
+.btn-ghost:hover .lucide-chevron-down,
+.btn-ghost:focus-visible .lucide-chevron-down,
+a:hover .lucide-chevron-down,
+a:focus-visible .lucide-chevron-down,
+button:hover .lucide-chevron-down,
+button:focus-visible .lucide-chevron-down,
+.icon-dir-down {
+  transform: translateY(3px);
+}
+
+/* Upward (ChevronUp) */
+.btn-primary:hover .lucide-chevron-up,
+.btn-primary:focus-visible .lucide-chevron-up,
+.btn-secondary:hover .lucide-chevron-up,
+.btn-secondary:focus-visible .lucide-chevron-up,
+.btn-ghost:hover .lucide-chevron-up,
+.btn-ghost:focus-visible .lucide-chevron-up,
+a:hover .lucide-chevron-up,
+a:focus-visible .lucide-chevron-up,
+button:hover .lucide-chevron-up,
+button:focus-visible .lucide-chevron-up,
+.icon-dir-up {
+  transform: translateY(-3px);
+}
+
+/* 3. Hero chevron down gentle floating cue */
+@keyframes hero-chevron-float {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(4.5px);
+    opacity: 0.95;
+  }
+}
+
+.hero-chevron-indicator {
+  animation: hero-chevron-float 2.8s ease-in-out infinite;
+  transition: color 200ms ease, transform 200ms ease;
+}
+.hero-chevron-indicator:hover,
+.hero-chevron-indicator:focus-visible {
+  animation-play-state: paused;
+  transform: translateY(3px) scale(1.1);
+  color: #C9962A !important;
+}
+
+/* 4. Feature Icon Boxes & Badges (Lifts 2-3px, scales 1.05, subtle gold glow/border) */
+.icon-box,
+.icon-badge,
+[data-icon-box] {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: center center;
+}
+
+.spotlight-card:hover .icon-box,
+.spotlight-card:focus-within .icon-box,
+.spotlight-card:hover [data-icon-box],
+.spotlight-card:focus-within [data-icon-box],
+.group:hover .icon-box,
+.group:focus-visible .icon-box,
+.group:hover [data-icon-box],
+.group:focus-visible [data-icon-box],
+.icon-box:hover,
+.icon-box:focus-visible {
+  transform: translateY(-2.5px) scale(1.05);
+  box-shadow: 0 6px 18px -2px rgba(201, 150, 42, 0.28), 0 0 10px rgba(201, 150, 42, 0.12);
+  border-color: rgba(201, 150, 42, 0.6) !important;
+}
+
+.spotlight-card:hover .icon-box svg,
+.spotlight-card:focus-within .icon-box svg,
+.spotlight-card:hover [data-icon-box] svg,
+.spotlight-card:focus-within [data-icon-box] svg,
+.group:hover .icon-box svg,
+.group:focus-visible .icon-box svg,
+.group:hover [data-icon-box] svg,
+.group:focus-visible [data-icon-box] svg,
+.icon-box:hover svg,
+.icon-box:focus-visible svg {
+  transform: scale(1.08) rotate(2.5deg);
+}
+
+/* 5. Social Icons in Footer */
+.social-icon-btn {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.social-icon-btn:hover,
+.social-icon-btn:focus-visible {
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 4px 14px -1px rgba(201, 150, 42, 0.35);
+  border-color: rgba(201, 150, 42, 0.6) !important;
+}
+.social-icon-btn:hover svg,
+.social-icon-btn:focus-visible svg {
+  transform: scale(1.10);
+  color: #F5E6C4;
+}
+
+/* 6. WhatsApp Floating Button (Idle pulse once every 6s, 2-4° rotate and scale on hover/focus) */
+@keyframes whatsapp-idle-pulse {
+  0%, 82% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+  86% {
+    transform: scale(1.045);
+    box-shadow: 0 14px 30px -4px rgba(37, 211, 102, 0.45), 0 0 18px rgba(37, 211, 102, 0.25);
+  }
+  90% {
+    transform: scale(0.99);
+  }
+  93% {
+    transform: scale(1.02);
+    box-shadow: 0 12px 28px -4px rgba(37, 211, 102, 0.35);
+  }
+  97%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(37, 211, 102, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.whatsapp-pulse-btn {
+  animation: whatsapp-idle-pulse 6s ease-in-out infinite;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.whatsapp-pulse-btn:hover,
+.whatsapp-pulse-btn:focus-visible {
+  animation-play-state: paused;
+  transform: scale(1.08) translateY(-2px) !important;
+  box-shadow: 0 16px 32px -4px rgba(37, 211, 102, 0.45), 0 0 20px rgba(37, 211, 102, 0.3) !important;
+}
+.whatsapp-pulse-btn:hover img,
+.whatsapp-pulse-btn:focus-visible img {
+  transform: scale(1.04) rotate(3deg) !important;
+}
+
+/* 7. On-scroll Entrance Animation (fade & slight rise with group stagger) */
+.icon-entrance {
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  transition: opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible .icon-entrance,
+.is-visible .icon-entrance {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.reveal.is-visible .icon-entrance:nth-child(1),
+.is-visible .icon-entrance:nth-child(1) { transition-delay: 40ms; }
+.reveal.is-visible .icon-entrance:nth-child(2),
+.is-visible .icon-entrance:nth-child(2) { transition-delay: 80ms; }
+.reveal.is-visible .icon-entrance:nth-child(3),
+.is-visible .icon-entrance:nth-child(3) { transition-delay: 120ms; }
+.reveal.is-visible .icon-entrance:nth-child(4),
+.is-visible .icon-entrance:nth-child(4) { transition-delay: 160ms; }
+.reveal.is-visible .icon-entrance:nth-child(5),
+.is-visible .icon-entrance:nth-child(5) { transition-delay: 200ms; }
+.reveal.is-visible .icon-entrance:nth-child(6),
+.is-visible .icon-entrance:nth-child(6) { transition-delay: 240ms; }
+
+/* 8. Strict Accessibility: prefers-reduced-motion: reduce */
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-pulse-btn,
+  .whatsapp-pulse-btn img,
+  .hero-chevron-indicator,
+  .icon-box,
+  .icon-badge,
+  .social-icon-btn,
+  .icon-entrance,
+  .icon-dir-right,
+  .icon-dir-left,
+  .icon-dir-up-right,
+  .icon-dir-down,
+  .icon-dir-up,
+  .btn-primary svg,
+  .btn-secondary svg,
+  .btn-ghost svg,
+  a svg,
+  button svg,
+  .spotlight-card svg,
+  .glare-card svg {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .icon-entrance {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

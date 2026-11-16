@@ -228,7 +228,7 @@ export default function FinalCTA() {
             {/* Who can connect */}
             <Reveal className="bg-mist rounded-2xl p-4 sm:p-7 border border-navy-100 shadow-[0_2px_8px_rgba(11,42,84,0.03)]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                   <Users2 size={20} />
                 </div>
                 <h3 className="font-display text-lg sm:text-xl text-navy-900 font-semibold leading-snug">

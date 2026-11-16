@@ -172,7 +172,7 @@ export default function HomePage() {
                           />
                         </div>
                       )}
-                      <div className="w-12 h-12 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm mb-6">
+                      <div className="w-12 h-12 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm mb-6 icon-box icon-entrance">
                         <item.icon size={24} />
                       </div>
                       <h4 className="font-display text-xl sm:text-2xl text-navy-900 font-semibold leading-snug">
@@ -275,7 +275,7 @@ export default function HomePage() {
             <Reveal delay={100} className="flex h-full">
               <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5">
+                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5 icon-box icon-entrance">
                     <Award size={20} />
                   </div>
                   <h4 className="font-display text-xl text-navy-900 font-semibold">
@@ -300,7 +300,7 @@ export default function HomePage() {
             <Reveal delay={200} className="flex h-full">
               <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5">
+                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5 icon-box icon-entrance">
                     <Workflow size={20} />
                   </div>
                   <h4 className="font-display text-xl text-navy-900 font-semibold">
@@ -325,7 +325,7 @@ export default function HomePage() {
             <Reveal delay={300} className="flex h-full">
               <SpotlightCard className="flex flex-col justify-between w-full bg-mist rounded-2xl p-4 sm:p-8 border border-navy-100 hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5">
+                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-5 icon-box icon-entrance">
                     <Layers size={20} />
                   </div>
                   <h4 className="font-display text-xl text-navy-900 font-semibold">

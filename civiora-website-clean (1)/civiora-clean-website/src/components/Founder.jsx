@@ -36,7 +36,7 @@ export default function Founder() {
               spotlightColor="rgba(0, 242, 254, 0.18)"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-gold-500/20 border border-gold-400/30 text-gold-400 flex items-center justify-center shrink-0">
+                <div className="w-12 h-12 rounded-xl bg-gold-500/20 border border-gold-400/30 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                   <BookOpen size={22} />
                 </div>
                 <div>

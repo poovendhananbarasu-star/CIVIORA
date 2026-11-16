@@ -180,7 +180,7 @@ export default function SinglePreviewPage() {
                   {/* Two Highlight Cards with 3D Tilt */}
                   <div className="grid sm:grid-cols-2 gap-3.5 sm:gap-4 pt-1">
                     <SpotlightCard className="p-4 sm:p-5 rounded-2xl bg-white border border-navy-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-                      <div className="w-9 h-9 rounded-xl bg-navy-50 text-navy-900 flex items-center justify-center mb-3">
+                      <div className="w-9 h-9 rounded-xl bg-navy-50 text-navy-900 flex items-center justify-center mb-3 icon-box icon-entrance">
                         <GraduationCap size={20} className="text-gold-600" />
                       </div>
                       <h3 className="font-display text-sm sm:text-base font-bold text-navy-900">
@@ -192,7 +192,7 @@ export default function SinglePreviewPage() {
                     </SpotlightCard>
 
                     <SpotlightCard className="p-4 sm:p-5 rounded-2xl bg-white border border-navy-100 shadow-sm hover:shadow-md transition-shadow duration-200">
-                      <div className="w-9 h-9 rounded-xl bg-navy-50 text-navy-900 flex items-center justify-center mb-3">
+                      <div className="w-9 h-9 rounded-xl bg-navy-50 text-navy-900 flex items-center justify-center mb-3 icon-box icon-entrance">
                         <Building2 size={20} className="text-gold-600" />
                       </div>
                       <h3 className="font-display text-sm sm:text-base font-bold text-navy-900">

@@ -65,7 +65,7 @@ export default function Network() {
               <Reveal key={c.title} delay={idx * 70} className="flex h-full">
                 <SpotlightCard className="bg-mist rounded-2xl p-4 sm:p-6 border border-navy-100 hover:border-gold-400 transition-all duration-200 flex flex-col justify-between w-full">
                   <div>
-                    <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-4 shadow-sm">
+                    <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-4 shadow-sm icon-box icon-entrance">
                       <c.icon size={18} />
                     </div>
                     <h4 className="font-display text-base font-semibold text-navy-900">
@@ -87,7 +87,7 @@ export default function Network() {
           <Reveal className="flex h-full">
             <SpotlightCard className="flex flex-col justify-between w-full bg-white rounded-2xl p-4 sm:p-9 border border-navy-100 shadow-sm hover:shadow-lg transition-all duration-300">
               <div>
-                <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-6 shadow-sm">
+                <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mb-6 shadow-sm icon-box icon-entrance">
                   <Building2 size={20} />
                 </div>
                 <h3 className="font-display text-xl sm:text-2xl text-navy-900 font-semibold leading-snug">
@@ -116,7 +116,7 @@ export default function Network() {
               spotlightColor="rgba(0, 242, 254, 0.2)"
             >
               <div>
-                <div className="w-11 h-11 rounded-xl bg-gold-500 text-navy-950 flex items-center justify-center mb-6 shadow-sm">
+                <div className="w-11 h-11 rounded-xl bg-gold-500 text-navy-950 flex items-center justify-center mb-6 shadow-sm icon-box icon-entrance">
                   <Users2 size={20} />
                 </div>
                 <h3 className="font-display text-xl sm:text-2xl text-white font-semibold leading-snug">

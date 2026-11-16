@@ -92,7 +92,7 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
         rel="noopener noreferrer"
         aria-label="Chat with Civiora on WhatsApp"
         title="Chat with Civiora on WhatsApp"
-        className={`fixed right-4 sm:right-6 z-40 items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 group ${
+        className={`fixed right-4 sm:right-6 z-40 items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-2xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 group whatsapp-pulse-btn ${
           cookieBannerOpen ? 'bottom-[calc(env(safe-area-inset-bottom)+14rem)] sm:bottom-6' : 'bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] sm:bottom-6'
         } ${
           mobileMenuOpen ? 'hidden' : 'flex'
@@ -105,7 +105,7 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
           decoding="async"
           width="56"
           height="56"
-          className="w-full h-full object-contain rounded-2xl drop-shadow-md transition-transform duration-300 group-hover:rotate-6"
+          className="w-full h-full object-contain rounded-2xl drop-shadow-md transition-transform duration-300"
         />
       </a>
 

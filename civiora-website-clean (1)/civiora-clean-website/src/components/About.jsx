@@ -46,7 +46,7 @@ export default function About() {
                   />
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 shadow-sm icon-box icon-entrance">
                     <Lightbulb size={20} />
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl text-navy-900 font-semibold leading-snug">
@@ -107,7 +107,7 @@ export default function About() {
                 spotlightColor="rgba(0, 242, 254, 0.2)"
               >
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 mb-6">
+                  <div className="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 mb-6 icon-box icon-entrance">
                     <Compass size={22} />
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl text-gold-400 font-semibold">
@@ -126,7 +126,7 @@ export default function About() {
                 spotlightColor="rgba(0, 242, 254, 0.2)"
               >
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 mb-6">
+                  <div className="w-11 h-11 rounded-xl bg-gold-500/20 border border-gold-400/40 flex items-center justify-center text-gold-400 mb-6 icon-box icon-entrance">
                     <Target size={22} />
                   </div>
                   <h3 className="font-display text-xl sm:text-2xl text-gold-400 font-semibold">
@@ -158,7 +158,7 @@ export default function About() {
         {/* Section 4: Pathways into Leadership & Framework */}
         <Reveal delay={150} className="mt-16 md:mt-24">
           <SpotlightCard className="bg-mist rounded-2xl p-5 sm:p-10 border border-navy-100 text-center max-w-3xl mx-auto shadow-[0_2px_8px_rgba(11,42,84,0.03)]">
-            <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mx-auto mb-5 shadow-sm">
+            <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center mx-auto mb-5 shadow-sm icon-box icon-entrance">
               <ShieldCheck size={22} />
             </div>
             <h3 className="font-display text-2xl md:text-3xl text-navy-900 font-semibold">

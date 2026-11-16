@@ -63,7 +63,7 @@ export default function HowItWorks() {
                     <span className="font-display text-xs font-semibold text-navy-900 bg-white px-2.5 py-1 rounded-md border border-navy-100/70">
                       Stage {s.step}
                     </span>
-                    <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm">
+                    <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm icon-box icon-entrance">
                       <s.icon size={18} />
                     </div>
                   </div>

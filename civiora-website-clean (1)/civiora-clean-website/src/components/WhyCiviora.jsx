@@ -74,7 +74,7 @@ export default function WhyCiviora() {
             >
               <SpotlightCard className="bg-mist rounded-2xl p-4 sm:p-7 border border-navy-100 hover:border-gold-400 hover:shadow-lg hover:shadow-navy-950/5 transition-all duration-300 flex flex-col justify-between w-full">
                 <div>
-                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm mb-6">
+                  <div className="w-11 h-11 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-sm mb-6 icon-box icon-entrance">
                     <item.icon size={20} />
                   </div>
                   <h3 className="font-display text-lg sm:text-xl text-navy-900 font-semibold leading-snug">

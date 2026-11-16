@@ -123,7 +123,7 @@ export default function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={item.ariaLabel}
-                      className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-navy-200 hover:text-gold-300 hover:border-gold-400/50 hover:bg-gold-500/10 flex items-center justify-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950"
+                      className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 text-navy-200 hover:text-gold-300 hover:border-gold-400/50 hover:bg-gold-500/10 flex items-center justify-center transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950 social-icon-btn"
                     >
                       <Icon size={18} className="shrink-0" aria-hidden="true" />
                     </a>

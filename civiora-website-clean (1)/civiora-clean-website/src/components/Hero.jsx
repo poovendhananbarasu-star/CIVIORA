@@ -101,7 +101,7 @@ export default function Hero() {
           <a
             href="#outcomes"
             aria-label="Scroll to student outcomes section"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center text-white/40 hover:text-gold-400 transition-colors animate-bounce p-2 focus:outline-none focus:ring-2 focus:ring-gold-400 rounded-full"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center text-white/50 hover:text-gold-400 p-2 focus:outline-none focus:ring-2 focus:ring-gold-400 rounded-full hero-chevron-indicator"
           >
             <ChevronDown size={24} />
           </a>

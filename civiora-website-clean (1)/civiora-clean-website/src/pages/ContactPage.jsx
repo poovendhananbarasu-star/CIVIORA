@@ -88,7 +88,7 @@ export default function ContactPage() {
               {/* Full Address Visibly Below the Map & Get Directions Button */}
               <div className="mt-6 pt-5 border-t border-navy-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 mt-0.5 icon-box icon-entrance">
                     <MapPin size={20} />
                   </div>
                   <div>

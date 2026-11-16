@@ -737,7 +737,7 @@ export default function TrainingDevelopmentPage() {
                   <SpotlightCard className="flex flex-col justify-between w-full rounded-2xl p-6 sm:p-8 bg-white border border-navy-100 shadow-sm hover:border-gold-400 hover:shadow-lg transition-all duration-300 group">
                     <div>
                       <div className="flex items-center gap-3.5 mb-5">
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${area.accent} shadow-sm group-hover:scale-105 transition-transform duration-200 shrink-0`}>
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${area.accent} shadow-sm shrink-0 icon-box icon-entrance`}>
                           <Icon size={24} />
                         </div>
                         <h3 className="font-display text-xl sm:text-2xl font-bold text-navy-950 group-hover:text-gold-700 transition-colors">
@@ -951,7 +951,7 @@ export default function TrainingDevelopmentPage() {
             <Reveal delay={60} className="flex h-full">
               <SpotlightCard className="flex flex-col justify-between w-full rounded-3xl p-7 sm:p-10 bg-mist/60 border border-navy-100 shadow-sm hover:border-gold-400 hover:shadow-lg transition-all duration-300">
                 <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-md">
+                  <div className="w-12 h-12 rounded-2xl bg-navy-900 text-gold-400 flex items-center justify-center shadow-md icon-box icon-entrance">
                     <Building2 size={24} />
                   </div>
                   <div>
@@ -979,7 +979,7 @@ export default function TrainingDevelopmentPage() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-gold-400/5 rounded-full blur-2xl pointer-events-none" />
 
                 <div className="space-y-4 relative z-10">
-                  <div className="w-12 h-12 rounded-2xl bg-gold-500 text-navy-950 flex items-center justify-center shadow-md">
+                  <div className="w-12 h-12 rounded-2xl bg-gold-500 text-navy-950 flex items-center justify-center shadow-md icon-box icon-entrance">
                     <Workflow size={24} />
                   </div>
                   <div>

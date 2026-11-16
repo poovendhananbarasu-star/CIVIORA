@@ -87,7 +87,7 @@ export default function Ecosystem() {
               {/* Institution Box (Left/Top) */}
               <SpotlightCard className="md:col-span-4 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col justify-between" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                     <Building2 size={20} />
                   </div>
                   <h4 className="text-base sm:text-lg font-display font-semibold text-white">Institution</h4>
@@ -103,7 +103,7 @@ export default function Ecosystem() {
 
               {/* Central Hub: Civiora */}
               <SpotlightCard className="md:col-span-4 bg-gradient-to-b from-navy-800 to-navy-900 rounded-2xl p-4 sm:p-7 border-2 border-gold-500/80 shadow-2xl text-center relative" spotlightColor="rgba(201, 150, 42, 0.25)">
-                <div className="w-12 h-12 rounded-xl bg-gold-500 text-navy-950 flex items-center justify-center mx-auto shadow-md font-bold">
+                <div className="w-12 h-12 rounded-xl bg-gold-500 text-navy-950 flex items-center justify-center mx-auto shadow-md font-bold icon-box icon-entrance">
                   <Layers size={24} />
                 </div>
                 <span className="inline-block mt-3 px-3 py-0.5 rounded-full bg-gold-500/20 text-gold-300 text-[11px] font-semibold uppercase tracking-wider">
@@ -121,7 +121,7 @@ export default function Ecosystem() {
               {/* Academic & Specialist Partners Box (Right/Top) */}
               <SpotlightCard className="md:col-span-4 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg flex flex-col justify-between" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                     <Users size={20} />
                   </div>
                   <h4 className="text-base sm:text-lg font-display font-semibold text-white">Academic &amp; Specialist Partners</h4>
@@ -138,7 +138,7 @@ export default function Ecosystem() {
               {/* Bottom Row: Students & Parents */}
               <SpotlightCard className="md:col-span-6 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                     <GraduationCap size={20} />
                   </div>
                   <div>
@@ -153,7 +153,7 @@ export default function Ecosystem() {
 
               <SpotlightCard className="md:col-span-6 bg-navy-900/90 rounded-2xl p-4 sm:p-6 border border-white/10 shadow-lg" spotlightColor="rgba(0, 242, 254, 0.18)">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-navy-800 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                     <HeartHandshake size={20} />
                   </div>
                   <div>
