@@ -24,6 +24,7 @@ export const isFirebaseConfigured = Boolean(
 );
 
 let dbPromise = null;
+let appCheckInitialized = false;
 
 /**
  * Lazily loads and initializes Firebase + Firestore only when needed,
@@ -37,6 +38,28 @@ async function getDb() {
       const { initializeApp, getApps, getApp } = await import('firebase/app');
       const { getFirestore } = await import('firebase/firestore');
       const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+
+      // Firebase App Check: prepared with reCAPTCHA Enterprise in monitoring mode.
+      // Automatically refreshes tokens without blocking submissions until enforced in console.
+      const recaptchaEnterpriseKey = import.meta.env.VITE_RECAPTCHA_ENTERPRISE_KEY;
+      if (typeof window !== 'undefined' && recaptchaEnterpriseKey && !appCheckInitialized) {
+        try {
+          const { initializeAppCheck, ReCaptchaEnterpriseProvider } = await import('firebase/app-check');
+          if (import.meta.env.DEV) {
+            self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+          }
+          initializeAppCheck(app, {
+            provider: new ReCaptchaEnterpriseProvider(recaptchaEnterpriseKey),
+            isTokenAutoRefreshEnabled: true,
+          });
+          appCheckInitialized = true;
+        } catch (appCheckErr) {
+          if (import.meta.env.DEV) {
+            console.warn('Firebase App Check initialization (monitoring mode):', appCheckErr);
+          }
+        }
+      }
+
       return getFirestore(app);
     })();
   }
@@ -83,18 +106,8 @@ export async function submitAppointmentRequest(data) {
     payload.primaryRequirement = String(data.primaryRequirement).trim();
   }
 
-  try {
-    await setDoc(appointmentDocRef, payload);
-  } catch (err) {
-    // If the deployed Firestore rules strictly enforce hasOnlyAllowedFields without primaryRequirement,
-    // retry cleanly without the extra top-level key (the primary requirement remains safely recorded in requirement)
-    if (payload.primaryRequirement && err?.code === 'permission-denied') {
-      delete payload.primaryRequirement;
-      await setDoc(appointmentDocRef, payload);
-    } else {
-      throw err;
-    }
-  }
+  // Single, stable Firestore write adhering to appointmentRequests schema without deletion retries
+  await setDoc(appointmentDocRef, payload);
 
   return { id: documentId };
 }

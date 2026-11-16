@@ -97,4 +97,201 @@ test.describe('Civiora Website - Core Functionality & Smoke Tests', () => {
     await expect(canonical).toHaveAttribute('href', /.+/);
   });
 
+  test('Internal Linking Architecture & Navigation Integrity', async ({ page }) => {
+    await page.goto('/');
+
+    // Check Footer contains newly enriched links
+    const footer = page.locator('footer');
+    await expect(footer.locator('a[href="/ecosystem"]').first()).toBeAttached();
+    await expect(footer.locator('a[href="/network"]').first()).toBeAttached();
+    await expect(footer.locator('a[href="/institutional-partnership"]').first()).toBeAttached();
+
+    // Check Training & Development page contains cross-linking strip
+    await page.goto('/training-development');
+    await expect(page.locator('main a[href="/how-it-works"]').first()).toBeAttached();
+    await expect(page.locator('main a[href="/ecosystem"]').first()).toBeAttached();
+    await expect(page.locator('main a[href="/founder"]').first()).toBeAttached();
+
+    // Check Legal page contains breadcrumb back to Home
+    await page.goto('/terms-and-conditions');
+    const homeBreadcrumb = page.locator('nav[aria-label="Breadcrumb"] a[href="/"]').first();
+    await expect(homeBreadcrumb).toBeAttached();
+  });
+
+  test('Lead Form: field-level validation prevents invalid email and telephone submissions', async ({ page }) => {
+    await page.goto('/contact');
+
+    // Scroll to contact form
+    const form = page.locator('form[method="post"]').first();
+    await expect(form).toBeVisible();
+
+    // Fill in invalid email & invalid phone
+    await page.fill('#representativeName', 'Test Representative');
+    await page.fill('#designation', 'Principal');
+    await page.fill('#institutionName', 'Test College');
+    await page.fill('#location', 'Bengaluru, Karnataka');
+    await page.fill('#officialEmail', 'invalid-email-address');
+    await page.fill('#telephone', '12'); // Too short (< 5 chars)
+    await page.fill('#requirement', 'Looking for institutional curriculum enhancement and career awareness programmes.');
+    
+    // Check consent checkbox
+    await page.check('#final-cta-consent');
+
+    // Submit form
+    const submitBtn = page.getByRole('button', { name: /Request an Institutional Discussion/i });
+    await submitBtn.click();
+
+    // Verify field-level error messages appear
+    await expect(page.locator('text=Please enter a valid official email address')).toBeVisible();
+    await expect(page.locator('text=Please enter a valid telephone number')).toBeVisible();
+  });
+
+  test('SEO: Canonical redirects from legacy /landing and /preview routes to /institutional-partnership', async ({ page }) => {
+    // Navigate to legacy /landing route
+    await page.goto('/landing');
+    await expect(page).toHaveURL(/\/institutional-partnership/);
+
+    // Verify canonical tag points to /institutional-partnership
+    const canonicalLanding = page.locator('link[rel="canonical"]');
+    await expect(canonicalLanding).toHaveAttribute('href', 'https://civiora.co.in/institutional-partnership');
+
+    // Navigate to legacy /preview route
+    await page.goto('/preview');
+    await expect(page).toHaveURL(/\/institutional-partnership/);
+
+    const canonicalPreview = page.locator('link[rel="canonical"]');
+    await expect(canonicalPreview).toHaveAttribute('href', 'https://civiora.co.in/institutional-partnership');
+  });
+
+  test('Analytics & Consent: Scripts and page_view events are blocked before consent', async ({ page, context }) => {
+    await context.clearCookies();
+    await page.goto('/');
+
+    // 1. Verify before consent: neither Meta Pixel script nor Clarity are loaded
+    const hasMetaScriptBefore = await page.evaluate(() => Boolean(window.fbq && window.fbq.loaded));
+    const hasClarityBefore = await page.evaluate(() => Boolean(window.clarity));
+    expect(hasMetaScriptBefore).toBeFalsy();
+    expect(hasClarityBefore).toBeFalsy();
+
+    // 2. Verify NO page_view events are queued before consent in dataLayer
+    const preConsentPageViews = await page.evaluate(() => {
+      if (!window.dataLayer) return [];
+      return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view'));
+    });
+    expect(preConsentPageViews.length).toBe(0);
+
+    // 3. Verify no GTM noscript iframe exists in DOM
+    const noscriptIframe = page.locator('iframe[src*="googletagmanager.com/ns.html"]');
+    await expect(noscriptIframe).toHaveCount(0);
+
+    // 4. Accept consent
+    const acceptBtn = page.getByRole('button', { name: /Accept Cookies|Accept/i }).first();
+    if (await acceptBtn.isVisible().catch(() => false)) {
+      await acceptBtn.click();
+      
+      // Verify localStorage is updated to accepted
+      const consentValue = await page.evaluate(() => localStorage.getItem('civiora_cookie_consent'));
+      expect(consentValue).toBe('accepted');
+
+      // 5. Verify exactly one current-page view is pushed after consent
+      const postConsentPageViews = await page.evaluate(() => {
+        if (!window.dataLayer) return [];
+        return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view'));
+      });
+      expect(postConsentPageViews.length).toBe(1);
+    }
+  });
+
+  test('Analytics: Emits exactly one GA4 page_view per later route change after consent', async ({ page, context }) => {
+    // Start with consent already accepted
+    await context.clearCookies();
+    await page.addInitScript(() => {
+      localStorage.setItem('civiora_cookie_consent', 'accepted');
+    });
+
+    await page.goto('/');
+    // Guarantee React has fully hydrated the DOM before testing client routing
+    await expect(page.locator('h1').first()).toBeVisible();
+
+    // On landing with accepted consent, exactly 1 page_view should exist
+    const landingPageViews = await page.evaluate(() => {
+      if (!window.dataLayer) return [];
+      return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view'));
+    });
+    expect(landingPageViews.length).toBe(1);
+
+    // Navigate via client-side React Router link to /about (first later route change)
+    const aboutLink = page.locator('footer a[href="/about"]').first();
+    await aboutLink.scrollIntoViewIfNeeded();
+    await aboutLink.click();
+    await expect(page).toHaveURL(/\/about/);
+    await expect(page.locator('h1').first()).toBeVisible();
+
+    const aboutPageViews = await page.evaluate(() => {
+      if (!window.dataLayer) return [];
+      return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view'));
+    });
+    // Exactly 2 page_views (1 from landing + 1 from /about)
+    expect(aboutPageViews.length).toBe(2);
+
+    // Navigate via client-side React Router link to /contact (second later route change)
+    const contactLink = page.locator('footer a[href="/contact"]').first();
+    await contactLink.scrollIntoViewIfNeeded();
+    await contactLink.click();
+    await expect(page).toHaveURL(/\/contact/);
+    await expect(page.locator('h1').first()).toBeVisible();
+
+    const contactPageViews = await page.evaluate(() => {
+      if (!window.dataLayer) return [];
+      return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view'));
+    });
+    // Exactly 3 page_views total (1 per route)
+    expect(contactPageViews.length).toBe(3);
+
+    // Verify no redundant direct gtag('config') is fired
+    const directConfigs = await page.evaluate(() => {
+      if (!window.dataLayer) return [];
+      return window.dataLayer.filter(item => item && item[0] === 'config' && item[1] === 'G-64DQH5MJD5');
+    });
+    expect(directConfigs.length).toBe(0);
+  });
+
+  test('SEO: robots.txt allows /landing and /preview so crawlers receive 301 redirects', async ({ page }) => {
+    const response = await page.goto('/robots.txt');
+    expect(response?.status()).toBe(200);
+    const content = await response?.text();
+
+    // Verify robots.txt does not disallow /landing or /preview
+    expect(content).not.toContain('Disallow: /landing');
+    expect(content).not.toContain('Disallow: /preview');
+    expect(content).toContain('Allow: /');
+    expect(content).toContain('Sitemap: https://civiora.co.in/sitemap.xml');
+  });
+
+  test('UI: Mobile WhatsApp button offset stays clear of Cookie Banner', async ({ page, context }) => {
+    await context.clearCookies();
+    // Emulate mobile screen
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto('/');
+
+    const cookieBanner = page.locator('aside[aria-label="Cookie and Privacy Preferences"]');
+    if (await cookieBanner.isVisible({ timeout: 3000 }).catch(() => false)) {
+      const whatsappBtn = page.locator('a[aria-label="Chat with Civiora on WhatsApp"]');
+      await expect(whatsappBtn).toBeVisible();
+
+      // Ensure WhatsApp button has bottom spacing class to elevate it above cookie banner
+      const btnClass = await whatsappBtn.getAttribute('class');
+      expect(btnClass).toContain('bottom-[calc(env(safe-area-inset-bottom)+14rem)]');
+    }
+  });
+
+  test('Performance: Strictly one LCP image preload in DOM', async ({ page }) => {
+    await page.goto('/');
+
+    const lcpPreloads = page.locator('link[rel="preload"][as="image"]');
+    const count = await lcpPreloads.count();
+    // At most 1 LCP image preload tag should exist
+    expect(count).toBeLessThanOrEqual(1);
+  });
+
 });

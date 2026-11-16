@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -69,8 +69,8 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
             <Route path="/network" element={<NetworkPage />} />
             <Route path="/founder" element={<FounderPage />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/landing" element={<SinglePreviewPage />} />
-            <Route path="/preview" element={<SinglePreviewPage />} />
+            <Route path="/landing" element={<Navigate to="/institutional-partnership" replace />} />
+            <Route path="/preview" element={<Navigate to="/institutional-partnership" replace />} />
             <Route path="/institutional-partnership" element={<SinglePreviewPage />} />
             <Route path="/training-development" element={<TrainingDevelopmentPage />} />
             <Route path="/blog" element={<BlogListingPage />} />
@@ -85,14 +85,16 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
         </Suspense>
       </main>
 
-      {/* Accessible Floating WhatsApp Button - Geometrically stable (0 CLS) */}
+      {/* Accessible Floating WhatsApp Button - Prevents mobile collision with CookieBanner */}
       <a
         href="https://wa.me/918150003810"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with Civiora on WhatsApp"
         title="Chat with Civiora on WhatsApp"
-        className={`fixed right-4 sm:right-6 bottom-6 z-40 items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 group ${
+        className={`fixed right-4 sm:right-6 z-40 items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#25D366]/40 group ${
+          cookieBannerOpen ? 'bottom-[calc(env(safe-area-inset-bottom)+14rem)] sm:bottom-6' : 'bottom-[calc(env(safe-area-inset-bottom)+1.5rem)] sm:bottom-6'
+        } ${
           mobileMenuOpen ? 'hidden' : 'flex'
         }`}
       >

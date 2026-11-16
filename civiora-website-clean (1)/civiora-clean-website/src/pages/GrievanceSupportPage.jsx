@@ -16,6 +16,13 @@ export default function GrievanceSupportPage() {
           <div className="bg-white rounded-3xl p-4 sm:p-10 md:p-12 border border-navy-100 shadow-sm text-navy-800 space-y-8">
             
             <div className="border-b border-navy-100 pb-6">
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-navy-500 mb-3">
+                <Link to="/" className="hover:text-gold-700 transition-colors inline-flex items-center gap-1 font-medium">
+                  Home
+                </Link>
+                <span>/</span>
+                <span className="text-navy-900 font-semibold">Grievance &amp; Support</span>
+              </nav>
               <h1 className="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-navy-900 mt-2">
                 Clear Support for Institutional Teams and Participants
               </h1>
@@ -88,6 +95,18 @@ export default function GrievanceSupportPage() {
                 <span>Discuss an Institutional Requirement</span>
                 <ArrowRight size={16} />
               </Link>
+            </div>
+
+            {/* Internal Navigation Links */}
+            <div className="pt-6 border-t border-navy-100 flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm">
+              <Link to="/" className="text-gold-700 hover:text-gold-800 font-semibold inline-flex items-center gap-1">
+                ← Return to Home
+              </Link>
+              <div className="flex items-center gap-4 text-navy-600">
+                <Link to="/privacy-policy" className="hover:text-navy-900 underline">Privacy Policy</Link>
+                <Link to="/terms-and-conditions" className="hover:text-navy-900 underline">Terms &amp; Conditions</Link>
+                <Link to="/cancellation-refund-policy" className="hover:text-navy-900 underline">Cancellation &amp; Refund Policy</Link>
+              </div>
             </div>
 
           </div>

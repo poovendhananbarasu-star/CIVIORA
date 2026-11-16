@@ -13,6 +13,8 @@ const NAV_LINKS = [
       { to: '/who-we-are', label: 'Who We Work With' },
       { to: '/how-it-works', label: 'How We Work' },
       { to: '/why-civiora', label: 'Why Civiora' },
+      { to: '/ecosystem', label: 'Partnership Ecosystem' },
+      { to: '/network', label: 'Academic & Specialist Partners' },
     ]
   },
   { to: '/training-development', label: 'Training & Development' },
@@ -103,7 +105,7 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                     to={l.to}
                     className={({ isActive }) =>
                       `relative py-1 transition-colors duration-200 hover:text-gold-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500 rounded flex items-center gap-1 after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:bg-gold-500 after:transition-all after:duration-200 ${
-                        isActive || location.pathname === '/about' || location.pathname === '/who-we-are' || location.pathname === '/how-it-works' || location.pathname === '/why-civiora' || location.pathname === '/pathways'
+                        isActive || location.pathname === '/about' || location.pathname === '/who-we-are' || location.pathname === '/how-it-works' || location.pathname === '/why-civiora' || location.pathname === '/pathways' || location.pathname === '/ecosystem' || location.pathname === '/network'
                           ? 'text-gold-700 font-semibold after:w-full'
                           : 'after:w-0 hover:after:w-full'
                       }`

@@ -17,6 +17,7 @@ service cloud.firestore {
     //   - officialEmail: string (required, valid email pattern, 5-150 chars)
     //   - telephone: string (required, 5-50 chars)
     //   - discussionFormat: string (required, 1-100 chars)
+    //   - primaryRequirement: string (optional, 1-200 chars)
     //   - requirement: string (required, 1-3000 chars)
     //   - consent: bool (required, must be true)
     //   - documentId: string (required, 1-128 chars, matches {requestId})
@@ -70,6 +71,7 @@ service cloud.firestore {
                'officialEmail',
                'telephone',
                'discussionFormat',
+               'primaryRequirement',
                'requirement',
                'consent',
                'documentId',
@@ -116,6 +118,7 @@ service cloud.firestore {
              && data.discussionFormat is string
              && data.discussionFormat.size() >= 1
              && data.discussionFormat.size() <= 100
+             && (!('primaryRequirement' in data) || (data.primaryRequirement is string && data.primaryRequirement.size() >= 1 && data.primaryRequirement.size() <= 200))
              && data.requirement is string
              && data.requirement.size() >= 1
              && data.requirement.size() <= 3000

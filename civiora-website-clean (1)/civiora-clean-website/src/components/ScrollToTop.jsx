@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { trackMetaPageView } from '../utils/metaPixel';
+import { hasConsent } from '../utils/cookieConsent';
 
 export default function ScrollToTop() {
   const { pathname, search } = useLocation();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     window.scrollTo({
@@ -12,16 +14,26 @@ export default function ScrollToTop() {
       behavior: 'instant'
     });
 
-    if (typeof window.gtag === 'function') {
-      window.gtag('config', 'G-64DQH5MJD5', {
-        page_path: pathname + search,
-        page_location: window.location.href,
-        page_title: document.title
-      });
+    // Do not queue or push page_view events on initial render (current page is handled upon consent)
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
     }
 
-    // Track SPA PageView in Meta Pixel if consented
-    trackMetaPageView();
+    // Only push dataLayer page_view and Meta PageView on later route navigations if analytics consent is granted
+    if (hasConsent()) {
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'page_view',
+          page_path: pathname + search,
+          page_location: window.location.href,
+          page_title: document.title
+        });
+      }
+
+      // Track SPA PageView in Meta Pixel strictly after marketing consent
+      trackMetaPageView();
+    }
   }, [pathname, search]);
 
   return null;

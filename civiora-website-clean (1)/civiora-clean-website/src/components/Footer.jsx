@@ -55,7 +55,8 @@ const SOCIAL_LINKS = [
 
 const FOOTER_COLUMN_1 = [
   { label: 'Home', to: '/' },
-  { label: 'Who We Work With', to: '/pathways' },
+  { label: 'Who We Work With', to: '/who-we-are' },
+  { label: 'Institutional Pathways', to: '/pathways' },
   { label: 'Why Civiora', to: '/why-civiora' },
   { label: 'The Civiora Ecosystem', to: '/ecosystem' },
   { label: 'Academic & Specialist Partners', to: '/network' },
@@ -67,6 +68,7 @@ const FOOTER_COLUMN_2 = [
   { label: 'Training & Development', to: '/training-development' },
   { label: 'Blog & Regulatory Insights', to: '/blog' },
   { label: 'Founder & Leadership', to: '/founder' },
+  { label: 'Institutional Partnership', to: '/institutional-partnership' },
   { label: 'Contact', to: '/contact' },
 ];
 

@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
  * Playwright configuration for Civiora Institutional Website.
  * Tests live deployed site by default or local preview when CIVIORA_BASE_URL is provided.
  */
-const baseURL = process.env.CIVIORA_BASE_URL || 'https://civiora-ce87d.web.app';
+const baseURL = process.env.CIVIORA_BASE_URL || 'http://localhost:4173';
 
 export default defineConfig({
   testDir: './tests',
@@ -18,8 +18,14 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [
     ['list'],
-    ['html', { outputFolder: 'playwright-report', open: 'always' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
   ],
+  webServer: {
+    command: 'npm run preview -- --port 4173',
+    url: 'http://localhost:4173',
+    reuseExistingServer: true,
+    timeout: 120000,
+  },
   use: {
     baseURL,
     trace: 'on-first-retry',

@@ -531,6 +531,20 @@ export default function BlogPostPage() {
               </section>
             ) : null}
 
+            {/* Institutional Pathways Exploration Bar */}
+            <div className="pt-6 border-t border-navy-100 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm bg-mist/60 p-4 rounded-xl border border-navy-100">
+              <span className="font-semibold text-navy-900">Explore Civiora Institutional Solutions:</span>
+              <div className="flex flex-wrap items-center gap-2.5 text-xs text-gold-700 font-semibold">
+                <Link to="/who-we-are" className="hover:text-navy-900 transition-colors">Who We Work With</Link>
+                <span className="text-navy-300">•</span>
+                <Link to="/how-it-works" className="hover:text-navy-900 transition-colors">5-Stage Methodology</Link>
+                <span className="text-navy-300">•</span>
+                <Link to="/training-development" className="hover:text-navy-900 transition-colors">Training Programmes</Link>
+                <span className="text-navy-300">•</span>
+                <Link to="/contact" className="hover:text-navy-900 transition-colors">Contact Consultation</Link>
+              </div>
+            </div>
+
             {/* Social Sharing & Copy Link Bar */}
             <div className="pt-8 border-t border-navy-100 flex flex-wrap items-center justify-between gap-4">
               <div className="flex flex-wrap items-center gap-2">

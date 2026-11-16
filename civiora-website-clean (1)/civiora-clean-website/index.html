@@ -61,48 +61,39 @@
         'wait_for_update': 500
       });
       gtag('js', new Date());
-      gtag('config', 'G-64DQH5MJD5');
 
-      // Defer external tracking scripts to execute after page load to prevent main-thread blocking (TBT)
-      function loadAnalytics() {
+      // GTM is the single owner of GA4. Neither GA4 nor GTM load before explicit analytics consent.
+      window.loadAnalytics = function() {
         if (window.__analyticsLoaded) return;
+
+        // Consent verification: do not load tracking scripts unless visitor accepted cookies
+        try {
+          var consent = localStorage.getItem('civiora_cookie_consent');
+          if (consent !== 'accepted') return;
+        } catch (e) {
+          return;
+        }
+
         window.__analyticsLoaded = true;
 
-        // GTM
+        // Google Tag Manager (GTM-WKT9FM8B manages GA4 centrally)
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-WKT9FM8B');
+      };
 
-        // gtag.js
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-64DQH5MJD5';
-        document.head.appendChild(s);
-        gtag('config', 'G-64DQH5MJD5');
-      }
-
-      // Trigger analytics on first user interaction or idle callback, avoiding main-thread blocking (TBT) during audit/paint window
-      var analyticsTriggered = false;
-      function triggerAnalytics() {
-        if (analyticsTriggered) return;
-        analyticsTriggered = true;
-        ['scroll', 'touchstart', 'pointerdown', 'keydown'].forEach(function(evt) {
-          window.removeEventListener(evt, triggerAnalytics, { passive: true });
-        });
-        loadAnalytics();
-      }
-
-      ['scroll', 'touchstart', 'pointerdown', 'keydown'].forEach(function(evt) {
-        window.addEventListener(evt, triggerAnalytics, { passive: true, once: true });
-      });
-
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(function() { setTimeout(triggerAnalytics, 4000); });
-      } else {
-        setTimeout(triggerAnalytics, 5000);
-      }
+      // Trigger GTM only if analytics consent was already previously granted
+      try {
+        if (localStorage.getItem('civiora_cookie_consent') === 'accepted') {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(function() { window.loadAnalytics(); });
+          } else {
+            setTimeout(function() { window.loadAnalytics(); }, 1500);
+          }
+        }
+      } catch (e) {}
     </script>
 
     <meta charset="UTF-8" />
@@ -135,6 +126,7 @@
         var target = map[p];
         if (target) {
           var link = document.createElement('link');
+          link.id = 'civiora-early-lcp';
           link.rel = 'preload';
           link.as = 'image';
           link.href = target;
@@ -212,11 +204,6 @@
     </noscript>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKT9FM8B"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

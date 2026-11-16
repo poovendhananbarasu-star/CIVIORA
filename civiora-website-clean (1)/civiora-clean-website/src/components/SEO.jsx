@@ -74,42 +74,30 @@ export default function SEO({
     }
     linkCanonical.setAttribute('href', canonical);
 
-    // 6. Preload LCP Image if specified for this route
-    let preloadDesktop = document.querySelector('link#route-lcp-preload-desktop');
-    let preloadMobile = document.querySelector('link#route-lcp-preload-mobile');
+    // 6. Preload LCP Image if specified for this route (guarantee strictly one LCP image preload in DOM)
+    const isMobileViewport = typeof window !== 'undefined' && (window.matchMedia('(max-width: 768px)').matches || window.innerWidth <= 768);
+    const resolvedLcpImage = isMobileViewport ? (preloadMobileImage || preloadImage) : (preloadImage || preloadMobileImage);
 
-    if (preloadMobileImage) {
-      if (!preloadMobile) {
-        preloadMobile = document.createElement('link');
-        preloadMobile.id = 'route-lcp-preload-mobile';
-        preloadMobile.rel = 'preload';
-        preloadMobile.as = 'image';
-        preloadMobile.setAttribute('type', 'image/webp');
-        preloadMobile.setAttribute('fetchpriority', 'high');
-        preloadMobile.setAttribute('media', '(max-width: 768px)');
-        document.head.appendChild(preloadMobile);
-      }
-      preloadMobile.setAttribute('href', preloadMobileImage);
-    } else if (preloadMobile) {
-      preloadMobile.remove();
-    }
+    // Clean up any legacy dual preload tags
+    const oldMobile = document.querySelector('link#route-lcp-preload-mobile');
+    if (oldMobile) oldMobile.remove();
+    const oldDesktop = document.querySelector('link#route-lcp-preload-desktop');
+    if (oldDesktop) oldDesktop.remove();
 
-    if (preloadImage) {
-      if (!preloadDesktop) {
-        preloadDesktop = document.createElement('link');
-        preloadDesktop.id = 'route-lcp-preload-desktop';
-        preloadDesktop.rel = 'preload';
-        preloadDesktop.as = 'image';
-        preloadDesktop.setAttribute('type', 'image/webp');
-        preloadDesktop.setAttribute('fetchpriority', 'high');
-        if (preloadMobileImage) {
-          preloadDesktop.setAttribute('media', '(min-width: 769px)');
-        }
-        document.head.appendChild(preloadDesktop);
+    let preloadLink = document.querySelector('link#civiora-early-lcp') || document.querySelector('link#route-lcp-preload');
+    if (resolvedLcpImage) {
+      if (!preloadLink) {
+        preloadLink = document.createElement('link');
+        preloadLink.id = 'route-lcp-preload';
+        preloadLink.rel = 'preload';
+        preloadLink.as = 'image';
+        preloadLink.setAttribute('type', 'image/webp');
+        preloadLink.setAttribute('fetchpriority', 'high');
+        document.head.appendChild(preloadLink);
       }
-      preloadDesktop.setAttribute('href', preloadImage);
-    } else if (preloadDesktop) {
-      preloadDesktop.remove();
+      preloadLink.setAttribute('href', resolvedLcpImage);
+    } else if (preloadLink) {
+      preloadLink.remove();
     }
 
     // 7. Inject Structured Data (JSON-LD) if provided

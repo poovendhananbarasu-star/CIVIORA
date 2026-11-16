@@ -9,6 +9,18 @@
       "**/.*",
       "**/node_modules/**"
     ],
+    "redirects": [
+      {
+        "source": "/landing",
+        "destination": "/institutional-partnership",
+        "type": 301
+      },
+      {
+        "source": "/preview",
+        "destination": "/institutional-partnership",
+        "type": 301
+      }
+    ],
     "rewrites": [
       {
         "source": "**",

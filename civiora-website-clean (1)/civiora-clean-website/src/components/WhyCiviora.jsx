@@ -183,13 +183,25 @@ export default function WhyCiviora() {
             <p className="mt-3 text-navy-600 text-sm sm:text-base">
               Share your student community’s priorities and explore how Civiora can coordinate an impactful engagement.
             </p>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Link
                 to="/contact"
                 className="btn-primary w-full sm:w-auto text-center justify-center"
               >
                 <span>Discuss Your Institutional Requirements</span>
                 <ArrowRight size={16} />
+              </Link>
+              <Link
+                to="/how-it-works"
+                className="btn-ghost text-navy-900 border border-navy-200 hover:border-gold-500 w-full sm:w-auto text-center justify-center"
+              >
+                <span>Explore How We Work</span>
+              </Link>
+              <Link
+                to="/ecosystem"
+                className="btn-ghost text-navy-900 border border-navy-200 hover:border-gold-500 w-full sm:w-auto text-center justify-center"
+              >
+                <span>Partnership Ecosystem</span>
               </Link>
             </div>
           </div>

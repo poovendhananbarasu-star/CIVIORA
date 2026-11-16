@@ -1,7 +1,6 @@
 import { hasConsent } from './cookieConsent';
 
 let isInitialized = false;
-let initialPageViewTracked = false;
 
 // Deduplication timestamp cache
 const lastFormEvents = {
@@ -168,11 +167,10 @@ export function initMetaPixel() {
   // Initialize WITHOUT any personal data / PII parameters
   window.fbq('init', pixelId);
 
-  // Track one PageView after consent (Requirement 3)
+  // Track one PageView after consent for the current page
   window.fbq('track', 'PageView');
 
   isInitialized = true;
-  initialPageViewTracked = true;
 }
 
 /**
@@ -184,14 +182,10 @@ export function isMetaPixelInitialized() {
 }
 
 /**
- * Tracks a PageView event on route navigation, only if initialized and consented.
+ * Tracks a PageView event on route navigation, strictly if initialized and consented.
  */
 export function trackMetaPageView() {
   if (typeof window !== 'undefined' && typeof window.fbq === 'function' && isMetaPixelInitialized()) {
-    if (initialPageViewTracked) {
-      initialPageViewTracked = false;
-      return;
-    }
     window.fbq('track', 'PageView');
   }
 }

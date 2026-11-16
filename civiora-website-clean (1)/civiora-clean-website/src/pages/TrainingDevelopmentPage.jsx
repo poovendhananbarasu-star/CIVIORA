@@ -19,6 +19,7 @@ import {
   GraduationCap,
   CalendarCheck,
   Workflow,
+  Layers,
   Camera,
   Image as ImageIcon,
   Clock,
@@ -430,6 +431,8 @@ export default function TrainingDevelopmentPage() {
     website: '', // honeypot
   });
 
+  const [fieldErrors, setFieldErrors] = useState({});
+
   const [formStatus, setFormStatus] = useState({
     submitting: false,
     submitted: false,
@@ -457,6 +460,53 @@ export default function TrainingDevelopmentPage() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: null }));
+    }
+  };
+
+  const validate = () => {
+    const errors = {};
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneRegex = /^[+0-9() -]{5,50}$/;
+
+    if (!enquiryData.institutionName.trim()) {
+      errors.institutionName = 'Institution name is required.';
+    }
+
+    if (!enquiryData.contactPerson.trim()) {
+      errors.contactPerson = 'Contact person name is required.';
+    }
+
+    if (!enquiryData.designation.trim()) {
+      errors.designation = 'Designation is required.';
+    }
+
+    const emailTrimmed = enquiryData.email.trim().toLowerCase();
+    if (!emailTrimmed) {
+      errors.email = 'Official institutional email is required.';
+    } else if (emailTrimmed.length < 5 || emailTrimmed.length > 150 || !emailRegex.test(emailTrimmed)) {
+      errors.email = 'Please enter a valid institutional email address (e.g. placements@college.edu.in).';
+    }
+
+    const phoneTrimmed = enquiryData.mobile.trim();
+    if (!phoneTrimmed) {
+      errors.mobile = 'Mobile number is required.';
+    } else if (!phoneRegex.test(phoneTrimmed) || phoneTrimmed.replace(/\D/g, '').length < 5) {
+      errors.mobile = 'Please enter a valid mobile number (5-50 digits/characters).';
+    }
+
+    if (!enquiryData.categoryCourse) {
+      errors.categoryCourse = 'Please select a category or course of interest.';
+    }
+
+    if (!enquiryData.consent) {
+      errors.consent = 'Please accept the consent checkbox to submit your requirements.';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleFormSubmit = async (e) => {
@@ -469,21 +519,15 @@ export default function TrainingDevelopmentPage() {
       return;
     }
 
+    if (!validate()) {
+      return;
+    }
+
     if (Date.now() - lastSubmissionAt < SUBMISSION_COOLDOWN_MS) {
       setFormStatus({
         submitting: false,
         submitted: false,
         error: 'Please wait a moment before submitting another enquiry.',
-        documentId: null,
-      });
-      return;
-    }
-
-    if (!enquiryData.consent) {
-      setFormStatus({
-        submitting: false,
-        submitted: false,
-        error: 'Please accept the consent checkbox to submit your requirements.',
         documentId: null,
       });
       return;
@@ -532,7 +576,7 @@ export default function TrainingDevelopmentPage() {
 
       let errorMessage = 'Unable to submit your requirements at this time. Please try again or contact us directly at connect@civiora.co.in.';
       if (err?.code === 'permission-denied') {
-        errorMessage = 'Submission was rejected due to permission constraints. Please verify all required fields and try again.';
+        errorMessage = 'Please check that your email address, mobile number, and institutional details are valid.';
       } else if (err?.code === 'unavailable') {
         errorMessage = 'Database service is temporarily unavailable. Please check your network connection and try again.';
       }
@@ -1146,7 +1190,7 @@ export default function TrainingDevelopmentPage() {
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleFormSubmit} className="space-y-6">
+              <form noValidate onSubmit={handleFormSubmit} className="space-y-6">
                 {/* Honeypot field (hidden from legitimate users) */}
                 <input
                   type="text"
@@ -1182,8 +1226,15 @@ export default function TrainingDevelopmentPage() {
                       value={enquiryData.institutionName}
                       onChange={handleFormChange}
                       placeholder="e.g. Government Degree College"
-                      className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 text-navy-950 ${
+                        fieldErrors.institutionName
+                          ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                          : 'border-navy-200 focus:ring-navy-800'
+                      }`}
                     />
+                    {fieldErrors.institutionName && (
+                      <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.institutionName}</p>
+                    )}
                   </div>
 
                   {/* Contact Person */}
@@ -1199,8 +1250,15 @@ export default function TrainingDevelopmentPage() {
                       value={enquiryData.contactPerson}
                       onChange={handleFormChange}
                       placeholder="e.g. Prof. Ramesh Kumar"
-                      className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 text-navy-950 ${
+                        fieldErrors.contactPerson
+                          ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                          : 'border-navy-200 focus:ring-navy-800'
+                      }`}
                     />
+                    {fieldErrors.contactPerson && (
+                      <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.contactPerson}</p>
+                    )}
                   </div>
 
                   {/* Designation */}
@@ -1216,8 +1274,15 @@ export default function TrainingDevelopmentPage() {
                       value={enquiryData.designation}
                       onChange={handleFormChange}
                       placeholder="e.g. Head of Placements / Principal"
-                      className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 text-navy-950 ${
+                        fieldErrors.designation
+                          ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                          : 'border-navy-200 focus:ring-navy-800'
+                      }`}
                     />
+                    {fieldErrors.designation && (
+                      <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.designation}</p>
+                    )}
                   </div>
 
                   {/* Email */}
@@ -1233,8 +1298,15 @@ export default function TrainingDevelopmentPage() {
                       value={enquiryData.email}
                       onChange={handleFormChange}
                       placeholder="e.g. placements@college.edu.in"
-                      className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 text-navy-950 ${
+                        fieldErrors.email
+                          ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                          : 'border-navy-200 focus:ring-navy-800'
+                      }`}
                     />
+                    {fieldErrors.email && (
+                      <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.email}</p>
+                    )}
                   </div>
 
                   {/* Mobile */}
@@ -1250,8 +1322,15 @@ export default function TrainingDevelopmentPage() {
                       value={enquiryData.mobile}
                       onChange={handleFormChange}
                       placeholder="e.g. +91 98765 43210"
-                      className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 text-navy-950 ${
+                        fieldErrors.mobile
+                          ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                          : 'border-navy-200 focus:ring-navy-800'
+                      }`}
                     />
+                    {fieldErrors.mobile && (
+                      <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.mobile}</p>
+                    )}
                   </div>
 
                   {/* Category / Course of Interest */}
@@ -1265,7 +1344,11 @@ export default function TrainingDevelopmentPage() {
                       required
                       value={enquiryData.categoryCourse}
                       onChange={handleFormChange}
-                      className="w-full px-4 py-2.5 rounded-xl border border-navy-200 text-sm focus:outline-none focus:ring-2 focus:ring-navy-800 text-navy-950 bg-white"
+                      className={`w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 text-navy-950 bg-white ${
+                        fieldErrors.categoryCourse
+                          ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                          : 'border-navy-200 focus:ring-navy-800'
+                      }`}
                     >
                       <option value="">Select Category or Course</option>
                       <option value="General Institutional Consultation (All Categories)">General Institutional Consultation (All Domains)</option>
@@ -1360,6 +1443,53 @@ export default function TrainingDevelopmentPage() {
               </form>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* Institutional Framework Cross-Linking Strip */}
+      <section className="py-12 md:py-16 bg-mist border-t border-navy-100">
+        <div className="max-w-content mx-auto px-4 sm:px-6 md:px-10 text-center">
+          <Reveal>
+            <h3 className="font-display text-xl sm:text-2xl font-bold text-navy-900">
+              Explore Our Institutional Framework &amp; Leadership
+            </h3>
+            <p className="mt-2 text-navy-600 text-sm max-w-2xl mx-auto">
+              Learn how Civiora structures student-development initiatives, connects specialist educators, and reviews progress.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm">
+              <Link
+                to="/how-it-works"
+                className="btn-secondary py-2.5 px-5 inline-flex items-center gap-2 group"
+              >
+                <Workflow size={15} className="text-gold-600" />
+                <span>5-Stage Methodology</span>
+                <ArrowRight size={14} className="text-gold-600 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/ecosystem"
+                className="btn-secondary py-2.5 px-5 inline-flex items-center gap-2 group"
+              >
+                <Layers size={15} className="text-gold-600" />
+                <span>Partnership Ecosystem</span>
+                <ArrowRight size={14} className="text-gold-600 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/founder"
+                className="btn-secondary py-2.5 px-5 inline-flex items-center gap-2 group"
+              >
+                <Users size={15} className="text-gold-600" />
+                <span>Founder &amp; Leadership</span>
+                <ArrowRight size={14} className="text-gold-600 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                to="/contact"
+                className="btn-primary py-2.5 px-5 inline-flex items-center gap-2 group"
+              >
+                <span>Institutional Consultation</span>
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 

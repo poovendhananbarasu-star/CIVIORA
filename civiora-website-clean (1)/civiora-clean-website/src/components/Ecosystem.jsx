@@ -262,13 +262,25 @@ export default function Ecosystem() {
             <h3 className="font-display text-xl md:text-2xl text-navy-900 leading-snug font-semibold">
               Clear roles make collaboration easier to implement and review.
             </h3>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Link
                 to="/contact"
                 className="btn-primary w-full sm:w-auto text-center justify-center"
               >
                 <span>Explore an Institutional Partnership</span>
                 <ArrowRight size={16} />
+              </Link>
+              <Link
+                to="/network"
+                className="btn-ghost text-navy-900 border border-navy-200 hover:border-gold-500 w-full sm:w-auto text-center justify-center"
+              >
+                <span>Academic &amp; Specialist Partners</span>
+              </Link>
+              <Link
+                to="/how-it-works"
+                className="btn-ghost text-navy-900 border border-navy-200 hover:border-gold-500 w-full sm:w-auto text-center justify-center"
+              >
+                <span>How We Work</span>
               </Link>
             </div>
           </div>

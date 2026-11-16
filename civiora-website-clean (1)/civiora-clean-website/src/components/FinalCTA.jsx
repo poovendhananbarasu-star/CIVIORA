@@ -43,6 +43,9 @@ const WHO_CAN_CONNECT = [
   'Specialist educators and prospective academic partners',
 ];
 
+const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const PHONE_REGEX = /^[+0-9() -]{5,50}$/;
+
 export default function FinalCTA() {
   const [searchParams] = useSearchParams();
   const requestedType = searchParams.get('type');
@@ -61,6 +64,7 @@ export default function FinalCTA() {
     website: '',
   });
 
+  const [fieldErrors, setFieldErrors] = useState({});
   const [lastSubmissionAt, setLastSubmissionAt] = useState(0);
 
   useEffect(() => {
@@ -82,6 +86,65 @@ export default function FinalCTA() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => ({ ...prev, [name]: null }));
+    }
+  };
+
+  const validate = () => {
+    const errors = {};
+
+    if (!formData.representativeName.trim()) {
+      errors.representativeName = 'Representative name is required.';
+    } else if (formData.representativeName.trim().length > 150) {
+      errors.representativeName = 'Representative name cannot exceed 150 characters.';
+    }
+
+    if (!formData.designation.trim()) {
+      errors.designation = 'Designation is required.';
+    } else if (formData.designation.trim().length > 150) {
+      errors.designation = 'Designation cannot exceed 150 characters.';
+    }
+
+    if (!formData.institutionName.trim()) {
+      errors.institutionName = 'Institution name is required.';
+    } else if (formData.institutionName.trim().length > 200) {
+      errors.institutionName = 'Institution name cannot exceed 200 characters.';
+    }
+
+    if (!formData.location.trim()) {
+      errors.location = 'Location (city / state) is required.';
+    } else if (formData.location.trim().length > 150) {
+      errors.location = 'Location cannot exceed 150 characters.';
+    }
+
+    const emailTrimmed = formData.officialEmail.trim().toLowerCase();
+    if (!emailTrimmed) {
+      errors.officialEmail = 'Official institutional email is required.';
+    } else if (emailTrimmed.length < 5 || emailTrimmed.length > 150 || !EMAIL_REGEX.test(emailTrimmed)) {
+      errors.officialEmail = 'Please enter a valid official email address (e.g. name@institution.edu.in).';
+    }
+
+    const phoneTrimmed = formData.telephone.trim();
+    if (!phoneTrimmed) {
+      errors.telephone = 'Telephone or mobile number is required.';
+    } else if (!PHONE_REGEX.test(phoneTrimmed) || phoneTrimmed.replace(/\D/g, '').length < 5) {
+      errors.telephone = 'Please enter a valid telephone number (5-50 digits/characters).';
+    }
+
+    if (!formData.requirement.trim()) {
+      errors.requirement = 'Please provide an overview of your institutional requirements.';
+    } else if (formData.requirement.trim().length > 3000) {
+      errors.requirement = 'Requirement details cannot exceed 3000 characters.';
+    }
+
+    if (!formData.consent) {
+      errors.consent = 'Please accept the consent checkbox to submit your request.';
+    }
+
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e) => {
@@ -96,21 +159,16 @@ export default function FinalCTA() {
       return;
     }
 
+    // Client field validation matching Firestore rules constraints
+    if (!validate()) {
+      return;
+    }
+
     if (Date.now() - lastSubmissionAt < SUBMISSION_COOLDOWN_MS) {
       setStatus({
         submitting: false,
         submitted: false,
         error: 'Please wait a moment before submitting another request.',
-        documentId: null,
-      });
-      return;
-    }
-
-    if (!formData.consent) {
-      setStatus({
-        submitting: false,
-        submitted: false,
-        error: 'Please accept the consent checkbox to submit your institutional discussion request.',
         documentId: null,
       });
       return;
@@ -145,7 +203,7 @@ export default function FinalCTA() {
 
       let errorMessage = 'Unable to submit your request at this time. Please try again or contact us directly at connect@civiora.co.in.';
       if (err?.code === 'permission-denied') {
-        errorMessage = 'Submission was rejected due to permission constraints. Please verify all required fields and try again.';
+        errorMessage = 'Please check that your email address, telephone number, and institutional details are valid.';
       } else if (err?.code === 'unavailable') {
         errorMessage = 'Database service is temporarily unavailable. Please check your network connection and try again.';
       }
@@ -300,7 +358,7 @@ export default function FinalCTA() {
                     </div>
                   </div>
                 ) : (
-                  <form method="post" onSubmit={handleSubmit} className="space-y-5">
+                  <form method="post" noValidate onSubmit={handleSubmit} className="space-y-5">
                     {status.error && (
                       <div className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3 text-red-800 text-xs sm:text-sm">
                         <AlertCircle size={17} className="shrink-0 mt-0.5 text-red-600" />
@@ -344,9 +402,16 @@ export default function FinalCTA() {
                           onChange={handleChange}
                           placeholder="e.g. Dr. Rajesh Sharma"
                           maxLength={150}
-                          className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
+                          className={`w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 ${
+                            fieldErrors.representativeName
+                              ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                              : 'border-navy-200 focus:ring-navy-800'
+                          }`}
                           required
                         />
+                        {fieldErrors.representativeName && (
+                          <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.representativeName}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="designation" className="block text-xs font-semibold text-navy-800 uppercase tracking-wider mb-1.5">
@@ -361,9 +426,16 @@ export default function FinalCTA() {
                           onChange={handleChange}
                           placeholder="e.g. Principal / Dean / Director"
                           maxLength={150}
-                          className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
+                          className={`w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 ${
+                            fieldErrors.designation
+                              ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                              : 'border-navy-200 focus:ring-navy-800'
+                          }`}
                           required
                         />
+                        {fieldErrors.designation && (
+                          <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.designation}</p>
+                        )}
                       </div>
                     </div>
 
@@ -382,9 +454,16 @@ export default function FinalCTA() {
                           onChange={handleChange}
                           placeholder="e.g. National College of Excellence"
                           maxLength={200}
-                          className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
+                          className={`w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 ${
+                            fieldErrors.institutionName
+                              ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                              : 'border-navy-200 focus:ring-navy-800'
+                          }`}
                           required
                         />
+                        {fieldErrors.institutionName && (
+                          <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.institutionName}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="location" className="block text-xs font-semibold text-navy-800 uppercase tracking-wider mb-1.5">
@@ -399,9 +478,16 @@ export default function FinalCTA() {
                           onChange={handleChange}
                           placeholder="e.g. Bengaluru, Karnataka"
                           maxLength={150}
-                          className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
+                          className={`w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 ${
+                            fieldErrors.location
+                              ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                              : 'border-navy-200 focus:ring-navy-800'
+                          }`}
                           required
                         />
+                        {fieldErrors.location && (
+                          <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.location}</p>
+                        )}
                       </div>
                     </div>
 
@@ -420,9 +506,16 @@ export default function FinalCTA() {
                           onChange={handleChange}
                           placeholder="name@institution.edu.in"
                           maxLength={150}
-                          className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
+                          className={`w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 ${
+                            fieldErrors.officialEmail
+                              ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                              : 'border-navy-200 focus:ring-navy-800'
+                          }`}
                           required
                         />
+                        {fieldErrors.officialEmail && (
+                          <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.officialEmail}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="telephone" className="block text-xs font-semibold text-navy-800 uppercase tracking-wider mb-1.5">
@@ -437,9 +530,16 @@ export default function FinalCTA() {
                           onChange={handleChange}
                           placeholder="+91 98765 43210"
                           maxLength={50}
-                          className="w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border border-navy-200 text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-navy-800"
+                          className={`w-full min-h-[44px] px-3.5 sm:px-4 py-2.5 rounded-xl border text-navy-900 text-base sm:text-sm focus:outline-none focus:ring-2 ${
+                            fieldErrors.telephone
+                              ? 'border-red-400 focus:ring-red-400 bg-red-50/20'
+                              : 'border-navy-200 focus:ring-navy-800'
+                          }`}
                           required
                         />
+                        {fieldErrors.telephone && (
+                          <p className="text-[11px] text-red-600 mt-1 font-medium">{fieldErrors.telephone}</p>
+                        )}
                       </div>
                     </div>
 

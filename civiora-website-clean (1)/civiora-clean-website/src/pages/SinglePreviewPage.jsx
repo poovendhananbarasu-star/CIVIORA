@@ -101,6 +101,7 @@ export default function SinglePreviewPage() {
       <SEO
         title="Institutional Partnerships Landing Page | Civiora"
         description="Civiora coordinates structured student development, Government Career Cells, and career guidance partnerships for schools, colleges, and universities."
+        canonicalUrl="/institutional-partnership"
       />
 
       {/* Sticky Navigation Bar */}
@@ -125,6 +126,12 @@ export default function SinglePreviewPage() {
                 {sec.label}
               </button>
             ))}
+            <Link
+              to="/"
+              className="text-gold-300 hover:text-white hover:bg-white/10 min-h-[36px] sm:min-h-[32px] px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 shrink-0 inline-flex items-center justify-center gap-1 border border-gold-400/30"
+            >
+              <span>Main Site</span>
+            </Link>
             <button
               type="button"
               onClick={() => scrollTo('sec-contact')}

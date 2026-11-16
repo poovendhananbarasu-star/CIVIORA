@@ -16,6 +16,8 @@ export function getCookieConsent() {
   }
 }
 
+let initialConsentPageViewSent = false;
+
 /**
  * Updates Google Consent Mode v2 state across gtag and GTM.
  * @param {boolean} granted
@@ -28,6 +30,23 @@ export function updateGoogleConsent(granted) {
       'ad_personalization': granted ? 'granted' : 'denied',
       'analytics_storage': granted ? 'granted' : 'denied',
     });
+  }
+
+  // When analytics consent is granted, initialize GTM and push exactly one current-page view
+  if (granted && typeof window !== 'undefined') {
+    if (typeof window.loadAnalytics === 'function') {
+      window.loadAnalytics();
+    }
+
+    if (!initialConsentPageViewSent && window.dataLayer) {
+      initialConsentPageViewSent = true;
+      window.dataLayer.push({
+        event: 'page_view',
+        page_path: window.location.pathname + window.location.search,
+        page_location: window.location.href,
+        page_title: document.title,
+      });
+    }
   }
 }
 
