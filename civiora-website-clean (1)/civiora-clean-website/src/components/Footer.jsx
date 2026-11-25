@@ -97,9 +97,9 @@ export default function Footer() {
                 alt="CIVIORA" 
                 loading="lazy"
                 decoding="async"
-                width="160"
-                height="44"
-                className="h-9 sm:h-10 md:h-11 w-auto object-contain opacity-95 transition-opacity duration-300 group-hover:opacity-100" 
+                width="220"
+                height="80"
+                className="h-14 sm:h-16 md:h-20 w-auto object-contain opacity-95 transition-opacity duration-300 group-hover:opacity-100" 
               />
             </Link>
             

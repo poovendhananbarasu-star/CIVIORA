@@ -71,7 +71,7 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-navy-100/70 shadow-[0_2px_12px_rgba(11,42,84,0.04)] ${
-        scrolled ? 'py-2' : 'py-2.5 md:py-3'
+        scrolled ? 'py-1.5' : 'py-2 md:py-2.5'
       }`}
     >
       <nav 
@@ -89,9 +89,9 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
             alt="CIVIORA" 
             decoding="async"
             fetchpriority="high"
-            width="160"
-            height="48"
-            className="h-9 sm:h-10 md:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+            width="200"
+            height="64"
+            className="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
           />
         </Link>
 

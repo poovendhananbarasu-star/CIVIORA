@@ -108,7 +108,7 @@ export default function SinglePreviewPage() {
       <div className="sticky top-0 z-40 bg-navy-950/95 backdrop-blur-md border-b border-white/10 py-2.5 px-4 shadow-lg">
         <div className="max-w-content mx-auto flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
           <Link to="/" className="flex items-center shrink-0" aria-label="Civiora Home">
-            <img src={logoWhite} alt="Civiora" decoding="async" width="120" height="32" className="h-7 sm:h-8 w-auto object-contain" />
+            <img src={logoWhite} alt="Civiora" decoding="async" width="150" height="44" className="h-9 sm:h-11 w-auto object-contain" />
           </Link>
 
           <div className="flex items-center gap-1.5 shrink-0 overflow-x-auto">
