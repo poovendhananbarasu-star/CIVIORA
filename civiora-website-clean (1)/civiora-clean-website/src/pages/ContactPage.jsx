@@ -41,7 +41,7 @@ export default function ContactPage() {
             },
             "sameAs": [
               "https://www.linkedin.com/company/civioraeducation/",
-              "https://www.instagram.com/civiora_official/",
+              "https://www.instagram.com/civiora_edu/",
               "https://www.facebook.com/civiora/",
               "https://www.youtube.com/@civioraedu"
             ]

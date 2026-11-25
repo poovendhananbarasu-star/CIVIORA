@@ -23,7 +23,7 @@ function XIcon({ size = 18, className = '', ...props }) {
 const SOCIAL_LINKS = [
   {
     name: 'Instagram',
-    href: 'https://www.instagram.com/civiora_official/',
+    href: 'https://www.instagram.com/civiora_edu/',
     ariaLabel: 'Follow Civiora on Instagram',
     icon: Instagram,
   },

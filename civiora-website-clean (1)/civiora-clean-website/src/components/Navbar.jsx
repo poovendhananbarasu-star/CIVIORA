@@ -116,8 +116,8 @@ export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                   </NavLink>
 
                   {/* Dropdown Menu (Exact 2 boxes as drawn in user reference screenshot) */}
-                  <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-1 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto">
-                    <div className="w-56 bg-white rounded-2xl shadow-xl border border-navy-100 p-2 space-y-1">
+                  <div className="absolute left-0 top-full pt-2 opacity-0 translate-y-1 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:visible transition-all duration-200 z-50 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto">
+                    <div className="min-w-[17rem] w-max bg-white rounded-2xl shadow-xl border border-navy-100 p-2 space-y-1">
                       {l.dropdown.map((sub) => (
                         <NavLink
                           key={sub.to}
