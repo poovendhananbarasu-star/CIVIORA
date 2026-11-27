@@ -103,7 +103,8 @@ export default function Hero() {
             aria-label="Scroll to student outcomes section"
             className="min-h-[44px] min-w-[44px] flex items-center justify-center text-white/50 hover:text-gold-400 p-2 focus:outline-none focus:ring-2 focus:ring-gold-400 rounded-full hero-chevron-indicator"
           >
-            <ChevronDown size={24} />
+            <ChevronDown size={24} aria-hidden="true" />
+            <span className="sr-only">Scroll to student outcomes section</span>
           </a>
         </div>
       </div>

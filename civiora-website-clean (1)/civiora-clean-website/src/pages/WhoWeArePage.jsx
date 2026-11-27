@@ -13,6 +13,17 @@ export default function WhoWeArePage() {
         description="Learn who Civiora is, who we work with (schools, colleges, universities), and how our structured 5-stage institutional engagement framework operates."
         preloadImage={whoWeAreDesktop}
         preloadMobileImage={whoWeAreMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Institutional Partnerships & 5-Stage Delivery",
+          "serviceType": "Institutional Student Development & Career Guidance",
+          "url": "https://civiora.co.in/who-we-are",
+          "description": "Learn who Civiora is, who we work with (schools, colleges, universities), and how our structured 5-stage institutional engagement framework operates.",
+          "provider": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
       <PageHeader
         h1="Who We Are: Partnerships, Ecosystem & Delivery"

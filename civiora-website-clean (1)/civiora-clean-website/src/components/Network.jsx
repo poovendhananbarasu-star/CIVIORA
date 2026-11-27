@@ -128,7 +128,8 @@ export default function Network() {
               </div>
               <div className="mt-8 pt-5 border-t border-white/10">
                 <Link
-                  to="/contact?type=Academic%2FSpecialist%20Partner"
+                  to="/contact"
+                  state={{ institutionType: 'Academic/Specialist Partner' }}
                   className="btn-primary w-full sm:w-auto text-center justify-center"
                 >
                   <span>Discuss an Academic Partnership</span>

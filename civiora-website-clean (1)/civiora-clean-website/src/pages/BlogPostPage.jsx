@@ -497,7 +497,8 @@ export default function BlogPostPage() {
                   </div>
 
                   <Link
-                    to={post.content.closingCta.buttonLink || '/contact?type=School'}
+                    to={post.content.closingCta.buttonLink || '/contact'}
+                    state={{ institutionType: 'School' }}
                     className="btn-primary text-xs sm:text-sm py-3 px-6 whitespace-nowrap justify-center w-full sm:w-auto shrink-0 group"
                   >
                     <span>{post.content.closingCta.buttonText}</span>

@@ -12,6 +12,17 @@ export default function WhyCivioraPage() {
         description="Explore Civiora’s approach to tailored planning, academic alignment, specialist coordination and student-engagement reviews."
         preloadImage={whyCivioraDesktop}
         preloadMobileImage={whyCivioraMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Institutional Collaboration & Student Engagement Governance",
+          "serviceType": "Educational Consulting & Programme Coordination",
+          "url": "https://civiora.co.in/why-civiora",
+          "description": "Explore Civiora’s approach to tailored planning, academic alignment, specialist coordination and student-engagement reviews.",
+          "provider": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
       <PageHeader
         h1="Your Institution’s Priorities Shape the Partnership"

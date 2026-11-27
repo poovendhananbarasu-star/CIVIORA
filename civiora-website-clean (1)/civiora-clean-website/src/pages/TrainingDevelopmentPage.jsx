@@ -593,10 +593,15 @@ export default function TrainingDevelopmentPage() {
   // Structured Data (JSON-LD) for SEO Rich Snippets
   const trainingStructuredData = {
     '@context': 'https://schema.org',
-    '@type': 'EducationalOrganization',
-    name: 'Civiora Education & Institutional Services',
+    '@type': 'Service',
+    name: 'Training and Development',
+    serviceType: 'Institutional Skill Development & Career Readiness Programmes',
     url: 'https://civiora.co.in/training-development',
     description: 'Civiora connects colleges, universities and organisations with specialist training partners to support student skill development, career awareness and institutional capability building.',
+    areaServed: 'IN',
+    provider: {
+      '@id': 'https://civiora.co.in/#organization',
+    },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Training & Development Learning Domains',
@@ -694,6 +699,8 @@ export default function TrainingDevelopmentPage() {
                     <img
                       src={sec2Img}
                       alt="Poovendhan Anbarasu interacting directly with students to discuss skill development and career readiness."
+                      width="800"
+                      height="550"
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       decoding="async"
@@ -826,6 +833,8 @@ export default function TrainingDevelopmentPage() {
                   <img
                     src={sec4Img03}
                     alt="Speaker presenting career pathways and skills on presentation screen to students."
+                    width="800"
+                    height="500"
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     decoding="async"
@@ -846,6 +855,8 @@ export default function TrainingDevelopmentPage() {
                   <img
                     src={sec4Img04}
                     alt="Students actively participating, asking questions, and engaging during a guidance session."
+                    width="800"
+                    height="500"
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                     decoding="async"
@@ -920,6 +931,8 @@ export default function TrainingDevelopmentPage() {
                     <img
                       src={sec5Img}
                       alt="Discussion and planning with institutional leaders and department coordinators."
+                      width="800"
+                      height="550"
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       decoding="async"
@@ -1067,6 +1080,8 @@ export default function TrainingDevelopmentPage() {
                       <img
                         src={photo.src}
                         alt={photo.alt}
+                        width="800"
+                        height="600"
                         className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                         decoding="async"
@@ -1562,6 +1577,8 @@ export default function TrainingDevelopmentPage() {
                 <img
                   src={GALLERY_PHOTOS[selectedPhotoIdx].src}
                   alt={GALLERY_PHOTOS[selectedPhotoIdx].alt}
+                  width="1200"
+                  height="800"
                   loading="lazy"
                   decoding="async"
                   className="max-w-full max-h-[70vh] object-contain"

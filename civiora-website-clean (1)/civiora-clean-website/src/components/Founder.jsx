@@ -17,13 +17,10 @@ export default function Founder() {
   return (
     <section id="founder" className="relative bg-navy-900 py-16 md:py-24 overflow-hidden font-body text-white">
       {/* Background brand mark accent */}
-      <img 
-        src={mark} 
-        alt="" 
-        loading="lazy"
-        decoding="async"
+      <div
         aria-hidden="true"
-        className="absolute -left-20 -top-20 w-72 opacity-[0.05] pointer-events-none" 
+        style={{ backgroundImage: `url(${mark})` }}
+        className="absolute -left-20 -top-20 w-72 h-72 bg-contain bg-no-repeat opacity-[0.05] pointer-events-none"
       />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(201,150,42,0.08),_transparent_60%)]" />
 
@@ -40,9 +37,9 @@ export default function Founder() {
                   <BookOpen size={22} />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl sm:text-2xl text-white font-semibold leading-snug">
+                  <h2 className="font-display text-xl sm:text-2xl text-white font-semibold leading-snug">
                     Professional Profile
-                  </h3>
+                  </h2>
                   <span className="text-xs text-gold-400 uppercase tracking-wider font-semibold">
                     Founder &amp; Chief Executive Officer
                   </span>

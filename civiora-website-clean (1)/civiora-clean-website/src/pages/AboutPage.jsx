@@ -12,6 +12,16 @@ export default function AboutPage() {
         description="Learn how Civiora supports institutions to identify student needs, plan tailored engagements and coordinate relevant expertise and implementation."
         preloadImage={aboutHeaderDesktop}
         preloadMobileImage={aboutHeaderMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "name": "About Civiora | Institutional Learning Partner",
+          "url": "https://civiora.co.in/about",
+          "description": "Learn how Civiora supports institutions to identify student needs, plan tailored engagements and coordinate relevant expertise and implementation.",
+          "mainEntity": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
       <PageHeader
         h1="An Institutional Partner for Student Development and Career Direction"

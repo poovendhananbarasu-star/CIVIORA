@@ -92,12 +92,21 @@ export default function HomePage() {
         preloadMobileImage="/images/hero-mobile.webp"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": ["Organization", "EducationalOrganization", "LocalBusiness"],
-          "name": "Civiora",
-          "legalName": "Civiora Education & Institutional Services",
+          "@type": "WebPage",
+          "name": "Civiora | Institutional Learning & Career Partnerships",
           "url": "https://civiora.co.in/",
-          "logo": "https://civiora.co.in/favicon.png",
-          "image": "https://civiora.co.in/favicon.png",
+          "description": "Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress.",
+          "publisher": {
+            "@id": "https://civiora.co.in/#organization"
+          },
+          "about": {
+            "@type": ["Organization", "EducationalOrganization", "LocalBusiness"],
+            "@id": "https://civiora.co.in/#organization",
+            "name": "Civiora",
+            "legalName": "Civiora Education & Institutional Services",
+            "url": "https://civiora.co.in/",
+            "logo": "https://civiora.co.in/favicon.png",
+            "image": "https://civiora.co.in/favicon.png",
           "description": "Civiora partners with schools, colleges and universities to plan student development and career initiatives, coordinate expertise and review progress.",
           "email": "connect@civiora.co.in",
           "telephone": "+918150003810",
@@ -124,6 +133,7 @@ export default function HomePage() {
               "areaServed": "IN"
             }
           ]
+          }
         }}
       />
 

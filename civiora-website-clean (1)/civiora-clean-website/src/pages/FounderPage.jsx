@@ -44,7 +44,7 @@ export default function FounderPage() {
       <PageHeader
         h1={
           <>
-            <span>Poovendhan Anbarasu</span>
+            Poovendhan Anbarasu{' '}
             <span className="block text-gold-300 font-display text-xl sm:text-2xl md:text-3xl font-medium mt-2">
               Founder &amp; CEO
             </span>

@@ -104,7 +104,7 @@ export const BLOG_POSTS = [
         title: "Discuss a guidance programme for your school",
         lead: "Explore how Civiora can support your institution to plan awareness sessions, coordinate specialist mentors and provide structured career guidance.",
         buttonText: "Discuss a guidance programme for your school",
-        buttonLink: "/contact?type=School"
+        buttonLink: "/contact"
       }
     }
   },

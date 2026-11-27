@@ -241,12 +241,13 @@ test.describe('Civiora Website - Core Functionality & Smoke Tests', () => {
     await expect(page).toHaveURL(/\/contact/);
     await expect(page.locator('h1').first()).toBeVisible();
 
-    const contactPageViews = await page.evaluate(() => {
-      if (!window.dataLayer) return [];
-      return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view'));
-    });
     // Exactly 3 page_views total (1 per route)
-    expect(contactPageViews.length).toBe(3);
+    await expect.poll(async () => {
+      return await page.evaluate(() => {
+        if (!window.dataLayer) return 0;
+        return window.dataLayer.filter(item => item && (item.event === 'page_view' || item[0] === 'event' && item[1] === 'page_view')).length;
+      });
+    }, { timeout: 5000 }).toBe(3);
 
     // Verify no redundant direct gtag('config') is fired
     const directConfigs = await page.evaluate(() => {
@@ -292,6 +293,26 @@ test.describe('Civiora Website - Core Functionality & Smoke Tests', () => {
     const count = await lcpPreloads.count();
     // At most 1 LCP image preload tag should exist
     expect(count).toBeLessThanOrEqual(1);
+  });
+
+  test('SSG: Pre-rendered HTML returns unique title, self-referencing canonical, schema, and H1 per route', async ({ request }) => {
+    const routesToCheck = [
+      { path: '/about', expectedTitle: 'About Civiora', expectedCanonical: 'https://civiora.co.in/about', expectedSchemaType: 'AboutPage' },
+      { path: '/pathways', expectedTitle: 'School, College & University Partnerships', expectedCanonical: 'https://civiora.co.in/pathways', expectedSchemaType: 'Service' },
+      { path: '/how-it-works', expectedTitle: 'How Civiora Works', expectedCanonical: 'https://civiora.co.in/how-it-works', expectedSchemaType: 'HowTo' },
+      { path: '/blog/cbse-career-counsellor-rules-2026', expectedTitle: 'CBSE', expectedCanonical: 'https://civiora.co.in/blog/cbse-career-counsellor-rules-2026', expectedSchemaType: 'BlogPosting' },
+    ];
+
+    for (const r of routesToCheck) {
+      const response = await request.get(`${r.path}.html`);
+      expect(response.status()).toBe(200);
+      const html = await response.text();
+      expect(html).toContain(r.expectedTitle);
+      expect(html).toContain(`<link rel="canonical" href="${r.expectedCanonical}"`);
+      expect(html).toContain('id="seo-structured-data"');
+      expect(html).toContain(r.expectedSchemaType);
+      expect(html).toMatch(/<h1[^>]*>[\s\S]+?<\/h1>/);
+    }
   });
 
 });

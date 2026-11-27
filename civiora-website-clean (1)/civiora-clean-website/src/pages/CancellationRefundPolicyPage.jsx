@@ -9,6 +9,14 @@ export default function CancellationRefundPolicyPage() {
       <SEO
         title="Cancellation & Refund Policy | Civiora"
         description="Find information about Civiora’s cancellation, rescheduling and refund arrangements and how to submit a request."
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Cancellation & Refund Policy | Civiora",
+          "url": "https://civiora.co.in/cancellation-refund-policy",
+          "description": "Find information about Civiora’s cancellation, rescheduling and refund arrangements and how to submit a request.",
+          "publisher": { "@id": "https://civiora.co.in/#organization" }
+        }}
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-10">

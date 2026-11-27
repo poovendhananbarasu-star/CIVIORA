@@ -99,9 +99,21 @@ export default function SinglePreviewPage() {
   return (
     <div className="min-h-screen bg-mist text-ink font-body selection:bg-gold-200 selection:text-navy-900 pb-20">
       <SEO
-        title="Institutional Partnerships Landing Page | Civiora"
+        title="Institutional Partnerships | Civiora"
         description="Civiora coordinates structured student development, Government Career Cells, and career guidance partnerships for schools, colleges, and universities."
         canonicalUrl="/institutional-partnership"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Institutional Student Development & Career Guidance Partnerships",
+          "serviceType": "Institutional Student Development, Career Cells & Career Guidance",
+          "url": "https://civiora.co.in/institutional-partnership",
+          "description": "Civiora coordinates structured student development, Government Career Cells, and career guidance partnerships for schools, colleges, and universities.",
+          "areaServed": "IN",
+          "provider": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
 
       {/* Sticky Navigation Bar */}
@@ -183,9 +195,9 @@ export default function SinglePreviewPage() {
                       <div className="w-9 h-9 rounded-xl bg-navy-50 text-navy-900 flex items-center justify-center mb-3 icon-box icon-entrance">
                         <GraduationCap size={20} className="text-gold-600" />
                       </div>
-                      <h3 className="font-display text-sm sm:text-base font-bold text-navy-900">
+                      <h2 className="font-display text-sm sm:text-base font-bold text-navy-900">
                         For Schools
-                      </h3>
+                      </h2>
                       <p className="text-xs sm:text-sm text-navy-600 mt-1 leading-relaxed">
                         Communication, reasoning, leadership and practical learning.
                       </p>
@@ -195,9 +207,9 @@ export default function SinglePreviewPage() {
                       <div className="w-9 h-9 rounded-xl bg-navy-50 text-navy-900 flex items-center justify-center mb-3 icon-box icon-entrance">
                         <Building2 size={20} className="text-gold-600" />
                       </div>
-                      <h3 className="font-display text-sm sm:text-base font-bold text-navy-900">
+                      <h2 className="font-display text-sm sm:text-base font-bold text-navy-900">
                         For Colleges &amp; Universities
-                      </h3>
+                      </h2>
                       <p className="text-xs sm:text-sm text-navy-600 mt-1 leading-relaxed">
                         Government Career Cells, career counselling and competitive examination pathways.
                       </p>
@@ -242,9 +254,9 @@ export default function SinglePreviewPage() {
                             <span className="w-2 h-2 rounded-full bg-gold-400" />
                             <span>30-Second Introduction</span>
                           </div>
-                          <h4 className="font-display text-sm sm:text-base font-bold text-white mt-1 group-hover:text-gold-300 transition-colors">
+                          <h3 className="font-display text-sm sm:text-base font-bold text-white mt-1 group-hover:text-gold-300 transition-colors">
                             How Civiora Works
-                          </h4>
+                          </h3>
                           <p className="text-xs text-navy-200 mt-0.5 leading-relaxed">
                             Watch our 30-second introduction explaining the institutional partnership model.
                           </p>
@@ -547,6 +559,8 @@ export default function SinglePreviewPage() {
                           alt="School students collaborating and participating in learning initiatives."
                           loading="lazy"
                           decoding="async"
+                          width="800"
+                          height="450"
                           className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                         />
                       </div>
@@ -602,6 +616,8 @@ export default function SinglePreviewPage() {
                           alt="College students in career mentoring session."
                           loading="lazy"
                           decoding="async"
+                          width="800"
+                          height="450"
                           className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                         />
                       </div>
@@ -657,6 +673,8 @@ export default function SinglePreviewPage() {
                           alt="University leadership coordinating student initiatives."
                           loading="lazy"
                           decoding="async"
+                          width="800"
+                          height="450"
                           className="w-full h-48 sm:h-56 object-cover object-center hover:scale-105 transition-transform duration-500"
                         />
                       </div>

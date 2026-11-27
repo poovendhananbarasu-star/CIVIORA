@@ -42,13 +42,25 @@ function RouteLoadingFallback() {
   );
 }
 
-function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
+export function AppLayout({ mobileMenuOpen, setMobileMenuOpen, ssrPages }) {
   const [cookieBannerOpen, setCookieBannerOpen] = useState(false);
   const location = useLocation();
   const isInstitutionalLanding = 
     location.pathname === '/institutional-partnership' || 
     location.pathname === '/preview' || 
     location.pathname === '/landing';
+
+  const Pages = {
+    SinglePreviewPage: ssrPages?.SinglePreviewPage || SinglePreviewPage,
+    TrainingDevelopmentPage: ssrPages?.TrainingDevelopmentPage || TrainingDevelopmentPage,
+    BlogListingPage: ssrPages?.BlogListingPage || BlogListingPage,
+    BlogPostPage: ssrPages?.BlogPostPage || BlogPostPage,
+    NotFoundPage: ssrPages?.NotFoundPage || NotFoundPage,
+    PrivacyPolicyPage: ssrPages?.PrivacyPolicyPage || PrivacyPolicyPage,
+    TermsConditionsPage: ssrPages?.TermsConditionsPage || TermsConditionsPage,
+    CancellationRefundPolicyPage: ssrPages?.CancellationRefundPolicyPage || CancellationRefundPolicyPage,
+    GrievanceSupportPage: ssrPages?.GrievanceSupportPage || GrievanceSupportPage,
+  };
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-mist text-ink font-body">
@@ -59,7 +71,7 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
         <Suspense fallback={<RouteLoadingFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/home" element={<HomePage />} />
+            <Route path="/home" element={<Navigate to="/" replace />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/who-we-are" element={<WhoWeArePage />} />
             <Route path="/ecosystem" element={<EcosystemPage />} />
@@ -71,15 +83,15 @@ function AppLayout({ mobileMenuOpen, setMobileMenuOpen }) {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/landing" element={<Navigate to="/institutional-partnership" replace />} />
             <Route path="/preview" element={<Navigate to="/institutional-partnership" replace />} />
-            <Route path="/institutional-partnership" element={<SinglePreviewPage />} />
-            <Route path="/training-development" element={<TrainingDevelopmentPage />} />
-            <Route path="/blog" element={<BlogListingPage />} />
-            <Route path="/blog/:slug" element={<BlogPostPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-and-conditions" element={<TermsConditionsPage />} />
-            <Route path="/cancellation-refund-policy" element={<CancellationRefundPolicyPage />} />
-            <Route path="/grievance-support" element={<GrievanceSupportPage />} />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="/institutional-partnership" element={<Pages.SinglePreviewPage />} />
+            <Route path="/training-development" element={<Pages.TrainingDevelopmentPage />} />
+            <Route path="/blog" element={<Pages.BlogListingPage />} />
+            <Route path="/blog/:slug" element={<Pages.BlogPostPage />} />
+            <Route path="/privacy-policy" element={<Pages.PrivacyPolicyPage />} />
+            <Route path="/terms-and-conditions" element={<Pages.TermsConditionsPage />} />
+            <Route path="/cancellation-refund-policy" element={<Pages.CancellationRefundPolicyPage />} />
+            <Route path="/grievance-support" element={<Pages.GrievanceSupportPage />} />
+            <Route path="*" element={<Pages.NotFoundPage />} />
           </Routes>
           {!isInstitutionalLanding && <Footer />}
         </Suspense>

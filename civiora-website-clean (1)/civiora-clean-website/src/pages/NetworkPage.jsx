@@ -12,6 +12,17 @@ export default function NetworkPage() {
         description="Connect with Civiora for academic and specialist collaboration shaped around institutional requirements and clear delivery expectations."
         preloadImage={networkDesktop}
         preloadMobileImage={networkMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Academic & Specialist Partnerships",
+          "serviceType": "Specialist Educator & Academic Partner Coordination",
+          "url": "https://civiora.co.in/network",
+          "description": "Connect with Civiora for academic and specialist collaboration shaped around institutional requirements and clear delivery expectations.",
+          "provider": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
       <PageHeader
         h1="Relevant Expertise. Clear Expectations. Coordinated Delivery."

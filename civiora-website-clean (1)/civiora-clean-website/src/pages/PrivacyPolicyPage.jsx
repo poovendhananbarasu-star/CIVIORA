@@ -11,10 +11,18 @@ export default function PrivacyPolicyPage() {
   return (
     <div className="bg-mist min-h-screen font-body">
       <SEO
-        title="Privacy Policy | Civiora"
+        title="Privacy Policy & Data Governance | Civiora"
         description="Read how Civiora handles website enquiry information and explains its privacy contact and information practices."
         preloadImage={contactDesktop}
         preloadMobileImage={contactMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Privacy Policy | Civiora",
+          "url": "https://civiora.co.in/privacy-policy",
+          "description": "Read how Civiora handles website enquiry information and explains its privacy contact and information practices.",
+          "publisher": { "@id": "https://civiora.co.in/#organization" }
+        }}
       />
 
       <PageHeader

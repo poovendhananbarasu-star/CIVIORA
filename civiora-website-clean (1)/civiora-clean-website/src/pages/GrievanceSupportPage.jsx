@@ -7,8 +7,16 @@ export default function GrievanceSupportPage() {
   return (
     <div className="bg-mist min-h-screen pt-24 pb-14 sm:pt-28 sm:pb-20 font-body">
       <SEO
-        title="Grievance & Support | Civiora"
+        title="Grievance Redressal & Support | Civiora"
         description="Contact Civiora for institutional or participant concerns and understand the applicable support and escalation process."
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Grievance & Support | Civiora",
+          "url": "https://civiora.co.in/grievance-support",
+          "description": "Contact Civiora for institutional or participant concerns and understand the applicable support and escalation process.",
+          "publisher": { "@id": "https://civiora.co.in/#organization" }
+        }}
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-10">

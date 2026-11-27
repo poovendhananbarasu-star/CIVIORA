@@ -1,11 +1,62 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSEOCollector } from '../context/SEOContext';
 
 const SITE_CANONICAL_DOMAIN = 'https://civiora.co.in';
+
+export function resolveCanonicalUrl(canonicalUrl, pathname) {
+  if (!canonicalUrl) {
+    const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/+$/, '');
+    return `${SITE_CANONICAL_DOMAIN}${cleanPath}`;
+  }
+  if (canonicalUrl.startsWith('/')) {
+    return `${SITE_CANONICAL_DOMAIN}${canonicalUrl}`;
+  }
+  return canonicalUrl;
+}
+
+export function buildBreadcrumbSchema(pathname, pageTitle) {
+  const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/+$/, '');
+  if (cleanPath === '/') return null;
+
+  const segments = cleanPath.split('/').filter(Boolean);
+  const items = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: `${SITE_CANONICAL_DOMAIN}/`,
+    },
+  ];
+
+  let currentPath = '';
+  segments.forEach((seg, idx) => {
+    currentPath += `/${seg}`;
+    const isLast = idx === segments.length - 1;
+    const formatted = seg
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+    const label = isLast && pageTitle ? pageTitle.split('|')[0].trim() : formatted;
+    items.push({
+      '@type': 'ListItem',
+      position: idx + 2,
+      name: label,
+      item: `${SITE_CANONICAL_DOMAIN}${currentPath}`,
+    });
+  });
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items,
+  };
+}
 
 /**
  * Lightweight dynamic SEO component for managing title, meta description,
  * canonical link, OpenGraph tags, and JSON-LD structured data per route.
+ * Also supports synchronous collection during SSR/SSG pre-rendering.
  */
 export default function SEO({
   title,
@@ -17,6 +68,26 @@ export default function SEO({
   preloadMobileImage,
 }) {
   const location = useLocation();
+  const seoCollector = useSEOCollector();
+  const canonical = resolveCanonicalUrl(canonicalUrl, location.pathname);
+  const breadcrumbSchema = buildBreadcrumbSchema(location.pathname, title);
+  const combinedSchema = structuredData
+    ? breadcrumbSchema
+      ? [structuredData, breadcrumbSchema]
+      : structuredData
+    : breadcrumbSchema;
+
+  if (seoCollector && typeof window === 'undefined') {
+    seoCollector.current = {
+      title: title || 'Civiora | Institutional Learning & Career Partnerships',
+      description: description || '',
+      canonical,
+      structuredData: combinedSchema || null,
+      noindex,
+      preloadImage: preloadImage || null,
+      preloadMobileImage: preloadMobileImage || null,
+    };
+  }
 
   useEffect(() => {
     // 1. Update Document Title
@@ -56,14 +127,6 @@ export default function SEO({
     }
 
     // 5. Update Canonical URL & OG URL (Always resolve to production canonical domain)
-    let canonical = canonicalUrl;
-    if (!canonical) {
-      const cleanPath = location.pathname === '/' ? '/' : location.pathname.replace(/\/+$/, '');
-      canonical = `${SITE_CANONICAL_DOMAIN}${cleanPath}`;
-    } else if (canonical.startsWith('/')) {
-      canonical = `${SITE_CANONICAL_DOMAIN}${canonical}`;
-    }
-
     updateMeta('meta[property="og:url"]', 'property', 'og:url', canonical);
 
     let linkCanonical = document.querySelector('link[rel="canonical"]');
@@ -102,14 +165,14 @@ export default function SEO({
 
     // 7. Inject Structured Data (JSON-LD) if provided
     let scriptTag = document.querySelector('#seo-structured-data');
-    if (structuredData) {
+    if (combinedSchema) {
       if (!scriptTag) {
         scriptTag = document.createElement('script');
         scriptTag.id = 'seo-structured-data';
         scriptTag.type = 'application/ld+json';
         document.head.appendChild(scriptTag);
       }
-      scriptTag.textContent = JSON.stringify(structuredData);
+      scriptTag.textContent = JSON.stringify(combinedSchema);
     } else if (scriptTag) {
       scriptTag.remove();
     }

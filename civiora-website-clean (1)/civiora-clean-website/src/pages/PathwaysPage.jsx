@@ -12,6 +12,18 @@ export default function PathwaysPage() {
         description="Discover Civiora’s tailored approach to school, college and university partnerships for student development and career direction."
         preloadImage={pathwaysDesktop}
         preloadMobileImage={pathwaysMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "School, College & University Partnerships",
+          "serviceType": "Institutional Student Development & Career Pathways",
+          "url": "https://civiora.co.in/pathways",
+          "description": "Discover Civiora’s tailored approach to school, college and university partnerships for student development and career direction.",
+          "areaServed": "IN",
+          "provider": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
       <PageHeader
         h1="Different Institutions. Distinct Priorities. A Tailored Approach."

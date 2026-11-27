@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, useLocation, Link } from 'react-router-dom';
 import { 
   Mail, 
   Phone, 
@@ -48,7 +48,8 @@ const PHONE_REGEX = /^[+0-9() -]{5,50}$/;
 
 export default function FinalCTA() {
   const [searchParams] = useSearchParams();
-  const requestedType = searchParams.get('type');
+  const location = useLocation();
+  const requestedType = location.state?.institutionType || searchParams.get('type');
 
   const [formData, setFormData] = useState({
     institutionType: INSTITUTION_TYPES[0],
@@ -231,9 +232,9 @@ export default function FinalCTA() {
                 <div className="w-10 h-10 rounded-xl bg-navy-900 text-gold-400 flex items-center justify-center shrink-0 icon-box icon-entrance">
                   <Users2 size={20} />
                 </div>
-                <h3 className="font-display text-lg sm:text-xl text-navy-900 font-semibold leading-snug">
+                <h2 className="font-display text-lg sm:text-xl text-navy-900 font-semibold leading-snug">
                   Who can connect?
-                </h3>
+                </h2>
               </div>
               <p className="text-xs sm:text-sm text-navy-600 mt-3 leading-relaxed">
                 Civiora works directly with institutional leadership and verified academic partners:
@@ -254,9 +255,9 @@ export default function FinalCTA() {
                 className="bg-navy-900 text-white rounded-2xl p-4 sm:p-8 border border-white/10 shadow-xl"
                 spotlightColor="rgba(0, 242, 254, 0.2)"
               >
-                <h3 className="font-display text-lg sm:text-xl text-gold-400 font-semibold">
+                <h2 className="font-display text-lg sm:text-xl text-gold-400 font-semibold">
                   Contact Details
-                </h3>
+                </h2>
                 <p className="text-xs uppercase tracking-wider text-navy-300 mt-1 font-medium">
                   Civiora Education &amp; Institutional Services
                 </p>
@@ -309,9 +310,9 @@ export default function FinalCTA() {
             <Reveal delay={150}>
               <div className="bg-white rounded-2xl p-4 sm:p-8 md:p-10 border border-navy-100 shadow-xl shadow-navy-950/5">
                 <div className="border-b border-navy-100 pb-5 mb-6">
-                  <h3 className="font-display text-xl sm:text-2xl text-navy-900 font-semibold">
+                  <h2 className="font-display text-xl sm:text-2xl text-navy-900 font-semibold">
                     Request an Institutional Discussion
-                  </h3>
+                  </h2>
                   <p className="text-xs sm:text-sm text-navy-600 mt-1">
                     Fill out the form below. We will coordinate a discussion aligned with your academic calendar.
                   </p>

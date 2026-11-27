@@ -133,7 +133,8 @@ export default function Pathways() {
                       <p className="text-xs text-navy-600 mt-2">Tailored consultation suited to your academic calendar.</p>
                       <div className="mt-5">
                         <Link
-                          to="/contact?type=School"
+                          to="/contact"
+                          state={{ institutionType: 'School' }}
                           className="btn-primary w-full text-center justify-center text-xs sm:text-sm py-2.5"
                         >
                           <span>Discuss a School Partnership</span>
@@ -211,7 +212,8 @@ export default function Pathways() {
                       <p className="text-xs text-navy-600 mt-2">Connect student ambitions with purposeful guidance.</p>
                       <div className="mt-5">
                         <Link
-                          to="/contact?type=College"
+                          to="/contact"
+                          state={{ institutionType: 'College' }}
                           className="btn-primary w-full text-center justify-center text-xs sm:text-sm py-2.5"
                         >
                           <span>Discuss a College Partnership</span>
@@ -289,7 +291,8 @@ export default function Pathways() {
                       <p className="text-xs text-navy-600 mt-2">Pilot framework and unified progress reviews.</p>
                       <div className="mt-5">
                         <Link
-                          to="/contact?type=University"
+                          to="/contact"
+                          state={{ institutionType: 'University' }}
                           className="btn-primary w-full text-center justify-center text-xs sm:text-sm py-2.5"
                         >
                           <span>Discuss a University Partnership</span>

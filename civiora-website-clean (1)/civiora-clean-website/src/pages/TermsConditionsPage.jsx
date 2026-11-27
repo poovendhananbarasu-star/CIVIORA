@@ -7,8 +7,16 @@ export default function TermsConditionsPage() {
   return (
     <div className="bg-mist min-h-screen pt-24 pb-14 sm:pt-28 sm:pb-20 font-body">
       <SEO
-        title="Terms & Conditions | Civiora"
+        title="Terms & Conditions of Service | Civiora"
         description="Read Civiora’s website terms and the relationship between general information and separately agreed institutional engagement terms."
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Terms & Conditions | Civiora",
+          "url": "https://civiora.co.in/terms-and-conditions",
+          "description": "Read Civiora’s website terms and the relationship between general information and separately agreed institutional engagement terms.",
+          "publisher": { "@id": "https://civiora.co.in/#organization" }
+        }}
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 md:px-10">

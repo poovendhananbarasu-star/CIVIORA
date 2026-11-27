@@ -12,6 +12,16 @@ export default function EcosystemPage() {
         description="Explore how Civiora connects institutional teams, specialist partners and students through clear roles and coordinated implementation."
         preloadImage={ecosystemDesktop}
         preloadMobileImage={ecosystemMobile}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Institutional Partnership Ecosystem | Civiora",
+          "url": "https://civiora.co.in/ecosystem",
+          "description": "Explore how Civiora connects institutional teams, specialist partners and students through clear roles and coordinated implementation.",
+          "publisher": {
+            "@id": "https://civiora.co.in/#organization"
+          }
+        }}
       />
       <PageHeader
         h1="A Connected Framework with Clear Responsibilities"
